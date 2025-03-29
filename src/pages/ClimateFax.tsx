@@ -7,6 +7,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -18,6 +20,9 @@ const ClimateFaxApp = () => {
   const [activeTab, setActiveTab] = useState('riskAssessment');
   const [activeCategory, setActiveCategory] = useState('heat-fire');
   const [currentPlan, setCurrentPlan] = useState('free'); // 'free' or 'premium'
+  const [zipCode, setZipCode] = useState('');
+  const [zipCodeResult, setZipCodeResult] = useState(null);
+  const [isSearchingZip, setIsSearchingZip] = useState(false);
   const [userProfile, setUserProfile] = useState({
     healthcareAccess: 'important',
     schoolQuality: 'somewhat',
@@ -144,6 +149,96 @@ const ClimateFaxApp = () => {
       'available': true,
       'homeValue': 500000 // Base home value for calculation
     }
+  };
+
+  // ZIP code database - Sample data
+  const zipCodeDatabase = {
+    '94025': { 
+      city: 'Menlo Park', 
+      state: 'California',
+      region: 'california',
+      riskLevel: 'High',
+      mainRisks: ['wildfires', 'drought', 'earthquakes'],
+      insuranceAvailable: false,
+      annualRate: 9800,
+      propertyImpact: 18
+    },
+    '94301': { 
+      city: 'Palo Alto', 
+      state: 'California',
+      region: 'california',
+      riskLevel: 'High',
+      mainRisks: ['wildfires', 'drought', 'earthquakes'],
+      insuranceAvailable: false,
+      annualRate: 10200,
+      propertyImpact: 17
+    },
+    '33139': { 
+      city: 'Miami Beach', 
+      state: 'Florida',
+      region: 'florida',
+      riskLevel: 'Very High',
+      mainRisks: ['hurricanes', 'flooding', 'seaLevelRise'],
+      insuranceAvailable: false,
+      annualRate: 12500,
+      propertyImpact: 25
+    },
+    '78701': { 
+      city: 'Austin', 
+      state: 'Texas',
+      region: 'texas',
+      riskLevel: 'Moderate',
+      mainRisks: ['flooding', 'heatwaves'],
+      insuranceAvailable: true,
+      annualRate: 3200,
+      propertyImpact: 8
+    },
+    '80302': { 
+      city: 'Boulder', 
+      state: 'Colorado',
+      region: 'colorado',
+      riskLevel: 'Low',
+      mainRisks: ['wildfires', 'drought'],
+      insuranceAvailable: true,
+      annualRate: 2500,
+      propertyImpact: 4
+    }
+  };
+  
+  // Handle ZIP code search
+  const handleZipSearch = () => {
+    if (zipCode.length !== 5 || !/^\d+$/.test(zipCode)) {
+      // Invalid ZIP format
+      setZipCodeResult({
+        error: true,
+        message: 'Please enter a valid 5-digit ZIP code'
+      });
+      return;
+    }
+    
+    setIsSearchingZip(true);
+    
+    // Simulate API call with timeout
+    setTimeout(() => {
+      const result = zipCodeDatabase[zipCode];
+      
+      if (result) {
+        setZipCodeResult({
+          error: false,
+          data: result
+        });
+        
+        // Update region based on ZIP
+        setRegion(result.region);
+      } else {
+        setZipCodeResult({
+          error: true,
+          message: 'No data available for this ZIP code. Try 94025, 33139, 78701, or 80302 for demo.'
+        });
+      }
+      
+      setIsSearchingZip(false);
+    }, 1000);
   };
   
   // Format chart data with two decimal places
@@ -1008,6 +1103,113 @@ const ClimateFaxApp = () => {
               <p className="mt-2 text-purple-700">
                 Discover safer alternative locations based on your lifestyle preferences and priorities.
               </p>
+            </div>
+            
+            {/* ZIP Code Lookup Section - NEW SECTION */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">ZIP Code Lookup</h2>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex flex-col md:flex-row gap-3 mb-4">
+                  <div className="flex-1">
+                    <label htmlFor="zip-code" className="block text-sm font-medium text-gray-700 mb-1">
+                      Enter 5-digit ZIP Code
+                    </label>
+                    <div className="flex">
+                      <Input
+                        id="zip-code"
+                        type="text"
+                        placeholder="e.g. 94025"
+                        maxLength={5}
+                        value={zipCode}
+                        onChange={(e) => setZipCode(e.target.value.replace(/[^0-9]/g, ''))}
+                        className="rounded-r-none"
+                      />
+                      <Button 
+                        onClick={handleZipSearch}
+                        disabled={isSearchingZip || zipCode.length !== 5}
+                        className="rounded-l-none"
+                      >
+                        {isSearchingZip ? 
+                          <span className="flex items-center">
+                            <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                            Searching...
+                          </span> : 'Search'}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Try 94025, 33139, 78701, or 80302 for demo
+                    </p>
+                  </div>
+                </div>
+
+                {zipCodeResult && (
+                  <div className="mt-4">
+                    {zipCodeResult.error ? (
+                      <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                        <p className="text-red-700 text-sm">{zipCodeResult.message}</p>
+                      </div>
+                    ) : (
+                      <div className="border border-gray-200 rounded-lg">
+                        <div className="bg-gray-100 p-3 border-b border-gray-200 rounded-t-lg">
+                          <div className="flex justify-between items-center">
+                            <h3 className="font-medium">{zipCodeResult.data.city}, {zipCodeResult.data.state}</h3>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              zipCodeResult.data.riskLevel === 'Very High' ? 'bg-red-100 text-red-800' :
+                              zipCodeResult.data.riskLevel === 'High' ? 'bg-orange-100 text-orange-800' :
+                              zipCodeResult.data.riskLevel === 'Moderate' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-green-100 text-green-800'
+                            }`}>
+                              {zipCodeResult.data.riskLevel} Risk
+                            </span>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <h4 className="text-sm font-medium text-gray-700 mb-2">Key Climate Risks</h4>
+                              <div className="space-y-1">
+                                {zipCodeResult.data.mainRisks.map((risk, index) => (
+                                  <div key={index} className="flex items-center">
+                                    <span className="mr-2">{variables[risk]?.icon || '❓'}</span>
+                                    <span className="text-sm">{variables[risk]?.name || risk}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <div>
+                              <h4 className="text-sm font-medium text-gray-700 mb-2">Insurance & Property Impact</h4>
+                              <div className="space-y-2">
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-gray-600">Insurance Available:</span>
+                                  <span className={`text-sm font-medium ${zipCodeResult.data.insuranceAvailable ? 'text-green-600' : 'text-red-600'}`}>
+                                    {zipCodeResult.data.insuranceAvailable ? 'Yes' : 'Limited/No'}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-gray-600">Annual Premium:</span>
+                                  <span className="text-sm font-medium">${zipCodeResult.data.annualRate.toLocaleString()}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-gray-600">10-Year Property Impact:</span>
+                                  <span className="text-sm font-medium text-red-600">-{zipCodeResult.data.propertyImpact}%</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex justify-end mt-2">
+                            <Button variant="outline" className="mr-2">View Details</Button>
+                            <Button
+                              onClick={() => setRegion(zipCodeResult.data.region)}
+                            >
+                              Set as Region
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
             
             {/* MOVED - Stay or Go Recommendation now appears here on the Alternatives tab */}
