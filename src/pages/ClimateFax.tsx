@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -525,7 +526,7 @@ const ClimateFaxApp = () => {
         </div>
       </MobileHeader>
 
-      {/* Feature Tabs with Subscription Status Indicators - RESTORED to original premium styling */}
+      {/* Feature Tabs with Subscription Status Indicators */}
       <div className="flex items-center mx-auto my-4 max-w-2xl px-4">
         <div className="flex-1 text-center">
           <div 
@@ -716,4 +717,220 @@ const ClimateFaxApp = () => {
                   <div 
                     key={key}
                     className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition ${
-                      active
+                      activeCategory === key ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                    }`}
+                    onClick={() => handleCategoryChange(key)}
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <span className="text-3xl mb-2">{cat.icon}</span>
+                      <span className="font-medium text-sm">{cat.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Data Visualization */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+              <h3 className="text-lg font-medium text-gray-700 mb-4">
+                {variables[variable]?.name || variable} Trends and Projections
+              </h3>
+              
+              {loading ? (
+                <div className="h-64 flex items-center justify-center">
+                  <div className="text-gray-500">Loading data...</div>
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart
+                    data={data}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="historicalValue"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                      dot={false}
+                      name="Historical"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="predictedValue"
+                      stroke="#FF9800"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      dot={false}
+                      name="Predicted"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
+              
+              <div className="mt-4">
+                <Alert>
+                  <AlertTitle className="text-sm font-medium">About this projection</AlertTitle>
+                  <AlertDescription className="text-xs">
+                    {model === 'accelerated' ? (
+                      "This accelerated model assumes climate change impacts will intensify over time."
+                    ) : model === 'mitigation' ? (
+                      "This mitigation model assumes partial success of global climate initiatives."
+                    ) : (
+                      "This linear model projects trends based on historical patterns."
+                    )}
+                  </AlertDescription>
+                </Alert>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Know Your Cost Tab (Stay or Go) - Premium Content */}
+        {activeTab === 'stayOrGo' && (
+          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+            <div className="mb-6">
+              <span className="inline-block text-5xl mb-4">💵</span>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Know Your Cost</h2>
+              <p className="text-gray-600 max-w-md mx-auto">
+                Understand the financial implications of climate risk on your property, insurance costs, and long-term value.
+              </p>
+            </div>
+            <div className="space-y-4 mb-8">
+              <div className="flex items-center justify-center">
+                <span className="text-green-500 mr-2">✓</span>
+                <span className="text-gray-700">Insurance cost estimates and availability</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-green-500 mr-2">✓</span>
+                <span className="text-gray-700">Property value impact projections</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-green-500 mr-2">✓</span>
+                <span className="text-gray-700">Utility cost forecasts based on climate change</span>
+              </div>
+            </div>
+            
+            {/* Premium Feature Sample */}
+            <div className="border border-blue-200 rounded-lg p-6 bg-blue-50 mb-8 max-w-md mx-auto text-left">
+              <h3 className="font-medium text-blue-800 mb-2">Sample Premium Feature</h3>
+              <div className="bg-white p-4 rounded border border-blue-100 mb-3">
+                <div className="flex justify-between mb-2">
+                  <span className="font-medium text-gray-700">Insurance Premium:</span>
+                  <span className="text-red-600 font-bold">${region === 'california' ? '8,900' : (region === 'florida' ? '12,500' : '6,200')}/year</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700">Projected in 5 Years:</span>
+                  <span className="text-red-600 font-bold">${region === 'california' ? '14,200' : (region === 'florida' ? '18,700' : '9,500')}/year</span>
+                </div>
+                <div className="mt-2 text-xs text-gray-500">
+                  <span className="bg-yellow-100 px-1 py-0.5 rounded">Premium members only</span> See full insurance cost projections
+                </div>
+              </div>
+              <div className="opacity-40 pointer-events-none">
+                <h4 className="text-sm font-medium text-gray-700 mb-1">Property Value Impact (10-Year):</h4>
+                <div className="h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <span className="text-gray-400">Detailed projection chart (Premium)</span>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded"
+              onClick={() => setCurrentPlan('premium')}
+            >
+              Try Premium Free for 30 Days
+            </button>
+            <p className="mt-2 text-sm text-gray-500">
+              Then just $5/month. Cancel anytime. No commitment required.
+            </p>
+          </div>
+        )}
+
+        {/* Know Your Options Tab (Alternatives) - Premium Content */}
+        {activeTab === 'alternatives' && (
+          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+            <div className="mb-6">
+              <span className="inline-block text-5xl mb-4">🗺️</span>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Know Your Options</h2>
+              <p className="text-gray-600 max-w-md mx-auto">
+                Find climate-safer locations based on your personal lifestyle preferences and needs.
+              </p>
+            </div>
+            <div className="space-y-4 mb-8">
+              <div className="flex items-center justify-center">
+                <span className="text-green-500 mr-2">✓</span>
+                <span className="text-gray-700">Personalized "Stay or Go" recommendations</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-green-500 mr-2">✓</span>
+                <span className="text-gray-700">Alternative location suggestions</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-green-500 mr-2">✓</span>
+                <span className="text-gray-700">Side-by-side comparisons of locations</span>
+              </div>
+            </div>
+            
+            {/* Premium Feature Sample */}
+            <div className="border border-blue-200 rounded-lg p-6 bg-blue-50 mb-8 max-w-md mx-auto text-left">
+              <h3 className="font-medium text-blue-800 mb-2">Sample Location Recommendations</h3>
+              <div className="bg-white p-4 rounded border border-blue-100 mb-3">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-2">{region === 'california' ? '🏔️' : '⛰️'}</span>
+                    <span className="font-medium">{region === 'california' ? 'Colorado' : 'Asheville, NC'}</span>
+                  </div>
+                  <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">Recommended</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500">Safety</div>
+                    <div className="font-bold text-green-600">85/100</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500">Insurance</div>
+                    <div className="font-bold text-green-600">75/100</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500">Affordability</div>
+                    <div className="font-bold text-yellow-600">60/100</div>
+                  </div>
+                </div>
+                <div className="mt-2 opacity-40 pointer-events-none">
+                  <span className="text-xs text-gray-500">
+                    <span className="bg-yellow-100 px-1 py-0.5 rounded">Premium members only</span> See full location details
+                  </span>
+                </div>
+              </div>
+              <div className="opacity-40 pointer-events-none">
+                <h4 className="text-sm font-medium text-gray-700 mb-1">Location Comparison Chart:</h4>
+                <div className="h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <span className="text-gray-400">Detailed comparison (Premium)</span>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded"
+              onClick={() => setCurrentPlan('premium')}
+            >
+              Try Premium Free for 30 Days
+            </button>
+            <p className="mt-2 text-sm text-gray-500">
+              Then just $5/month. Cancel anytime. No commitment required.
+            </p>
+          </div>
+        )}
+      </main>
+
+      <MobileNav />
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
