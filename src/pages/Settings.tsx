@@ -15,6 +15,7 @@ import {
   Info
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { Copyright } from "@/components/Copyright";
 
 const Settings = () => {
   return (
@@ -92,6 +93,7 @@ const Settings = () => {
         </Card>
       </main>
       
+      <Copyright />
       <MobileNav />
     </div>
   );

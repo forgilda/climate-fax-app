@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileNav } from "@/components/MobileNav";
+import { Copyright } from "@/components/Copyright";
 
 // Form validation schema
 const formSchema = z.object({
@@ -179,6 +179,7 @@ const ContactPage = () => {
         </div>
       </main>
       
+      <Copyright />
       <MobileNav />
     </div>
   );

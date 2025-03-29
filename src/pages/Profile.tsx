@@ -9,6 +9,7 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { ChevronRight, Mail, Phone, MapPin } from "lucide-react";
+import { Copyright } from "@/components/Copyright";
 
 const Profile = () => {
   return (
@@ -61,6 +62,7 @@ const Profile = () => {
         </Card>
       </main>
       
+      <Copyright />
       <MobileNav />
     </div>
   );

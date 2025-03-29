@@ -4,6 +4,7 @@ import { MobileHeader } from "@/components/MobileHeader";
 import { MobileNav } from "@/components/MobileNav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Copyright } from "@/components/Copyright";
 
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState("data");
@@ -134,6 +135,7 @@ const AboutPage = () => {
         </Tabs>
       </main>
 
+      <Copyright />
       <MobileNav />
     </div>
   );
