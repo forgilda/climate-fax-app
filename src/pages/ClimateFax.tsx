@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -737,3 +738,176 @@ const ClimateFaxApp = () => {
                         strokeWidth={2}
                         strokeDasharray="5 5"
                         connectNulls
+                        activeDot={{ r: 6 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {/* 8. WILDFIRE METHODOLOGY NOTE if applicable */}
+            {variable === 'wildfires' && (
+              <Alert className="mb-6">
+                <AlertTitle>Methodology Note</AlertTitle>
+                <AlertDescription>
+                  Wildfire data is based on historical fire events exceeding 1,000 acres. Future projections account for climate changes, fuel availability, and historical trends.
+                </AlertDescription>
+              </Alert>
+            )}
+          </div>
+        )}
+
+        {/* Stay or Go Tab - Premium Feature */}
+        {activeTab === 'stayOrGo' && (
+          <div className="space-y-6">
+            {currentPlan === 'premium' ? (
+              <div>
+                {/* Premium features would go here */}
+                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                  <h2 className="text-xl font-semibold mb-2">Property Risk Analysis</h2>
+                  <p className="text-sm text-gray-600 mb-4">Review how climate risk factors impact your property value and insurance.</p>
+                  
+                  {/* Premium feature content */}
+                </div>
+                
+                {/* Address Analysis Feature */}
+                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                  <h2 className="text-xl font-semibold mb-2">Specific Address Analysis</h2>
+                  <p className="text-sm text-gray-600 mb-4">Get detailed climate risk assessment for a specific property address.</p>
+                  
+                  <div className="space-y-4 mb-6">
+                    <div>
+                      <label htmlFor="street" className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                      <Input
+                        id="street"
+                        name="street"
+                        value={address.street}
+                        onChange={handleAddressChange}
+                        placeholder="123 Main St"
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                        <Input
+                          id="city"
+                          name="city"
+                          value={address.city}
+                          onChange={handleAddressChange}
+                          placeholder="San Francisco"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                        <Input
+                          id="state"
+                          name="state"
+                          value={address.state}
+                          onChange={handleAddressChange}
+                          placeholder="CA"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">ZIP Code</label>
+                      <Input
+                        id="zipCode"
+                        name="zipCode"
+                        value={address.zipCode}
+                        onChange={handleAddressChange}
+                        placeholder="94105"
+                      />
+                    </div>
+                    
+                    <button
+                      onClick={handleAddressAnalysis}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150"
+                    >
+                      Analyze Address
+                    </button>
+                  </div>
+                  
+                  {addressAnalyzed && (
+                    <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <h3 className="text-lg font-semibold mb-2">Address Risk Assessment</h3>
+                      <p className="text-sm">
+                        <span className="font-medium">Property:</span> {address.street}, {address.city}, {address.state} {address.zipCode}
+                      </p>
+                      <div className="mt-3 space-y-2">
+                        <div>
+                          <span className="text-sm font-medium">Wildfire Risk:</span>
+                          <Progress value={75} className="h-2 mt-1" />
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium">Flood Risk:</span>
+                          <Progress value={30} className="h-2 mt-1" />
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium">Drought Impact:</span>
+                          <Progress value={60} className="h-2 mt-1" />
+                        </div>
+                      </div>
+                      <div className="mt-4 pt-3 border-t border-gray-200">
+                        <p className="text-sm text-gray-700">This property has an elevated wildfire risk and moderate drought impact. Consider additional insurance coverage and property hardening measures.</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+                <div className="w-16 h-16 bg-purple-100 text-purple-500 rounded-full mx-auto flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-bold mb-2">Premium Feature</h2>
+                <p className="text-gray-600 mb-4">Unlock our property risk assessment to see how climate risks affect your property value and insurance rates.</p>
+                <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full transition duration-150">
+                  Upgrade to Premium
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Alternatives Tab - Another Premium Feature */}
+        {activeTab === 'alternatives' && (
+          <div className="space-y-6">
+            {currentPlan === 'premium' ? (
+              <div>
+                {/* Premium alternatives content */}
+                <div className="bg-white rounded-lg shadow-md p-6">
+                  <h2 className="text-xl font-semibold mb-4">Alternative Locations</h2>
+                  {/* Alternatives content would go here */}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
+                <div className="w-16 h-16 bg-purple-100 text-purple-500 rounded-full mx-auto flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-bold mb-2">Premium Feature</h2>
+                <p className="text-gray-600 mb-4">Discover lower-risk alternative locations based on your preferences and climate projections.</p>
+                <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full transition duration-150">
+                  Upgrade to Premium
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
+      
+      {/* Bottom Navigation */}
+      <MobileNav />
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
