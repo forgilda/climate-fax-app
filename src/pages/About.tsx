@@ -115,8 +115,8 @@ const AboutPage = () => {
                 
                 <div className="mt-6 flex justify-center">
                   <img 
-                    src="/lovable-uploads/1567f41d-1d4b-4b70-80c3-c6e701cbeedc.png"
-                    alt="Earth climate data visualization" 
+                    src="/lovable-uploads/2507e147-7792-4453-a340-fb0fa3eaa5a9.png"
+                    alt="Earth with satellite orbital paths" 
                     className="rounded-lg shadow-md max-w-[250px] h-auto"
                   />
                 </div>
