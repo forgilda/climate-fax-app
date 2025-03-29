@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -563,83 +564,83 @@ const ClimateFaxApp = () => {
       </div>
 
       <main className="px-4 py-2">
-        {/* Region Selection - Moved to top */}
-        <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
-          <select 
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          >
-            {Object.entries(regions).map(([key, info]) => (
-              <option key={key} value={key}>{info.icon} {info.name}</option>
-            ))}
-          </select>
-        </div>
-        
-        {/* Climate Category Selection */}
-        <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">Climate Risk Categories</h3>
-          <ToggleGroup 
-            type="single" 
-            value={activeCategory} 
-            onValueChange={(value) => value && handleCategoryChange(value)}
-            className="flex flex-wrap gap-2 justify-between"
-          >
-            {Object.entries(categories).map(([key, category]) => (
-              <ToggleGroupItem 
-                key={key} 
-                value={key}
-                className="flex-1 min-w-[100px] px-2 py-2 flex flex-col items-center justify-center gap-1 text-sm"
-                aria-label={category.name}
-              >
-                <span className="text-xl">{category.icon}</span>
-                <span className="text-xs font-medium whitespace-normal text-center">{category.name}</span>
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </div>
-
-        {/* Variable and Model Selection */}
-        <div className="grid grid-cols-1 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Climate Variable</label>
-            <select 
-              value={variable}
-              onChange={(e) => setVariable(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            >
-              {activeCategory && categories[activeCategory] ? (
-                categories[activeCategory].variables.map((varKey) => (
-                  <option key={varKey} value={varKey}>
-                    {variables[varKey]?.icon} {variables[varKey]?.name}
-                  </option>
-                ))
-              ) : (
-                Object.entries(variables).map(([key, info]) => (
-                  <option key={key} value={key}>{info.icon} {info.name}</option>
-                ))
-              )}
-            </select>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Prediction Model</label>
-            <select 
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="linear">Linear Trend</option>
-              <option value="accelerated">Accelerated Change</option>
-              <option value="mitigation">Mitigation Scenario</option>
-            </select>
-          </div>
-        </div>
-        
         {/* Risk Assessment Tab */}
         {activeTab === 'riskAssessment' && (
           <div className="bg-white rounded-lg shadow-md p-6">
+            {/* Region Selection - Moved to top */}
+            <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
+              <select 
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              >
+                {Object.entries(regions).map(([key, info]) => (
+                  <option key={key} value={key}>{info.icon} {info.name}</option>
+                ))}
+              </select>
+            </div>
+            
+            {/* Climate Category Selection */}
+            <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+              <h3 className="text-sm font-medium text-gray-700 mb-3">Climate Risk Categories</h3>
+              <ToggleGroup 
+                type="single" 
+                value={activeCategory} 
+                onValueChange={(value) => value && handleCategoryChange(value)}
+                className="flex flex-wrap gap-2 justify-between"
+              >
+                {Object.entries(categories).map(([key, category]) => (
+                  <ToggleGroupItem 
+                    key={key} 
+                    value={key}
+                    className="flex-1 min-w-[100px] px-2 py-2 flex flex-col items-center justify-center gap-1 text-sm"
+                    aria-label={category.name}
+                  >
+                    <span className="text-xl">{category.icon}</span>
+                    <span className="text-xs font-medium whitespace-normal text-center">{category.name}</span>
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </div>
+
+            {/* Variable and Model Selection */}
+            <div className="grid grid-cols-1 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Climate Variable</label>
+                <select 
+                  value={variable}
+                  onChange={(e) => setVariable(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                >
+                  {activeCategory && categories[activeCategory] ? (
+                    categories[activeCategory].variables.map((varKey) => (
+                      <option key={varKey} value={varKey}>
+                        {variables[varKey]?.icon} {variables[varKey]?.name}
+                      </option>
+                    ))
+                  ) : (
+                    Object.entries(variables).map(([key, info]) => (
+                      <option key={key} value={key}>{info.icon} {info.name}</option>
+                    ))
+                  )}
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Prediction Model</label>
+                <select 
+                  value={model}
+                  onChange={(e) => setModel(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="linear">Linear Trend</option>
+                  <option value="accelerated">Accelerated Change</option>
+                  <option value="mitigation">Mitigation Scenario</option>
+                </select>
+              </div>
+            </div>
+            
             {/* Risk Score Dashboard */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-white rounded-lg shadow-sm p-4">
@@ -705,44 +706,6 @@ const ClimateFaxApp = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Climate Categories */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">Climate Categories</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {Object.entries(categories).map(([key, cat]) => (
-                  <div 
-                    key={key}
-                    className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition
-                      ${cat.variables.includes(variable) ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
-                    onClick={() => {
-                      if (cat.variables.length > 0) {
-                        setVariable(cat.variables[0]);
-                      }
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <span className="text-2xl mr-2">{cat.icon}</span>
-                      <h3 className="font-medium">{cat.name}</h3>
-                    </div>
-                    <ul className="mt-2 text-sm text-gray-600">
-                      {cat.variables.map(v => (
-                        <li 
-                          key={v} 
-                          className={`py-1 ${v === variable ? 'font-bold text-blue-700' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setVariable(v);
-                          }}
-                        >
-                          {variables[v].name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
               </div>
             </div>
 
@@ -868,6 +831,44 @@ const ClimateFaxApp = () => {
                 </div>
               </div>
             )}
+            
+            {/* Climate Categories */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-3 text-gray-800">Climate Categories</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {Object.entries(categories).map(([key, cat]) => (
+                  <div 
+                    key={key}
+                    className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition
+                      ${cat.variables.includes(variable) ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
+                    onClick={() => {
+                      if (cat.variables.length > 0) {
+                        setVariable(cat.variables[0]);
+                      }
+                    }}
+                  >
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-2">{cat.icon}</span>
+                      <h3 className="font-medium">{cat.name}</h3>
+                    </div>
+                    <ul className="mt-2 text-sm text-gray-600">
+                      {cat.variables.map(v => (
+                        <li 
+                          key={v} 
+                          className={`py-1 ${v === variable ? 'font-bold text-blue-700' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setVariable(v);
+                          }}
+                        >
+                          {variables[v].name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
             
             {/* Premium Feature Teaser */}
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
