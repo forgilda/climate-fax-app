@@ -1,5 +1,5 @@
 
-import { Home, BarChart2, Mail } from "lucide-react";
+import { Home, BarChart2, Mail, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DEFAULT_LOCATION, navigateToPath, isPathActive } from "@/utils/navigation";
 
@@ -11,6 +11,7 @@ export function MobileNav() {
     { icon: Home, label: "Home", path: "/" },
     { icon: BarChart2, label: "ClimateFax", path: "/climate-fax" },
     { icon: Mail, label: "Contact", path: "/contact" },
+    { icon: Info, label: "About", path: "/about" },
   ];
 
   const handleNavigation = (path: string) => {
