@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -115,15 +116,15 @@ const ClimateFaxApp = () => {
     'texas': ['colorado']
   };
   
-  // Insurance rate estimates (per year) - Asheville removed
+  // Insurance rate estimates (per year) - Asheville removed and updated California/Florida rates
   const insuranceRates = {
     'california': {
-      'regular': 2800,
-      'high-risk': 9500
+      'regular': 4800,
+      'high-risk': 15500
     },
     'florida': {
-      'regular': 3200,
-      'high-risk': 14500
+      'regular': 5200,
+      'high-risk': 18500
     },
     'texas': {
       'regular': 2500,
@@ -744,6 +745,133 @@ const ClimateFaxApp = () => {
         
         {/* Cost Analysis Tab */}
         {activeTab === 'stayOrGo' && (
-          <div>
-            {/* Insurance Cost Analysis */}
-            <div className="bg-white rounded-lg shadow-
+          <div className="mb-6">
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+              <h3 className="text-lg font-medium text-gray-700 mb-4">Insurance Cost Analysis</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Annual premium estimates for homeowners insurance in your selected region.
+              </p>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={insuranceComparisonData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`$${value}`, 'Annual Premium']} />
+                    <Legend />
+                    <Bar dataKey="value" name="Annual Premium ($)" fill="#8884d8" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="text-lg font-medium text-gray-700 mb-4">Property Value Impact</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Projected property value impact over 10 years due to climate risks.
+              </p>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={valueImpactData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`${value}%`, 'Value Decrease']} />
+                    <Legend />
+                    <Bar dataKey="impact" name="Value Decrease (%)" fill="#FF9800" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Alternative Locations Tab */}
+        {activeTab === 'alternatives' && (
+          <div className="mb-6">
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="text-lg font-medium text-gray-700 mb-4">Alternative Locations</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Based on your risk profile, these locations may offer better long-term resilience.
+              </p>
+              
+              {alternativeLocations.length > 0 ? (
+                <div className="space-y-4">
+                  {alternativeLocations.map((location) => (
+                    <div key={location.id} className="border rounded-lg overflow-hidden">
+                      <div 
+                        className="flex items-center justify-between p-4 cursor-pointer"
+                        onClick={() => toggleLocationDetails(location.id)}
+                      >
+                        <div className="flex items-center">
+                          <span className="text-2xl mr-3">{location.icon}</span>
+                          <span className="font-medium">{location.name}</span>
+                        </div>
+                        <div className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                          {location.safetyIndex}% safer
+                        </div>
+                      </div>
+                      
+                      {selectedLocationDetails === location.id && (
+                        <div className="p-4 bg-gray-50 border-t">
+                          <div className="grid grid-cols-3 gap-2 mb-3">
+                            <div className="text-center">
+                              <div className="text-lg font-medium">{location.safetyIndex}</div>
+                              <div className="text-xs text-gray-500">Safety</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-lg font-medium">{location.insuranceIndex}</div>
+                              <div className="text-xs text-gray-500">Insurance</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-lg font-medium">{location.affordabilityIndex}</div>
+                              <div className="text-xs text-gray-500">Affordability</div>
+                            </div>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <div className="text-sm font-medium mb-1">Main Climate Risks:</div>
+                            <div className="flex flex-wrap gap-2">
+                              {location.mainRisks.map((risk, idx) => (
+                                <span key={idx} className="inline-flex items-center bg-gray-200 px-2 py-1 rounded text-xs">
+                                  <span className="mr-1">{risk.icon}</span> {risk.name}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div className="text-sm text-gray-600">
+                            <p>Insurance is generally {location.insuranceIndex > 50 ? 'more available' : 'less available'} in this region compared to your current location.</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center">
+                  <div className="text-lg font-medium mb-2">
+                    No alternative locations available
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    We couldn't find any suitable alternative locations based on your current selection.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </main>
+      
+      <MobileNav />
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
