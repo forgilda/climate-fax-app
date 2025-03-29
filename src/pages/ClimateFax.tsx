@@ -526,7 +526,7 @@ const ClimateFaxApp = () => {
         </div>
       </MobileHeader>
 
-      {/* Feature Tabs with Subscription Status Indicators - UPDATED for more impact */}
+      {/* Feature Tabs with Subscription Status Indicators - RESTORED to original premium styling */}
       <div className="flex items-center mx-auto my-4 max-w-2xl px-4">
         <div className="flex-1 text-center">
           <div 
@@ -546,7 +546,7 @@ const ClimateFaxApp = () => {
           >
             <div className="flex flex-col items-center justify-center">
               <span className="text-sm font-extrabold tracking-wide uppercase">Know Your Cost</span>
-              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full font-medium">Premium</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-purple-100 text-purple-800 rounded-full font-medium">Premium</span>
             </div>
           </div>
         </div>
@@ -557,7 +557,7 @@ const ClimateFaxApp = () => {
           >
             <div className="flex flex-col items-center justify-center">
               <span className="text-sm font-extrabold tracking-wide uppercase">Know Your Options</span>
-              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full font-medium">Premium</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-purple-100 text-purple-800 rounded-full font-medium">Premium</span>
             </div>
           </div>
         </div>
@@ -785,9 +785,25 @@ const ClimateFaxApp = () => {
           </div>
         )}
         
-        {/* Stay or Go Tab */}
+        {/* Stay or Go Tab - RESTORED premium style */}
         {activeTab === 'stayOrGo' && (
           <div>
+            {/* Premium Lock Overlay - RESTORED */}
+            {currentPlan !== 'premium' && (
+              <div className="relative">
+                <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm flex flex-col items-center justify-center z-10 rounded-lg">
+                  <div className="text-5xl mb-4">🔒</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Premium Feature</h3>
+                  <p className="text-white text-center max-w-xs mb-4">
+                    Unlock detailed financial impact analysis with ClimateFAX Premium.
+                  </p>
+                  <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full transition">
+                    Upgrade Now
+                  </button>
+                </div>
+              </div>
+            )}
+            
             <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
               <h3 className="text-lg font-medium text-gray-700 mb-4">ClimateFAX Recommendation</h3>
               <div className="flex items-center mb-4">
@@ -850,9 +866,25 @@ const ClimateFaxApp = () => {
           </div>
         )}
         
-        {/* Alternatives Tab */}
+        {/* Alternatives Tab - RESTORED premium style */}
         {activeTab === 'alternatives' && (
           <div>
+            {/* Premium Lock Overlay - RESTORED */}
+            {currentPlan !== 'premium' && (
+              <div className="relative">
+                <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm flex flex-col items-center justify-center z-10 rounded-lg">
+                  <div className="text-5xl mb-4">🔒</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Premium Feature</h3>
+                  <p className="text-white text-center max-w-xs mb-4">
+                    Unlock alternative location recommendations with ClimateFAX Premium.
+                  </p>
+                  <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full transition">
+                    Upgrade Now
+                  </button>
+                </div>
+              </div>
+            )}
+            
             {alternativeLocations.length > 0 ? (
               <>
                 <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
@@ -864,7 +896,7 @@ const ClimateFaxApp = () => {
                   {alternativeLocations.map((location) => (
                     <div 
                       key={location.id}
-                      className="border border-gray-200 rounded-lg p-4 mb-4 hover:border-blue-300 transition cursor-pointer"
+                      className="border border-gray-200 rounded-lg p-4 mb-4 hover:border-purple-300 transition cursor-pointer"
                       onClick={() => toggleLocationDetails(location.id)}
                     >
                       <div className="flex justify-between items-center">
