@@ -10,7 +10,7 @@ const AboutPage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
-      <MobileHeader title="About ClimateFAX" showBackButton={true} />
+      <MobileHeader title="ClimateFAX" showBackButton={true} />
       
       <main className="px-4 py-6">
         <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -100,6 +100,10 @@ const AboutPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p>
+                  ClimateFAX helps individuals and communities understand their climate risks through accurate, 
+                  accessible, and actionable information.
+                </p>
+                <p>
                   We believe that access to accurate climate information should be available to everyone,
                   not just governments and large corporations.
                 </p>
@@ -108,15 +112,10 @@ const AboutPage = () => {
                   about where they live, work, and invest.
                 </p>
                 
-                <p>
-                  ClimateFAX helps individuals and communities understand their climate risks through accurate, 
-                  accessible, and actionable information.
-                </p>
-                
                 <div className="mt-6 flex justify-center">
                   <img 
-                    src="/lovable-uploads/ab0ad9d7-9e62-4fe2-882a-9efc53cfd25d.jpeg"
-                    alt="Climate change visualization" 
+                    src="/lovable-uploads/6fbc7eea-1bd0-4194-96c2-29ea8c6189e0.png"
+                    alt="Climate data visualization of Earth" 
                     className="rounded-lg shadow-md max-w-[250px] h-auto"
                   />
                 </div>
