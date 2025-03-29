@@ -916,7 +916,7 @@ const ClimateFaxApp = () => {
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
               <div className="flex items-center">
                 <span className="text-purple-600 text-xl mr-2">✨</span>
-                <h2 className="text-lg font-bold text-purple-800">Premium Feature</h2>
+                <h2 className="text-lg font-bold text-purple-800">Sample Premium Feature</h2>
               </div>
               <p className="mt-2 text-purple-700">
                 Get insights about the financial impact of climate risk on your property and insurance.
@@ -1109,7 +1109,7 @@ const ClimateFaxApp = () => {
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
               <div className="flex items-center">
                 <span className="text-purple-600 text-xl mr-2">✨</span>
-                <h2 className="text-lg font-bold text-purple-800">Premium Feature</h2>
+                <h2 className="text-lg font-bold text-purple-800">Sample Premium Feature</h2>
               </div>
               <p className="mt-2 text-purple-700">
                 Discover safer alternative locations based on your lifestyle preferences and priorities.
