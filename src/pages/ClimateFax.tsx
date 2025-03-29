@@ -821,13 +821,62 @@ const ClimateFaxApp = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-                <div className="text-6xl mb-4">🔒</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Premium Feature</h3>
-                <p className="text-gray-600 mb-6">Unlock detailed financial impact analysis and personalized recommendations with ClimateFAX Premium.</p>
-                <button className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                  Upgrade to Premium
+              <div className="bg-white rounded-lg shadow-md p-8 text-center">
+                <div className="mb-6">
+                  <span className="inline-block text-5xl mb-4">💵</span>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">Know Your Cost</h2>
+                  <p className="text-gray-600 max-w-md mx-auto">
+                    Understand the financial implications of climate risk on your property, insurance costs, and long-term value.
+                  </p>
+                </div>
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center justify-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-gray-700">Insurance cost estimates and availability</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-gray-700">Property value impact projections</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-gray-700">Utility cost forecasts based on climate change</span>
+                  </div>
+                </div>
+                
+                {/* Premium Feature Sample */}
+                <div className="border border-blue-200 rounded-lg p-6 bg-blue-50 mb-8 max-w-md mx-auto text-left">
+                  <h3 className="font-medium text-blue-800 mb-2">Sample Premium Feature</h3>
+                  <div className="bg-white p-4 rounded border border-blue-100 mb-3">
+                    <div className="flex justify-between mb-2">
+                      <span className="font-medium text-gray-700">Insurance Premium:</span>
+                      <span className="text-red-600 font-bold">${region === 'california' ? '8,900' : (region === 'florida' ? '12,500' : '6,200')}/year</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium text-gray-700">Projected in 5 Years:</span>
+                      <span className="text-red-600 font-bold">${region === 'california' ? '14,200' : (region === 'florida' ? '18,700' : '9,500')}/year</span>
+                    </div>
+                    <div className="mt-2 text-xs text-gray-500">
+                      <span className="bg-yellow-100 px-1 py-0.5 rounded">Premium members only</span> See full insurance cost projections
+                    </div>
+                  </div>
+                  <div className="opacity-40 pointer-events-none">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">Property Value Impact (10-Year):</h4>
+                    <div className="h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <span className="text-gray-400">Detailed projection chart (Premium)</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <button 
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded"
+                  onClick={() => setCurrentPlan('premium')}
+                >
+                  Try Premium Free for 30 Days
                 </button>
+                <p className="mt-2 text-sm text-gray-500">
+                  Then just $5/month. Cancel anytime. No commitment required.
+                </p>
               </div>
             )}
           </div>
@@ -954,13 +1003,77 @@ const ClimateFaxApp = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-                <div className="text-6xl mb-4">🔒</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Premium Feature</h3>
-                <p className="text-gray-600 mb-6">Unlock personalized alternative locations and detailed comparisons with ClimateFAX Premium.</p>
-                <button className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                  Upgrade to Premium
+              <div className="bg-white rounded-lg shadow-md p-8 text-center">
+                <div className="mb-6">
+                  <span className="inline-block text-5xl mb-4">🗺️</span>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">Know Your Options</h2>
+                  <p className="text-gray-600 max-w-md mx-auto">
+                    Find climate-safer locations based on your personal lifestyle preferences and needs.
+                  </p>
+                </div>
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center justify-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-gray-700">Personalized "Stay or Go" recommendations</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-gray-700">Alternative location suggestions</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <span className="text-gray-700">Side-by-side comparisons of locations</span>
+                  </div>
+                </div>
+                
+                {/* Premium Feature Sample */}
+                <div className="border border-blue-200 rounded-lg p-6 bg-blue-50 mb-8 max-w-md mx-auto text-left">
+                  <h3 className="font-medium text-blue-800 mb-2">Sample Location Recommendations</h3>
+                  <div className="bg-white p-4 rounded border border-blue-100 mb-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <span className="text-2xl mr-2">{region === 'california' ? '🏔️' : '⛰️'}</span>
+                        <span className="font-medium">{region === 'california' ? 'Colorado' : 'Asheville, NC'}</span>
+                      </div>
+                      <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">Recommended</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 mt-3">
+                      <div className="text-center">
+                        <div className="text-xs text-gray-500">Safety</div>
+                        <div className="font-bold text-green-600">85/100</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs text-gray-500">Insurance</div>
+                        <div className="font-bold text-green-600">75/100</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs text-gray-500">Affordability</div>
+                        <div className="font-bold text-yellow-600">60/100</div>
+                      </div>
+                    </div>
+                    <div className="mt-2 opacity-40 pointer-events-none">
+                      <span className="text-xs text-gray-500">
+                        <span className="bg-yellow-100 px-1 py-0.5 rounded">Premium members only</span> See full location details
+                      </span>
+                    </div>
+                  </div>
+                  <div className="opacity-40 pointer-events-none">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">Location Comparison Chart:</h4>
+                    <div className="h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <span className="text-gray-400">Detailed comparison (Premium)</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <button 
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded"
+                  onClick={() => setCurrentPlan('premium')}
+                >
+                  Try Premium Free for 30 Days
                 </button>
+                <p className="mt-2 text-sm text-gray-500">
+                  Then just $5/month. Cancel anytime. No commitment required.
+                </p>
               </div>
             )}
           </div>
