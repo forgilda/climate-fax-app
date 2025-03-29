@@ -73,12 +73,12 @@ const AboutPage = () => {
               <div className="max-w-md overflow-hidden rounded-xl bg-white shadow-md">
                 <div className="relative h-64 w-full">
                   <img
-                    src="/lovable-uploads/2507e147-7792-4453-a340-fb0fa3eaa5a9.png"
-                    alt="Earth with satellite orbital paths and climate monitoring satellites"
+                    src="/lovable-uploads/1567f41d-1d4b-4b70-80c3-c6e701cbeedc.png"
+                    alt="Earth with climate data visualization"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                    <p className="text-sm text-white">Global satellite monitoring network</p>
+                    <p className="text-sm text-white">Global climate data visualization</p>
                   </div>
                 </div>
                 <div className="p-4">
@@ -100,30 +100,6 @@ const AboutPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p>
-                  ClimateFAX helps individuals and communities understand their climate risks through accurate, 
-                  accessible, and actionable information.
-                </p>
-                <p>
-                  Our platform combines satellite data with advanced climate models to provide personalized
-                  climate risk assessments and recommendations.
-                </p>
-                
-                <div className="mt-6 flex justify-center">
-                  <img 
-                    src="/lovable-uploads/2507e147-7792-4453-a340-fb0fa3eaa5a9.png"
-                    alt="Earth with satellite orbital paths" 
-                    className="rounded-lg shadow-md max-w-[250px] h-auto"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Our Mission</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p>
                   We believe that access to accurate climate information should be available to everyone,
                   not just governments and large corporations.
                 </p>
@@ -131,6 +107,19 @@ const AboutPage = () => {
                   By democratizing access to climate data, we empower individuals to make informed decisions
                   about where they live, work, and invest.
                 </p>
+                
+                <p>
+                  ClimateFAX helps individuals and communities understand their climate risks through accurate, 
+                  accessible, and actionable information.
+                </p>
+                
+                <div className="mt-6 flex justify-center">
+                  <img 
+                    src="/lovable-uploads/1567f41d-1d4b-4b70-80c3-c6e701cbeedc.png"
+                    alt="Earth climate data visualization" 
+                    className="rounded-lg shadow-md max-w-[250px] h-auto"
+                  />
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
