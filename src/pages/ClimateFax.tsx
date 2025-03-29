@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -581,7 +582,7 @@ const ClimateFaxApp = () => {
               </select>
             </div>
             
-            {/* 4. CLIMATE CATEGORIES */}
+            {/* 4. CLIMATE CATEGORIES BOXES */}
             <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
               <ToggleGroup 
                 type="single" 
