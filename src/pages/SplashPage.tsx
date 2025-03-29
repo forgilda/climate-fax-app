@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import Copyright from '@/components/Copyright';
 
 const SplashPage = () => {
   const navigate = useNavigate();
@@ -81,7 +80,6 @@ const SplashPage = () => {
           </motion.div>
         )}
       </motion.div>
-      <Copyright />
     </div>
   );
 };
