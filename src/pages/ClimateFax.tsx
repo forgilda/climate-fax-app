@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -300,14 +301,8 @@ const ClimateFaxApp = () => {
     // Insurance availability is primarily determined by region
     const isAvailable = insuranceRates[region]?.available || false;
     
-    // Determine if this area is high risk for the selected variable
-    const isHighRisk = 
-      (variable === 'wildfires' && region === 'california') ||
-      (variable === 'hurricanes' && region === 'florida') ||
-      (variable === 'seaLevelRise' && region === 'florida') ||
-      (variable === 'flooding' && region === 'texas');
-    
-    const rateType = isHighRisk ? 'high-risk' : 'regular';
+    // Base rate based on region and risk level
+    const rateType = 'regular'; // In updated logic, risk level doesn't change rate, only region determines availability
     let rate = insuranceRates[region]?.[rateType] || 2000;
     
     // Add flood insurance if applicable (separate policy)
@@ -321,9 +316,7 @@ const ClimateFaxApp = () => {
     } else if (needsFloodInsurance) {
       notes = "Standard insurance available, with separate flood insurance required.";
     } else {
-      notes = isHighRisk ? 
-        "This area has limited insurance availability and high premiums due to elevated risk." : 
-        "Standard insurance coverage should be available in this area.";
+      notes = "Standard insurance coverage should be available in this area.";
     }
     
     return {
@@ -452,8 +445,8 @@ const ClimateFaxApp = () => {
 
   // Get property impact color - Updated to show negative values in orange/red
   const getPropertyImpactColor = (impact) => {
-    if (impact < 5) return '#4CAF50'; // Low impact - Green
-    if (impact < 15) return '#FFC107'; // Moderate impact - Yellow
+    if (impact < 5) return '#FF9800'; // Low impact but still negative - Orange
+    if (impact < 15) return '#FF9800'; // Moderate impact - Orange
     if (impact < 25) return '#FF9800'; // High impact - Orange
     return '#F44336'; // Very high impact - Red
   };
@@ -743,3 +736,67 @@ const ClimateFaxApp = () => {
               <div className="flex items-start mt-4">
                 <div 
                   className="flex items-center justify-center rounded-full w-12 h-12 text-xl flex-shrink-0"
+                  style={{ backgroundColor: recommendation.color }}
+                >
+                  {recommendation.icon}
+                </div>
+                <div className="ml-4">
+                  <div className="text-lg font-semibold" style={{ color: recommendation.color }}>
+                    {recommendation.recommendation}
+                  </div>
+                  <ul className="mt-2 text-sm text-gray-600 list-disc ml-4">
+                    {recommendation.reasons.map((reason, index) => (
+                      <li key={index}>{reason}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Stay or Go Tab - Premium Feature */}
+        {activeTab === 'stayOrGo' && (
+          <div>
+            {currentPlan === 'premium' ? (
+              <div>Premium content would go here</div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
+                <h3 className="text-xl font-semibold mb-4">Upgrade to Premium</h3>
+                <p className="text-gray-600 mb-4">
+                  Access detailed insurance cost projections and property value forecasts.
+                </p>
+                <button className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                  Upgrade Now
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+        
+        {/* Alternatives Tab - Premium Feature */}
+        {activeTab === 'alternatives' && (
+          <div>
+            {currentPlan === 'premium' ? (
+              <div>Premium content would go here</div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
+                <h3 className="text-xl font-semibold mb-4">Upgrade to Premium</h3>
+                <p className="text-gray-600 mb-4">
+                  Discover safer and more affordable locations based on your preferences.
+                </p>
+                <button className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                  Upgrade Now
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
+      
+      <MobileNav />
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
