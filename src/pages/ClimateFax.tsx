@@ -169,7 +169,7 @@ const ClimateFaxApp = () => {
           } else if (variable === 'coastalErosion' && region === 'florida') {
             // Florida coastal erosion correlates with sea level rise
             const baseSeaLevelRise = (year - 1980) * 0.12; // inches per year
-            value = 0.8 + (baseSeaLevelRise * 1.8) + (Math.random() * 0.4);
+            value = 0.8 + (baseSeaLevelRise * 1.8) + (Math.random() * 0.4);\
           } else if (variable === 'seaLevelRise' && region === 'florida') {
             // Consistent sea level rise for Florida (higher than average)
             value = (year - 1980) * 0.12 + (Math.sin(year * 0.1) * 0.05);
