@@ -68,7 +68,7 @@ const ClimateFaxApp = () => {
     'thunderstorms': { name: 'Thunderstorms', unit: 'events', icon: '⛈️' }
   };
 
-  // Sample regions with more details
+  // Sample regions with more details - Asheville removed
   const regions = {
     'california': {
       name: 'California', 
@@ -97,15 +97,6 @@ const ClimateFaxApp = () => {
       insuranceIndex: 60,
       affordabilityIndex: 65
     },
-    'asheville': {
-      name: 'Asheville, NC', 
-      icon: '⛰️',
-      majorCities: ['Asheville'],
-      mainRisks: ['flooding', 'landslides'],
-      safetyIndex: 75,
-      insuranceIndex: 70,
-      affordabilityIndex: 50
-    },
     'colorado': {
       name: 'Colorado', 
       icon: '🏔️',
@@ -117,14 +108,14 @@ const ClimateFaxApp = () => {
     }
   };
 
-  // Alternative locations based on risk profile
+  // Alternative locations based on risk profile - Asheville removed
   const suggestedLocations = {
-    'california': ['colorado', 'asheville'],
-    'florida': ['asheville', 'colorado'],
-    'texas': ['colorado', 'asheville']
+    'california': ['colorado'],
+    'florida': ['colorado'],
+    'texas': ['colorado']
   };
   
-  // Insurance rate estimates (per year)
+  // Insurance rate estimates (per year) - Asheville removed
   const insuranceRates = {
     'california': {
       'regular': 2800,
@@ -137,10 +128,6 @@ const ClimateFaxApp = () => {
     'texas': {
       'regular': 2500,
       'high-risk': 7500
-    },
-    'asheville': {
-      'regular': 1800,
-      'high-risk': 4500
     },
     'colorado': {
       'regular': 2100,
@@ -243,7 +230,6 @@ const ClimateFaxApp = () => {
       'california': 65,
       'florida': 70,
       'texas': 60,
-      'asheville': 55,
       'colorado': 50
     };
     
@@ -282,7 +268,6 @@ const ClimateFaxApp = () => {
       'california': { low: 5, high: 15 },
       'florida': { low: 8, high: 25 },
       'texas': { low: 3, high: 12 },
-      'asheville': { low: 2, high: 10 },
       'colorado': { low: 2, high: 8 }
     };
     
@@ -467,7 +452,6 @@ const ClimateFaxApp = () => {
         'california': 10,
         'florida': 15,
         'texas': 8,
-        'asheville': 5,
         'colorado': 4
       };
       return { name: loc.name, impact: baseImpacts[loc.id] || 5 };
@@ -486,7 +470,15 @@ const ClimateFaxApp = () => {
   
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
-      <MobileHeader title="ClimateFax" showBackButton={true} />
+      <MobileHeader title="" showBackButton={true}>
+        <div className="flex items-center justify-center">
+          <div className="text-2xl font-bold relative">
+            <span className="text-black">Climate</span>
+            <span className="text-orange-500">FAX</span>
+            <span className="absolute top-0 right-0 -mt-1 -mr-3 text-xs">®</span>
+          </div>
+        </div>
+      </MobileHeader>
 
       <main className="px-4 py-4">
         {/* Navigation Tabs */}
@@ -752,368 +744,4 @@ const ClimateFaxApp = () => {
                   className="flex items-center justify-center rounded-full w-12 h-12 text-xl flex-shrink-0"
                   style={{ backgroundColor: recommendation.color, color: 'white' }}
                 >
-                  {recommendation.icon}
-                </div>
-                <div className="ml-4">
-                  <div className="text-xl font-bold" style={{ color: recommendation.color }}>
-                    {recommendation.recommendation}
-                  </div>
-                  <ul className="list-disc list-inside mt-2 text-sm text-gray-600">
-                    {recommendation.reasons.map((reason, index) => (
-                      <li key={index}>{reason}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Cost Analysis Tab */}
-        {activeTab === 'stayOrGo' && (
-          <div>
-            {/* Insurance Rate Comparison */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">
-                Insurance Rate Comparison
-              </h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    layout="vertical"
-                    data={insuranceComparisonData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" label={{ value: 'Annual Premium ($)', position: 'insideBottom', offset: -5 }} />
-                    <YAxis type="category" dataKey="name" width={80} />
-                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Annual Premium']} />
-                    <Bar dataKey="value" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="text-sm text-gray-500 mt-3">
-                Estimated annual premiums for homeowners insurance based on region and risk factors.
-              </div>
-            </div>
-
-            {/* Property Value Impact Comparison */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">
-                Property Value Impact Comparison
-              </h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    layout="vertical"
-                    data={valueImpactData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis 
-                      type="number" 
-                      label={{ value: 'Projected Value Decline (%)', position: 'insideBottom', offset: -5 }}
-                    />
-                    <YAxis type="category" dataKey="name" width={80} />
-                    <Tooltip formatter={(value) => [`${value}%`, 'Value Decline']} />
-                    <Bar dataKey="impact">
-                      {valueImpactData.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={entry.impact > 15 ? '#F44336' : entry.impact > 10 ? '#FF9800' : '#4CAF50'} 
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="text-sm text-gray-500 mt-3">
-                Projected 10-year property value decline due to climate risks in each location.
-              </div>
-            </div>
-
-            {/* Detailed Cost Analysis */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">
-                Stay or Go: Financial Analysis
-              </h3>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="font-medium text-gray-700">Insurance Premium:</div>
-                  <div className="text-right">${insuranceInfo.annualRate.toLocaleString()}/year</div>
-                  
-                  <div className="font-medium text-gray-700">10-Year Insurance Cost:</div>
-                  <div className="text-right">${(insuranceInfo.annualRate * 10).toLocaleString()}</div>
-                  
-                  <div className="font-medium text-gray-700">Property Value Impact:</div>
-                  <div className="text-right">-{propertyImpact}% over 10 years</div>
-                  
-                  <div className="font-medium text-gray-700">On $500K Property:</div>
-                  <div className="text-right">-${(500000 * propertyImpact / 100).toLocaleString()}</div>
-                  
-                  <div className="border-t pt-2 font-medium text-gray-700">Total 10-Year Cost:</div>
-                  <div className="border-t pt-2 text-right font-bold text-red-600">
-                    ${((insuranceInfo.annualRate * 10) + (500000 * propertyImpact / 100)).toLocaleString()}
-                  </div>
-                </div>
-                
-                <div className="mt-6 p-3 bg-gray-50 rounded-md text-sm">
-                  <div className="font-medium mb-1">Recommendation:</div>
-                  <div>
-                    {insuranceInfo.available ? (
-                      <>
-                        {propertyImpact > 15 ? (
-                          "Consider relocating due to significant projected property devaluation and high insurance costs."
-                        ) : (
-                          "Financial impact is manageable. If you're committed to this location, mitigation strategies are recommended."
-                        )}
-                      </>
-                    ) : (
-                      "Relocation strongly advised due to insurance unavailability and significant financial risks."
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Alternative Locations Tab */}
-        {activeTab === 'alternatives' && (
-          <div>
-            {/* Location Recommendations */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">
-                Recommended Alternative Locations
-              </h3>
-              
-              <div className="space-y-3">
-                {alternativeLocations.length === 0 ? (
-                  <div className="text-center p-4 text-gray-500">
-                    No alternative locations available for the current selection.
-                  </div>
-                ) : (
-                  alternativeLocations.map((location) => (
-                    <div key={location.id} className="border rounded-lg overflow-hidden">
-                      <button 
-                        className="w-full flex items-center justify-between p-3 text-left bg-gray-50 hover:bg-gray-100"
-                        onClick={() => toggleLocationDetails(location.id)}
-                      >
-                        <div className="flex items-center">
-                          <span className="text-xl mr-2">{location.icon}</span>
-                          <span className="font-medium">{location.name}</span>
-                        </div>
-                        <div className={`transform transition-transform ${selectedLocationDetails === location.id ? 'rotate-180' : ''}`}>
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </button>
-                      
-                      {selectedLocationDetails === location.id && (
-                        <div className="p-4 bg-white border-t">
-                          {/* Location Metrics */}
-                          <div className="grid grid-cols-3 gap-2 mb-4">
-                            <div className="text-center">
-                              <div className="mb-1 text-xs text-gray-500">Safety</div>
-                              <div 
-                                className="font-medium"
-                                style={{ color: getRiskColor(100 - location.safetyIndex) }}
-                              >
-                                {location.safetyIndex}/100
-                              </div>
-                            </div>
-                            <div className="text-center">
-                              <div className="mb-1 text-xs text-gray-500">Insurance</div>
-                              <div 
-                                className="font-medium"
-                                style={{ color: getRiskColor(100 - location.insuranceIndex) }}
-                              >
-                                {location.insuranceIndex}/100
-                              </div>
-                            </div>
-                            <div className="text-center">
-                              <div className="mb-1 text-xs text-gray-500">Affordability</div>
-                              <div 
-                                className="font-medium"
-                                style={{ color: getRiskColor(100 - location.affordabilityIndex) }}
-                              >
-                                {location.affordabilityIndex}/100
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Main Risks */}
-                          <div className="mb-4">
-                            <div className="text-sm font-medium mb-2">Main Climate Risks:</div>
-                            <div className="flex flex-wrap gap-2">
-                              {location.mainRisks.map((risk, index) => (
-                                <div key={index} className="flex items-center bg-gray-100 px-2 py-1 rounded text-xs">
-                                  <span className="mr-1">{risk.icon}</span>
-                                  <span>{risk.name}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          
-                          {/* Action Buttons */}
-                          <div className="flex space-x-2">
-                            <button className="flex-1 py-2 px-3 bg-blue-600 text-white rounded text-sm font-medium">
-                              Compare Details
-                            </button>
-                            <button className="flex-1 py-2 px-3 bg-gray-200 text-gray-800 rounded text-sm font-medium">
-                              View on Map
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-            
-            {/* Climate Safe Index Map */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-2">
-                Climate Safety Index
-              </h3>
-              <div className="relative pt-4 pb-8">
-                <img 
-                  src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1333&q=80"
-                  alt="Climate Safety Map" 
-                  className="w-full h-52 object-cover rounded"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="px-4 py-2 bg-white/80 rounded text-sm font-medium">
-                    Premium Feature - Upgrade for Interactive Map
-                  </div>
-                </div>
-              </div>
-              <div className="mt-2 text-xs text-gray-500">
-                A visualization of climate safety scores across regions based on multiple risk factors.
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Profile Tab */}
-        {activeTab === 'profile' && (
-          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-            <h3 className="text-lg font-medium text-gray-700 mb-4">
-              My Profile
-            </h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Current Location</label>
-                <select 
-                  value={userProfile.currentLocation}
-                  onChange={(e) => setUserProfile({...userProfile, currentLocation: e.target.value})}
-                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  {Object.entries(regions).map(([key, info]) => (
-                    <option key={key} value={key}>{info.name}</option>
-                  ))}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Homeowner Status</label>
-                <select 
-                  value={userProfile.homeownerStatus}
-                  onChange={(e) => setUserProfile({...userProfile, homeownerStatus: e.target.value})}
-                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="homeowner">Homeowner</option>
-                  <option value="renter">Renter</option>
-                  <option value="looking">Looking to buy</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Family Size</label>
-                <select 
-                  value={userProfile.familySize}
-                  onChange={(e) => setUserProfile({...userProfile, familySize: e.target.value})}
-                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="1-2">1-2 people</option>
-                  <option value="3-4">3-4 people</option>
-                  <option value="5+">5+ people</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Work Situation</label>
-                <select 
-                  value={userProfile.workSituation}
-                  onChange={(e) => setUserProfile({...userProfile, workSituation: e.target.value})}
-                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="remote">Remote</option>
-                  <option value="hybrid">Hybrid</option>
-                  <option value="office">Office-based</option>
-                  <option value="retired">Retired</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Lifestyle Preference</label>
-                <select 
-                  value={userProfile.lifestylePreference}
-                  onChange={(e) => setUserProfile({...userProfile, lifestylePreference: e.target.value})}
-                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="urban">Urban</option>
-                  <option value="suburban">Suburban</option>
-                  <option value="rural">Rural</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Moving Timeframe</label>
-                <select 
-                  value={userProfile.timeframe}
-                  onChange={(e) => setUserProfile({...userProfile, timeframe: e.target.value})}
-                  className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="now">Immediate</option>
-                  <option value="1-2 years">1-2 years</option>
-                  <option value="3-5 years">3-5 years</option>
-                  <option value="5+ years">5+ years</option>
-                </select>
-              </div>
-              
-              <div className="pt-4">
-                <button className="w-full py-2 px-4 bg-blue-600 text-white rounded font-medium">
-                  Update Preferences
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Upgrade Banner - Show at bottom */}
-        {currentPlan !== 'premium' && (
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg shadow-md p-4 mb-6">
-            <div className="flex items-center">
-              <div className="mr-4 text-3xl">✨</div>
-              <div className="flex-1">
-                <h3 className="font-bold mb-1">Get Premium Access</h3>
-                <p className="text-sm text-blue-100">Unlock property cost analysis, alternative locations, and interactive maps.</p>
-              </div>
-              <button className="px-3 py-1.5 bg-white text-blue-700 rounded font-medium text-sm">
-                Upgrade
-              </button>
-            </div>
-          </div>
-        )}
-      </main>
-
-      <MobileNav />
-    </div>
-  );
-};
-
-export default ClimateFaxApp;
+                  {
