@@ -715,4 +715,5 @@ const ClimateFaxApp = () => {
                 {Object.entries(categories).map(([key, cat]) => (
                   <div 
                     key={key}
-                    className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition
+                    className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition ${
+                      active
