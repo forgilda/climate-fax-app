@@ -1,12 +1,68 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ChevronRight, Home, Settings, User } from "lucide-react";
+import { MobileNav } from "@/components/MobileNav";
+import { MobileHeader } from "@/components/MobileHeader";
 
 const Index = () => {
+  const [greeting, setGreeting] = useState("Hello");
+
+  useEffect(() => {
+    const time = new Date().getHours();
+    if (time < 12) {
+      setGreeting("Good morning");
+    } else if (time < 18) {
+      setGreeting("Good afternoon");
+    } else {
+      setGreeting("Good evening");
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="flex flex-col h-screen bg-gray-50">
+      <MobileHeader title="Home" />
+      
+      <main className="flex-1 overflow-auto p-4 pb-20">
+        <Card className="mb-4 shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl">{greeting}</CardTitle>
+            <CardDescription>Welcome to your iOS app</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-500">
+              This is your React app running as a native iOS application using Capacitor
+            </p>
+          </CardContent>
+        </Card>
+
+        {["Profile", "Settings", "Notifications"].map((item, index) => (
+          <Card key={index} className="mb-3 shadow-sm">
+            <CardContent className="p-0">
+              <button className="w-full flex items-center justify-between p-4 text-left">
+                <span>{item}</span>
+                <ChevronRight className="h-4 w-4 text-gray-400" />
+              </button>
+            </CardContent>
+          </Card>
+        ))}
+        
+        <div className="mt-6">
+          <Button className="w-full" variant="default">
+            Continue
+          </Button>
+        </div>
+      </main>
+      
+      <MobileNav />
     </div>
   );
 };
