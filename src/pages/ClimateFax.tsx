@@ -14,6 +14,77 @@ const ClimateFaxApp = () => {
   const [activeTab, setActiveTab] = useState('riskAssessment');
   const [currentPlan, setCurrentPlan] = useState('free'); // 'free' or 'premium'
   
+  // Define categories
+  const categories = {
+    'heat-fire': {
+      name: 'Heat & Fire Risks',
+      variables: ['wildfires', 'drought', 'heatwaves'],
+      icon: '🔥'
+    },
+    'water': {
+      name: 'Water Threats',
+      variables: ['flooding', 'atmospheric-rivers', 'landslides'],
+      icon: '💧'
+    },
+    'coastal': {
+      name: 'Coastal Hazards',
+      variables: ['seaLevelRise', 'tsunamis', 'coastalErosion'],
+      icon: '🌊'
+    },
+    'storm': {
+      name: 'Storm Systems',
+      variables: ['hurricanes', 'tornadoes', 'thunderstorms'],
+      icon: '🌪️'
+    }
+  };
+
+  // Variables and their properties
+  const variables = {
+    'wildfires': { name: 'Wildfires', unit: 'events', icon: '🔥' },
+    'drought': { name: 'Drought Conditions', unit: 'severity index', icon: '🏜️' },
+    'heatwaves': { name: 'Heat Waves', unit: 'days/year', icon: '☀️' },
+    'flooding': { name: 'Flooding', unit: 'events', icon: '🌊' },
+    'atmospheric-rivers': { name: 'Atmospheric Rivers', unit: 'events/year', icon: '☔' },
+    'landslides': { name: 'Landslides', unit: 'events', icon: '⛰️' },
+    'seaLevelRise': { name: 'Sea Level Rise', unit: 'in', icon: '🌡️' },
+    'tsunamis': { name: 'Tsunamis', unit: 'events', icon: '🌊' },
+    'coastalErosion': { name: 'Coastal Erosion', unit: 'feet', icon: '🏝️' },
+    'hurricanes': { name: 'Hurricanes', unit: 'events', icon: '🌀' },
+    'tornadoes': { name: 'Tornadoes', unit: 'events', icon: '🌪️' },
+    'thunderstorms': { name: 'Thunderstorms', unit: 'events', icon: '⛈️' }
+  };
+
+  // Sample regions with more details
+  const regions = {
+    'california': {
+      name: 'California', 
+      icon: '🏞️',
+      majorCities: ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento'],
+      mainRisks: ['wildfires', 'drought', 'earthquakes'],
+      safetyIndex: 65,
+      insuranceIndex: 35,
+      affordabilityIndex: 25
+    },
+    'florida': {
+      name: 'Florida', 
+      icon: '🌴',
+      majorCities: ['Miami', 'Orlando', 'Tampa', 'Jacksonville'],
+      mainRisks: ['hurricanes', 'flooding', 'seaLevelRise'],
+      safetyIndex: 55,
+      insuranceIndex: 30,
+      affordabilityIndex: 25
+    },
+    'texas': {
+      name: 'Texas', 
+      icon: '🤠',
+      majorCities: ['Houston', 'Dallas', 'Austin', 'San Antonio'],
+      mainRisks: ['flooding', 'tornadoes', 'drought'],
+      safetyIndex: 60,
+      insuranceIndex: 45,
+      affordabilityIndex: 55
+    }
+  };
+  
   // Simulate loading data
   useEffect(() => {
     const fetchData = async () => {
