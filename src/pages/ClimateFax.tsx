@@ -13,6 +13,7 @@ const ClimateFaxApp = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('riskAssessment');
   const [currentPlan, setCurrentPlan] = useState('free'); // 'free' or 'premium'
+  const [selectedCategory, setSelectedCategory] = useState('heat-fire');
   
   // Define categories
   const categories = {
@@ -106,6 +107,13 @@ const ClimateFaxApp = () => {
     
     fetchData();
   }, [region, variable]);
+
+  // Handle category selection
+  const handleCategoryChange = (categoryKey) => {
+    setSelectedCategory(categoryKey);
+    // Default to first variable in the category
+    setVariable(categories[categoryKey].variables[0]);
+  };
   
   return (
     <div className="flex flex-col h-screen bg-gray-50">
@@ -115,13 +123,81 @@ const ClimateFaxApp = () => {
         <h1 className="text-2xl font-bold text-gray-900 mb-2">CLIMATE<span className="text-orange-500">FAX</span></h1>
         <p className="text-gray-600 mb-6">Climate risk assessment and projections</p>
         
+        {/* Current Region Info */}
+        <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+          <div className="flex items-center mb-3">
+            <span className="text-2xl mr-2">{regions[region].icon}</span>
+            <h2 className="text-xl font-semibold">{regions[region].name}</h2>
+          </div>
+          
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            <div className="bg-orange-50 p-2 rounded">
+              <div className="text-sm text-gray-500">Safety</div>
+              <div className="text-lg font-semibold">{regions[region].safetyIndex}/100</div>
+            </div>
+            <div className="bg-blue-50 p-2 rounded">
+              <div className="text-sm text-gray-500">Insurance</div>
+              <div className="text-lg font-semibold">{regions[region].insuranceIndex}/100</div>
+            </div>
+            <div className="bg-green-50 p-2 rounded">
+              <div className="text-sm text-gray-500">Affordability</div>
+              <div className="text-lg font-semibold">{regions[region].affordabilityIndex}/100</div>
+            </div>
+          </div>
+          
+          <div className="mb-3">
+            <div className="text-sm font-medium mb-1">Main Climate Risks:</div>
+            <div className="flex flex-wrap gap-1">
+              {regions[region].mainRisks.map(riskKey => (
+                <span key={riskKey} className="inline-flex items-center px-2 py-1 bg-red-100 text-red-800 text-xs rounded">
+                  {variables[riskKey]?.icon || '⚠️'} {variables[riskKey]?.name || riskKey}
+                </span>
+              ))}
+            </div>
+          </div>
+          
+          <div>
+            <div className="text-sm font-medium mb-1">Major Cities:</div>
+            <div className="flex flex-wrap gap-1">
+              {regions[region].majorCities.map(city => (
+                <span key={city} className="inline-flex items-center px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded">
+                  🏙️ {city}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* Risk Categories */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          {Object.entries(categories).map(([key, category]) => (
+            <button
+              key={key}
+              className={`p-3 rounded-lg text-left ${selectedCategory === key ? 'bg-orange-500 text-white' : 'bg-white shadow-sm'}`}
+              onClick={() => handleCategoryChange(key)}
+            >
+              <div className="text-2xl mb-1">{category.icon}</div>
+              <div className={`text-sm font-medium ${selectedCategory === key ? 'text-white' : 'text-gray-900'}`}>
+                {category.name}
+              </div>
+            </button>
+          ))}
+        </div>
+        
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
           </div>
         ) : (
           <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-            <h2 className="text-lg font-semibold mb-3">Data Visualization</h2>
+            <div className="flex items-center mb-3">
+              <span className="text-xl mr-2">{variables[variable].icon}</span>
+              <div>
+                <h2 className="text-lg font-semibold">{variables[variable].name}</h2>
+                <div className="text-xs text-gray-500">Unit: {variables[variable].unit}</div>
+              </div>
+            </div>
+            
             <ResponsiveContainer width="100%" height={250}>
               <LineChart
                 data={data}
@@ -137,7 +213,7 @@ const ClimateFaxApp = () => {
                   dataKey="value" 
                   stroke="#f97316" 
                   activeDot={{ r: 8 }} 
-                  name={variable}
+                  name={variables[variable].name}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -152,9 +228,9 @@ const ClimateFaxApp = () => {
               onChange={(e) => setRegion(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded"
             >
-              <option value="california">California</option>
-              <option value="texas">Texas</option>
-              <option value="florida">Florida</option>
+              {Object.entries(regions).map(([key, regionData]) => (
+                <option key={key} value={key}>{regionData.icon} {regionData.name}</option>
+              ))}
             </select>
           </div>
           
@@ -165,9 +241,11 @@ const ClimateFaxApp = () => {
               onChange={(e) => setVariable(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded"
             >
-              <option value="wildfires">Wildfires</option>
-              <option value="flooding">Flooding</option>
-              <option value="drought">Drought</option>
+              {categories[selectedCategory].variables.map((varKey) => (
+                <option key={varKey} value={varKey}>
+                  {variables[varKey].icon} {variables[varKey].name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
