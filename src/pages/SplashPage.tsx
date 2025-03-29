@@ -65,7 +65,7 @@ const SplashPage = () => {
                   <p className="text-sm mt-2">Long Term Predictions</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-                  <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                  <span className="text-3xl">👨‍👩‍👧</span>
                   <p className="text-sm mt-2">Personalized</p>
                 </div>
               </div>
