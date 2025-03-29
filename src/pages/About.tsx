@@ -1,15 +1,15 @@
-
 import React, { useState } from 'react';
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileNav } from "@/components/MobileNav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Copyright from '@/components/Copyright';
 
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState("data");
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-16">
+    <div className="bg-gray-50 min-h-screen pb-16 flex flex-col">
       {/* Updated header to match the KNOW YOUR RISK page */}
       <MobileHeader title="" showBackButton={true}>
         <div className="flex flex-col items-center justify-center w-full">
@@ -134,6 +134,8 @@ const AboutPage = () => {
         </Tabs>
       </main>
 
+      <div className="flex-grow"></div>
+      <Copyright />
       <MobileNav />
     </div>
   );

@@ -1,20 +1,9 @@
-
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileNav } from "@/components/MobileNav";
-import { 
-  Card,
-  CardContent
-} from "@/components/ui/card";
-import { 
-  Bell, 
-  Lock, 
-  Moon, 
-  ChevronRight, 
-  Globe, 
-  HelpCircle, 
-  Info
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Bell, Lock, Moon, ChevronRight, Globe, HelpCircle, Info } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import Copyright from '@/components/Copyright';
 
 const Settings = () => {
   return (
@@ -92,6 +81,7 @@ const Settings = () => {
         </Card>
       </main>
       
+      <Copyright />
       <MobileNav />
     </div>
   );

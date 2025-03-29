@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,7 @@ import { ChevronRight, Home, Settings, User, BarChart2 } from "lucide-react";
 import { MobileNav } from "@/components/MobileNav";
 import { MobileHeader } from "@/components/MobileHeader";
 import { navigateToPath } from "@/utils/navigation";
+import Copyright from '@/components/Copyright';
 
 const Index = () => {
   const [greeting, setGreeting] = useState("Hello");
@@ -78,6 +78,7 @@ const Index = () => {
         </div>
       </main>
       
+      <Copyright />
       <MobileNav />
     </div>
   );
