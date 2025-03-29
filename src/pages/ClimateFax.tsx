@@ -1,10 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileNav } from "@/components/MobileNav";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -116,23 +117,27 @@ const ClimateFaxApp = () => {
     'texas': ['colorado']
   };
   
-  // Insurance rate estimates (per year) - Updated to reflect difficulty in California and Florida
+  // Updated Insurance rate estimates - Reflects difficulties in California and Florida
   const insuranceRates = {
     'california': {
       'regular': 8500,
-      'high-risk': 25000
+      'high-risk': 25000,
+      'available': false // Insurance generally unavailable in California
     },
     'florida': {
       'regular': 9200,
-      'high-risk': 30000
+      'high-risk': 30000,
+      'available': false // Insurance generally unavailable in Florida
     },
     'texas': {
       'regular': 2500,
-      'high-risk': 7500
+      'high-risk': 7500,
+      'available': true
     },
     'colorado': {
       'regular': 2100,
-      'high-risk': 6800
+      'high-risk': 6800,
+      'available': true
     }
   };
   
@@ -290,8 +295,11 @@ const ClimateFaxApp = () => {
     return Math.round(impact * multiplier);
   };
 
-  // Get corresponding insurance information
+  // Get corresponding insurance information - Updated logic
   const getInsuranceInfo = () => {
+    // Insurance availability is primarily determined by region
+    const isAvailable = insuranceRates[region]?.available || false;
+    
     // Determine if this area is high risk for the selected variable
     const isHighRisk = 
       (variable === 'wildfires' && region === 'california') ||
@@ -299,34 +307,30 @@ const ClimateFaxApp = () => {
       (variable === 'seaLevelRise' && region === 'florida') ||
       (variable === 'flooding' && region === 'texas');
     
-    // Special case for California and Florida - nearly impossible to insure
-    const isNearlyUninsurable = 
-      (region === 'california' && (variable === 'wildfires' || variable === 'drought')) ||
-      (region === 'florida' && (variable === 'hurricanes' || variable === 'seaLevelRise'));
-    
     const rateType = isHighRisk ? 'high-risk' : 'regular';
     let rate = insuranceRates[region]?.[rateType] || 2000;
     
-    // Apply additional surcharge for nearly uninsurable areas
-    if (isNearlyUninsurable) {
-      rate = rate * 2; // 100% surcharge for these high-risk areas
+    // Add flood insurance if applicable (separate policy)
+    const needsFloodInsurance = variable === 'flooding' || variable === 'seaLevelRise';
+    const floodInsuranceCost = needsFloodInsurance ? 2800 : 0;
+    
+    // Insurance notes based on availability
+    let notes = "";
+    if (!isAvailable) {
+      notes = "Insurance coverage is unavailable in this high-risk region.";
+    } else if (needsFloodInsurance) {
+      notes = "Standard insurance available, with separate flood insurance required.";
+    } else {
+      notes = isHighRisk ? 
+        "This area has limited insurance availability and high premiums due to elevated risk." : 
+        "Standard insurance coverage should be available in this area.";
     }
     
-    // Insurance availability
-    const notAvailable = 
-      (region === 'california' && variable === 'wildfires') ||
-      (region === 'california' && variable === 'drought') ||
-      (region === 'florida' && variable === 'hurricanes') ||
-      (region === 'florida' && variable === 'seaLevelRise');
-    
     return {
-      available: !notAvailable,
-      annualRate: rate,
-      notes: notAvailable ? 
-        "Insurance coverage is unavailable in this high-risk area." : 
-        (isHighRisk ? 
-          "This area has extremely limited insurance availability and very high premiums due to elevated risk." : 
-          "Standard insurance coverage should be available in this area.")
+      available: isAvailable,
+      annualRate: rate + floodInsuranceCost,
+      notes: notes,
+      includesFlood: needsFloodInsurance
     };
   };
 
@@ -445,6 +449,14 @@ const ClimateFaxApp = () => {
     if (score < 85) return '#FF9800'; // High - Orange
     return '#F44336'; // Very High - Red
   };
+
+  // Get property impact color - Updated to show negative values in orange/red
+  const getPropertyImpactColor = (impact) => {
+    if (impact < 5) return '#4CAF50'; // Low impact - Green
+    if (impact < 15) return '#FFC107'; // Moderate impact - Yellow
+    if (impact < 25) return '#FF9800'; // High impact - Orange
+    return '#F44336'; // Very high impact - Red
+  };
   
   // Risk score and category
   const riskScore = calculateRiskScore();
@@ -538,7 +550,7 @@ const ClimateFaxApp = () => {
       </div>
 
       <main className="px-4 py-2">
-        {/* Region Selection - Moved to top as requested */}
+        {/* Region Selection - Moved to top */}
         <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
           <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
           <select 
@@ -640,7 +652,7 @@ const ClimateFaxApp = () => {
               <div className="bg-white rounded-lg shadow-sm p-4">
                 <h3 className="text-lg font-medium text-gray-700 mb-2">Property Value Impact</h3>
                 <div className="flex items-center">
-                  <div className="text-2xl font-bold" style={{ color: propertyImpact > 15 ? '#F44336' : '#4CAF50' }}>
+                  <div className="text-2xl font-bold" style={{ color: getPropertyImpactColor(propertyImpact) }}>
                     -{propertyImpact}%
                   </div>
                   <div className="ml-4 text-sm text-gray-500">
@@ -658,8 +670,13 @@ const ClimateFaxApp = () => {
                     {insuranceInfo.available ? 'Available' : 'Unavailable'}
                   </div>
                   <div className="ml-3 text-gray-700">
-                    ${insuranceInfo.annualRate}/year
+                    ${insuranceInfo.annualRate.toLocaleString()}/year
                   </div>
+                  {insuranceInfo.includesFlood && (
+                    <div className="ml-2 text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded">
+                      Includes Flood
+                    </div>
+                  )}
                 </div>
                 <div className="mt-2 text-xs text-gray-500">{insuranceInfo.notes}</div>
               </div>
@@ -726,154 +743,3 @@ const ClimateFaxApp = () => {
               <div className="flex items-start mt-4">
                 <div 
                   className="flex items-center justify-center rounded-full w-12 h-12 text-xl flex-shrink-0"
-                  style={{ backgroundColor: recommendation.color, color: 'white' }}
-                >
-                  {recommendation.icon}
-                </div>
-                <div className="ml-4">
-                  <div className="text-lg font-semibold" style={{ color: recommendation.color }}>
-                    {recommendation.recommendation}
-                  </div>
-                  <ul className="text-sm text-gray-600 list-disc pl-5 mt-1">
-                    {recommendation.reasons.map((reason, idx) => (
-                      <li key={idx}>{reason}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Cost Analysis Tab */}
-        {activeTab === 'stayOrGo' && (
-          <div className="mb-6">
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">Insurance Cost Analysis</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Annual premium estimates for homeowners insurance in your selected region.
-              </p>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={insuranceComparisonData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`$${value}`, 'Annual Premium']} />
-                    <Legend />
-                    <Bar dataKey="value" name="Annual Premium ($)" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-lg shadow-sm p-4">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">Property Value Impact</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Projected property value impact over 10 years due to climate risks.
-              </p>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={valueImpactData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`${value}%`, 'Value Decrease']} />
-                    <Legend />
-                    <Bar dataKey="impact" name="Value Decrease (%)" fill="#FF9800" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Alternative Locations Tab */}
-        {activeTab === 'alternatives' && (
-          <div className="mb-6">
-            <div className="bg-white rounded-lg shadow-sm p-4">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">Alternative Locations</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Based on your risk profile, these locations may offer better long-term resilience.
-              </p>
-              
-              {alternativeLocations.length > 0 ? (
-                <div className="space-y-4">
-                  {alternativeLocations.map((location) => (
-                    <div key={location.id} className="border rounded-lg overflow-hidden">
-                      <div 
-                        className="flex items-center justify-between p-4 cursor-pointer"
-                        onClick={() => toggleLocationDetails(location.id)}
-                      >
-                        <div className="flex items-center">
-                          <span className="text-2xl mr-3">{location.icon}</span>
-                          <span className="font-medium">{location.name}</span>
-                        </div>
-                        <div className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                          {location.safetyIndex}% safer
-                        </div>
-                      </div>
-                      
-                      {selectedLocationDetails === location.id && (
-                        <div className="p-4 bg-gray-50 border-t">
-                          <div className="grid grid-cols-3 gap-2 mb-3">
-                            <div className="text-center">
-                              <div className="text-lg font-medium">{location.safetyIndex}</div>
-                              <div className="text-xs text-gray-500">Safety</div>
-                            </div>
-                            <div className="text-center">
-                              <div className="text-lg font-medium">{location.insuranceIndex}</div>
-                              <div className="text-xs text-gray-500">Insurance</div>
-                            </div>
-                            <div className="text-center">
-                              <div className="text-lg font-medium">{location.affordabilityIndex}</div>
-                              <div className="text-xs text-gray-500">Affordability</div>
-                            </div>
-                          </div>
-                          
-                          <div className="mb-3">
-                            <div className="text-sm font-medium mb-1">Main Climate Risks:</div>
-                            <div className="flex flex-wrap gap-2">
-                              {location.mainRisks.map((risk, idx) => (
-                                <span key={idx} className="inline-flex items-center bg-gray-200 px-2 py-1 rounded text-xs">
-                                  <span className="mr-1">{risk.icon}</span> {risk.name}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          
-                          <div className="text-sm text-gray-600">
-                            <p>Insurance is generally {location.insuranceIndex > 50 ? 'more available' : 'less available'} in this region compared to your current location.</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-8 text-center">
-                  <div className="text-lg font-medium mb-2">
-                    No alternative locations available
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    We couldn't find any suitable alternative locations based on your current selection.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </main>
-      
-      <MobileNav />
-    </div>
-  );
-};
-
-export default ClimateFaxApp;
