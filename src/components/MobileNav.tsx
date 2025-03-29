@@ -1,21 +1,11 @@
 
 import { Home, User, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLocation, useNavigate } from "react-router-dom";
+import { DEFAULT_LOCATION, navigateToPath, isPathActive } from "@/utils/navigation";
 
 export function MobileNav() {
-  // Safe location and navigation handling
-  let location;
-  let navigate;
-  
-  try {
-    location = useLocation();
-    navigate = useNavigate();
-  } catch (error) {
-    console.warn("MobileNav: Router context not available");
-    // Provide fallback values
-    location = { pathname: "/" };
-  }
+  // Use a simple approach without router hooks
+  const location = typeof window !== 'undefined' ? { pathname: window.location.pathname } : DEFAULT_LOCATION;
   
   const navItems = [
     { icon: Home, label: "Home", path: "/" },
@@ -24,20 +14,14 @@ export function MobileNav() {
   ];
 
   const handleNavigation = (path: string) => {
-    if (navigate) {
-      navigate(path);
-    } else {
-      console.warn(`Navigation to ${path} failed - Router not available`);
-      // Fallback for testing or non-router contexts
-      window.location.href = path;
-    }
+    navigateToPath(path);
   };
 
   return (
     <div className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
       <div className="flex h-16 items-center justify-around">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive = isPathActive(location.pathname, item.path);
           return (
             <button
               key={item.label}

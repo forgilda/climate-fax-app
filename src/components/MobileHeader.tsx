@@ -1,6 +1,6 @@
 
 import { ChevronLeft } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { goBack } from "@/utils/navigation";
 
 interface MobileHeaderProps {
   title: string;
@@ -13,19 +13,11 @@ export function MobileHeader({
   showBackButton = false,
   onBackClick
 }: MobileHeaderProps) {
-  // Safe navigation handling - component can be used outside router context
-  let navigate;
-  try {
-    navigate = useNavigate();
-  } catch (error) {
-    console.warn("MobileHeader: Router context not available");
-  }
-  
   const handleBackClick = () => {
     if (onBackClick) {
       onBackClick();
-    } else if (navigate) {
-      navigate(-1);
+    } else {
+      goBack();
     }
   };
   
