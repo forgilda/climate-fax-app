@@ -9,9 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ChevronRight, Home, Settings, User } from "lucide-react";
+import { ChevronRight, Home, Settings, User, BarChart2 } from "lucide-react";
 import { MobileNav } from "@/components/MobileNav";
 import { MobileHeader } from "@/components/MobileHeader";
+import { navigateToPath } from "@/utils/navigation";
 
 const Index = () => {
   const [greeting, setGreeting] = useState("Hello");
@@ -41,6 +42,21 @@ const Index = () => {
             <p className="text-sm text-gray-500">
               This is your React app running as a native iOS application using Capacitor
             </p>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-3 shadow-sm bg-gradient-to-r from-orange-500/10 to-orange-600/10">
+          <CardContent className="p-0">
+            <button 
+              className="w-full flex items-center justify-between p-4 text-left"
+              onClick={() => navigateToPath('/climate-fax')}
+            >
+              <div className="flex items-center">
+                <BarChart2 className="h-5 w-5 mr-2 text-orange-500" />
+                <span className="font-medium">ClimateFax</span>
+              </div>
+              <ChevronRight className="h-4 w-4 text-gray-400" />
+            </button>
           </CardContent>
         </Card>
 

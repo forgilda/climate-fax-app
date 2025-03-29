@@ -1,5 +1,5 @@
 
-import { Home, User, Settings } from "lucide-react";
+import { Home, User, Settings, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DEFAULT_LOCATION, navigateToPath, isPathActive } from "@/utils/navigation";
 
@@ -9,6 +9,7 @@ export function MobileNav() {
   
   const navItems = [
     { icon: Home, label: "Home", path: "/" },
+    { icon: BarChart2, label: "ClimateFax", path: "/climate-fax" },
     { icon: User, label: "Profile", path: "/profile" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
