@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -299,15 +298,33 @@ const ClimateFaxApp = () => {
       (variable === 'seaLevelRise' && region === 'florida') ||
       (variable === 'flooding' && region === 'texas');
     
+    // Special case for California and Florida - very difficult to insure
+    const isNearlyUninsurable = 
+      (region === 'california' && (variable === 'wildfires' || variable === 'drought')) ||
+      (region === 'florida' && (variable === 'hurricanes' || variable === 'seaLevelRise'));
+    
     const rateType = isHighRisk ? 'high-risk' : 'regular';
-    const rate = insuranceRates[region]?.[rateType] || 2000;
+    let rate = insuranceRates[region]?.[rateType] || 2000;
+    
+    // Apply additional surcharge for nearly uninsurable areas
+    if (isNearlyUninsurable) {
+      rate = rate * 1.7; // 70% surcharge for these high-risk areas
+    }
+    
+    // Insurance availability
+    const notAvailable = 
+      (region === 'california' && variable === 'wildfires' && model === 'accelerated') ||
+      (region === 'florida' && variable === 'hurricanes') ||
+      (region === 'florida' && variable === 'seaLevelRise' && model !== 'mitigation');
     
     return {
-      available: !(region === 'florida' && variable === 'hurricanes' && model === 'accelerated'),
+      available: !notAvailable,
       annualRate: rate,
-      notes: isHighRisk ? 
-        "This area has limited insurance availability or high premiums due to elevated risk." : 
-        "Standard insurance coverage should be available in this area."
+      notes: notAvailable ? 
+        "Insurance coverage is extremely limited or unavailable in this high-risk area." : 
+        (isHighRisk ? 
+          "This area has very limited insurance availability and high premiums due to elevated risk." : 
+          "Standard insurance coverage should be available in this area.")
     };
   };
 
@@ -471,8 +488,8 @@ const ClimateFaxApp = () => {
   
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
-      <MobileHeader title="" showBackButton={true}>
-        <div className="flex items-center justify-center">
+      <MobileHeader showBackButton={true}>
+        <div className="flex flex-col items-center justify-center w-full">
           <div className="text-2xl font-bold relative">
             <span className="text-black">Climate</span>
             <span className="text-orange-500">FAX</span>
@@ -481,53 +498,44 @@ const ClimateFaxApp = () => {
         </div>
       </MobileHeader>
 
-      <main className="px-4 py-4">
-        {/* Navigation Tabs */}
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="flex -mb-px">
-            <button
-              onClick={() => setActiveTab('riskAssessment')}
-              className={`mr-4 py-3 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'riskAssessment'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Risk Assessment
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('stayOrGo');
-                if (currentPlan !== 'premium') {
-                  // Option to present upgrade prompt
-                }
-              }}
-              className={`mr-4 py-3 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'stayOrGo'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Cost Analysis
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('alternatives');
-                if (currentPlan !== 'premium') {
-                  // Option to present upgrade prompt
-                }
-              }}
-              className={`mr-4 py-3 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'alternatives'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Location Options
-            </button>
-          </nav>
+      {/* Feature Tabs with Subscription Status Indicators - Moved to top */}
+      <div className="flex items-center mx-auto my-4 max-w-2xl px-4">
+        <div className="flex-1 text-center">
+          <div 
+            className={`pb-2 ${activeTab === 'riskAssessment' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}
+            onClick={() => setActiveTab('riskAssessment')}
+          >
+            <div className="flex flex-col items-center justify-center">
+              <span className="text-sm font-medium">Know Your Risk</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded-full">Free</span>
+            </div>
+          </div>
         </div>
+        <div className="flex-1 text-center">
+          <div 
+            className={`pb-2 ${activeTab === 'stayOrGo' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}
+            onClick={() => setActiveTab('stayOrGo')}
+          >
+            <div className="flex flex-col items-center justify-center">
+              <span className="text-sm font-medium">Know Your Cost</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Premium</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 text-center">
+          <div 
+            className={`pb-2 ${activeTab === 'alternatives' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}
+            onClick={() => setActiveTab('alternatives')}
+          >
+            <div className="flex flex-col items-center justify-center">
+              <span className="text-sm font-medium">Know Your Options</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Premium</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <main className="px-4 py-2">
         {/* Climate Category Selection */}
         <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
           <h3 className="text-sm font-medium text-gray-700 mb-3">Climate Risk Categories</h3>
@@ -598,34 +606,6 @@ const ClimateFaxApp = () => {
               <option value="accelerated">Accelerated Change</option>
               <option value="mitigation">Mitigation Scenario</option>
             </select>
-          </div>
-        </div>
-
-        {/* Feature Tabs with Subscription Status Indicators */}
-        <div className="flex items-center mx-auto mb-6 max-w-2xl">
-          <div className="flex-1 text-center">
-            <div className={`border-b-2 pb-1 ${activeTab === 'riskAssessment' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'}`}>
-              <div className="flex justify-center items-center">
-                <span className="text-sm font-medium">Know Your Risk</span>
-                <span className="ml-1 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded-full">Free</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex-1 text-center">
-            <div className={`border-b-2 pb-1 ${activeTab === 'stayOrGo' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'}`}>
-              <div className="flex justify-center items-center">
-                <span className="text-sm font-medium">Know Your Cost</span>
-                <span className="ml-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Premium</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex-1 text-center">
-            <div className={`border-b-2 pb-1 ${activeTab === 'alternatives' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500'}`}>
-              <div className="flex justify-center items-center">
-                <span className="text-sm font-medium">Know Your Options</span>
-                <span className="ml-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Premium</span>
-              </div>
-            </div>
           </div>
         </div>
         
@@ -766,128 +746,4 @@ const ClimateFaxApp = () => {
         {activeTab === 'stayOrGo' && (
           <div>
             {/* Insurance Cost Analysis */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">Insurance Cost Comparison</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={insuranceComparisonData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`$${value}`, 'Annual Premium']} />
-                    <Legend />
-                    <Bar dataKey="value" name="Annual Premium" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="text-center mt-4 text-sm text-gray-500">
-                <div className="font-medium">Insurance Premium Comparison</div>
-                <div>Annual cost estimates for homeowner insurance in selected regions</div>
-              </div>
-            </div>
-
-            {/* Property Value Impact Analysis */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">Property Value Impact Comparison</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={valueImpactData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`${value}%`, 'Value Decrease']} />
-                    <Legend />
-                    <Bar dataKey="impact" name="10-Year Value Impact (%)" fill="#FF9800" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="text-center mt-4 text-sm text-gray-500">
-                <div className="font-medium">Projected Property Value Impact</div>
-                <div>Estimated decrease in property value over next 10 years due to climate factors</div>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Location Alternatives Tab */}
-        {activeTab === 'alternatives' && (
-          <div>
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Alternative Locations to Consider</h3>
-              <p className="text-sm text-gray-500 mb-4">
-                Based on your current region ({regions[region]?.name}) and climate risk profile, here are some safer alternatives:
-              </p>
-              
-              <div className="space-y-4">
-                {alternativeLocations.length > 0 ? (
-                  alternativeLocations.map((location) => (
-                    <div key={location.id} className="border rounded-lg p-4">
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center">
-                          <span className="text-2xl mr-2">{location.icon}</span>
-                          <h4 className="text-lg font-medium">{location.name}</h4>
-                        </div>
-                        <button 
-                          onClick={() => toggleLocationDetails(location.id)}
-                          className="text-blue-500 text-sm"
-                        >
-                          {selectedLocationDetails === location.id ? 'Hide Details' : 'Show Details'}
-                        </button>
-                      </div>
-                      
-                      {selectedLocationDetails === location.id && (
-                        <div className="mt-4">
-                          <div className="grid grid-cols-3 gap-2 mb-3">
-                            <div className="bg-green-50 p-2 rounded">
-                              <div className="text-xs text-gray-500">Safety Score</div>
-                              <div className="text-lg font-bold text-green-700">{location.safetyIndex}/100</div>
-                            </div>
-                            <div className="bg-blue-50 p-2 rounded">
-                              <div className="text-xs text-gray-500">Insurance</div>
-                              <div className="text-lg font-bold text-blue-700">{location.insuranceIndex}/100</div>
-                            </div>
-                            <div className="bg-purple-50 p-2 rounded">
-                              <div className="text-xs text-gray-500">Affordability</div>
-                              <div className="text-lg font-bold text-purple-700">{location.affordabilityIndex}/100</div>
-                            </div>
-                          </div>
-                          
-                          <div className="mt-2">
-                            <div className="text-sm font-medium mb-1">Main Climate Risks:</div>
-                            <div className="flex flex-wrap gap-2">
-                              {location.mainRisks.map((risk, idx) => (
-                                <span key={idx} className="inline-flex items-center bg-gray-100 px-2 py-1 rounded text-xs">
-                                  <span className="mr-1">{risk.icon}</span>
-                                  {risk.name}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-gray-500">
-                    No alternative locations found for your current region
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </main>
-      
-      <MobileNav />
-    </div>
-  );
-};
-
-export default ClimateFaxApp;
-
+            <div className="bg-white rounded-lg shadow-

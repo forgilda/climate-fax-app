@@ -6,12 +6,14 @@ interface MobileHeaderProps {
   title: string;
   showBackButton?: boolean;
   onBackClick?: () => void;
+  children?: React.ReactNode;
 }
 
 export function MobileHeader({ 
   title, 
   showBackButton = false,
-  onBackClick
+  onBackClick,
+  children
 }: MobileHeaderProps) {
   const handleBackClick = () => {
     if (onBackClick) {
@@ -32,7 +34,8 @@ export function MobileHeader({
             <ChevronLeft className="h-5 w-5" />
           </button>
         )}
-        <h1 className="text-lg font-semibold">{title}</h1>
+        {title && <h1 className="text-lg font-semibold">{title}</h1>}
+        {children}
       </div>
     </div>
   );
