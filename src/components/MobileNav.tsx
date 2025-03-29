@@ -10,8 +10,8 @@ export function MobileNav() {
   const navItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: BarChart2, label: "ClimateFax", path: "/climate-fax" },
-    { icon: Mail, label: "Contact", path: "/contact" },
     { icon: Info, label: "About", path: "/about" },
+    { icon: Mail, label: "Contact", path: "/contact" }, // Moved to last position (far right)
   ];
 
   const handleNavigation = (path: string) => {
