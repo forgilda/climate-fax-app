@@ -41,6 +41,16 @@ const ClimateFaxApp = () => {
             />
           </div>
 
+          {/* 3. KNOW section options */}
+          <div className="mb-4">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">KNOW</h2>
+            <div className="grid grid-cols-3 gap-2">
+              <button className="bg-orange-500 text-white font-medium p-3 rounded-lg text-sm">Risk</button>
+              <button className="bg-gray-100 text-gray-700 font-medium p-3 rounded-lg text-sm hover:bg-gray-200">Insurance</button>
+              <button className="bg-gray-100 text-gray-700 font-medium p-3 rounded-lg text-sm hover:bg-gray-200">Properties</button>
+            </div>
+          </div>
+
           {/* 2. Region selection with better typeface */}
           <div className="mb-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">Region</h2>
