@@ -73,12 +73,9 @@ const AboutPage = () => {
               <div className="max-w-md overflow-hidden rounded-xl bg-white shadow-md">
                 <div className="relative h-64 w-full">
                   <img
-                    src="/lovable-uploads/ae25d67b-a767-428e-bbd0-57122a78bfb4.png"
+                    src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2F0ZWxsaXRlJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
                     alt="Earth image showing climate data visualization"
                     className="h-full w-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2F0ZWxsaXRlJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60';
-                    }}
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
                     <p className="text-sm text-white">Global climate visualization</p>
@@ -113,7 +110,7 @@ const AboutPage = () => {
                 
                 <div className="mt-6 flex justify-center">
                   <img 
-                    src="/lovable-uploads/ae25d67b-a767-428e-bbd0-57122a78bfb4.png"
+                    src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                     alt="Earth visualization" 
                     className="rounded-lg shadow-md max-w-[250px] h-auto"
                   />
