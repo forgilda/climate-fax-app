@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -742,8 +741,8 @@ const ClimateFaxApp = () => {
               </div>
             )}
             
-            {/* 9. RISK SCORE DASHBOARD */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            {/* 9. RISK SCORE DASHBOARD - MODIFIED TO REMOVE PROPERTY IMPACT AND INSURANCE BOXES */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="bg-white rounded-lg shadow-sm p-4">
                 <h3 className="text-lg font-medium text-gray-700 mb-2">Overall Risk Score</h3>
                 <div className="flex items-center">
@@ -761,39 +760,6 @@ const ClimateFaxApp = () => {
                       Risk Level
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-sm p-4">
-                <h3 className="text-lg font-medium text-gray-700 mb-2">Property Value Impact</h3>
-                <div className="flex items-center">
-                  <div className="text-2xl font-bold" style={{ color: propertyImpact > 15 ? '#F44336' : '#4CAF50' }}>
-                    -{propertyImpact}%
-                  </div>
-                  <div className="ml-4 text-sm text-gray-500">
-                    Projected 10-year impact
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-sm p-4">
-                <h3 className="text-lg font-medium text-gray-700 mb-2">Insurance Availability</h3>
-                <div className="flex items-center">
-                  <div 
-                    className={`text-white font-bold px-2 py-1 rounded ${
-                      region === 'florida' && variable === 'hurricanes' ? 'bg-red-500' : 'bg-green-500'
-                    }`}
-                  >
-                    {region === 'florida' && variable === 'hurricanes' ? 'Limited' : 'Available'}
-                  </div>
-                  <div className="ml-3 text-gray-700">
-                    {region === 'california' ? '$2,800' : (region === 'florida' ? '$3,200' : '$2,500')}/year
-                  </div>
-                </div>
-                <div className="mt-2 text-xs text-gray-500">
-                  {region === 'florida' && variable === 'hurricanes' 
-                    ? "This area has limited insurance availability due to elevated hurricane risk." 
-                    : "Standard insurance coverage should be available in this area."}
                 </div>
               </div>
 
