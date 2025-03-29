@@ -18,7 +18,7 @@ const SplashPage = () => {
   }, []);
 
   const handleContinue = () => {
-    navigate('/home');
+    navigate('/climate-fax');
   };
 
   return (
