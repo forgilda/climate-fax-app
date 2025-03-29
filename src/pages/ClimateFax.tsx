@@ -6,6 +6,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { MapPin, Search } from "lucide-react";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -513,6 +517,10 @@ const ClimateFaxApp = () => {
     }
   };
   
+  // Address input state
+  const [addressInput, setAddressInput] = useState('');
+  const [zipCodeInput, setZipCodeInput] = useState('');
+  
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
       {/* 1. LOGO */}
@@ -721,9 +729,4 @@ const ClimateFaxApp = () => {
             )}
 
             {/* 8. WILDFIRE METHODOLOGY NOTE if applicable */}
-            {variable === 'wildfires' && (
-              <div className="bg-yellow-50 p-4 rounded-lg mb-4">
-                <h3 className="font-medium text-yellow-800">Wildfire Methodology Note</h3>
-                <p className="text-sm text-yellow-700">
-                  This model counts significant wildfires (≥1,000 acres or causing significant damage).
-                  California alone experienced over 8,000 total wildfire incidents in 2023, but
+            {variable === 'wildfires' &&
