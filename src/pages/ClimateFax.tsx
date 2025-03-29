@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -516,6 +515,7 @@ const ClimateFaxApp = () => {
   
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
+      {/* #1 - Logo */}
       <MobileHeader title="" showBackButton={true}>
         <div className="flex flex-col items-center justify-center w-full">
           <div className="text-2xl font-bold relative">
@@ -567,13 +567,13 @@ const ClimateFaxApp = () => {
         {/* Risk Assessment Tab */}
         {activeTab === 'riskAssessment' && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            {/* Region Selection - Moved to top */}
+            {/* #2 - Region Selection with better typography */}
             <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
+              <label className="block text-base font-semibold text-gray-800 mb-2">Region</label>
               <select 
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base"
               >
                 {Object.entries(regions).map(([key, info]) => (
                   <option key={key} value={key}>{info.icon} {info.name}</option>
@@ -581,9 +581,8 @@ const ClimateFaxApp = () => {
               </select>
             </div>
             
-            {/* Climate Category Selection */}
+            {/* #4 - Climate Category Selection */}
             <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Climate Risk Categories</h3>
               <ToggleGroup 
                 type="single" 
                 value={activeCategory} 
@@ -604,7 +603,7 @@ const ClimateFaxApp = () => {
               </ToggleGroup>
             </div>
 
-            {/* Variable and Model Selection */}
+            {/* #5 - Variable and Model Selection */}
             <div className="grid grid-cols-1 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Climate Variable</label>
@@ -640,8 +639,107 @@ const ClimateFaxApp = () => {
                 </select>
               </div>
             </div>
+
+            {/* #6 - Risk Assessment Colored Bar */}
+            <div className="bg-gray-50 p-4 rounded mb-6">
+              <div className="h-10 bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 rounded-lg relative">
+                <div 
+                  className="absolute top-0 h-full w-1 bg-black" 
+                  style={{ left: `${riskScore}%` }}
+                >
+                  <div className="absolute -top-6 -ml-6 text-sm font-bold w-12 text-center">
+                    Risk
+                  </div>
+                </div>
+                <div className="flex justify-between px-4 pt-2">
+                  <span>Low</span>
+                  <span>Moderate</span>
+                  <span>High</span>
+                </div>
+              </div>
+            </div>
             
-            {/* Risk Score Dashboard */}
+            {/* #7 - Data Visualization Chart */}
+            {loading ? (
+              <div className="text-center py-10 bg-white rounded-lg shadow-sm">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-700"></div>
+                <p className="mt-2 text-gray-600">Loading climate data...</p>
+              </div>
+            ) : (
+              <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
+                <h2 className="text-xl font-semibold mb-4 text-gray-800">
+                  {regions[region].name} {variables[variable]?.name || variable} ({model.charAt(0).toUpperCase() + model.slice(1)} Model)
+                </h2>
+                
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis 
+                        dataKey="year" 
+                        label={{ value: 'Year', position: 'insideBottomRight', offset: 0 }}
+                      />
+                      <YAxis 
+                        domain={[0, 'auto']}
+                        label={{ 
+                          value: `${variables[variable]?.name || ''} (${variables[variable]?.unit || ''})`, 
+                          angle: -90, 
+                          position: 'insideLeft',
+                          offset: 5,
+                          style: { textAnchor: 'middle' }
+                        }}
+                      />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend />
+                      <Line 
+                        type="monotone" 
+                        dataKey="historicalValue" 
+                        stroke="#8884d8" 
+                        dot={{ r: 1 }}
+                        name="Historical" 
+                        strokeWidth={2}
+                        connectNulls
+                        activeDot={{ r: 6 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="predictedValue" 
+                        stroke="#ff0000" 
+                        dot={{ r: 1 }}
+                        name="Predicted" 
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                        connectNulls
+                        activeDot={{ r: 6 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+            
+            {/* #8 - Variable-specific notes */}
+            {variable === 'wildfires' && (
+              <div className="bg-yellow-50 p-4 rounded-lg mb-4">
+                <h3 className="font-medium text-yellow-800">Wildfire Methodology Note</h3>
+                <p className="text-sm text-yellow-700">
+                  This model counts significant wildfires (≥1,000 acres or causing significant damage).
+                  California alone experienced over 8,000 total wildfire incidents in 2023, but most were smaller fires.
+                </p>
+              </div>
+            )}
+            
+            {variable === 'tsunamis' && region === 'texas' && (
+              <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                <h3 className="font-medium text-blue-800">Texas Tsunami Risk Note</h3>
+                <p className="text-sm text-blue-700">
+                  Texas has a very low tsunami risk due to the protected nature of the Gulf of Mexico. According to NOAA data, 
+                  no significant tsunamis have affected the Texas Gulf Coast in recorded history.
+                </p>
+              </div>
+            )}
+            
+            {/* #9 - Risk Score Dashboard */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-white rounded-lg shadow-sm p-4">
                 <h3 className="text-lg font-medium text-gray-700 mb-2">Overall Risk Score</h3>
@@ -708,170 +806,9 @@ const ClimateFaxApp = () => {
                 </div>
               </div>
             </div>
-
-            {/* Data Visualization Chart */}
-            {loading ? (
-              <div className="text-center py-10 bg-white rounded-lg shadow-sm">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-700"></div>
-                <p className="mt-2 text-gray-600">Loading climate data...</p>
-              </div>
-            ) : (
-              <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
-                <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                  {regions[region].name} {variables[variable]?.name || variable} ({model.charAt(0).toUpperCase() + model.slice(1)} Model)
-                </h2>
-                
-                {/* Risk Assessment - Above the chart */}
-                <div className="bg-gray-50 p-4 rounded mb-6">
-                  <div className="h-10 bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 rounded-lg relative">
-                    <div 
-                      className="absolute top-0 h-full w-1 bg-black" 
-                      style={{ left: `${riskScore}%` }}
-                    >
-                      <div className="absolute -top-6 -ml-6 text-sm font-bold w-12 text-center">
-                        Risk
-                      </div>
-                    </div>
-                    <div className="flex justify-between px-4 pt-2">
-                      <span>Low</span>
-                      <span>Moderate</span>
-                      <span>High</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Variable-specific notes */}
-                {variable === 'wildfires' && (
-                  <div className="bg-yellow-50 p-4 rounded-lg mb-4">
-                    <h3 className="font-medium text-yellow-800">Wildfire Methodology Note</h3>
-                    <p className="text-sm text-yellow-700">
-                      This model counts significant wildfires (≥1,000 acres or causing significant damage).
-                      California alone experienced over 8,000 total wildfire incidents in 2023, but most were smaller fires.
-                    </p>
-                  </div>
-                )}
-                
-                {variable === 'tsunamis' && region === 'texas' && (
-                  <div className="bg-blue-50 p-4 rounded-lg mb-4">
-                    <h3 className="font-medium text-blue-800">Texas Tsunami Risk Note</h3>
-                    <p className="text-sm text-blue-700">
-                      Texas has a very low tsunami risk due to the protected nature of the Gulf of Mexico. According to NOAA data, 
-                      no significant tsunamis have affected the Texas Gulf Coast in recorded history.
-                    </p>
-                  </div>
-                )}
-                
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis 
-                        dataKey="year" 
-                        label={{ value: 'Year', position: 'insideBottomRight', offset: 0 }}
-                      />
-                      <YAxis 
-                        domain={[0, 'auto']}
-                        label={{ 
-                          value: `${variables[variable]?.name || ''} (${variables[variable]?.unit || ''})`, 
-                          angle: -90, 
-                          position: 'insideLeft',
-                          offset: 5,
-                          style: { textAnchor: 'middle' }
-                        }}
-                      />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Legend />
-                      <Line 
-                        type="monotone" 
-                        dataKey="historicalValue" 
-                        stroke="#8884d8" 
-                        dot={{ r: 1 }}
-                        name="Historical" 
-                        strokeWidth={2}
-                        connectNulls
-                        activeDot={{ r: 6 }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="predictedValue" 
-                        stroke="#ff0000" 
-                        dot={{ r: 1 }}
-                        name="Predicted" 
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                        connectNulls
-                        activeDot={{ r: 6 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                
-                <div className="mt-6 flex justify-between">
-                  <div className="bg-gray-50 p-4 rounded">
-                    <h3 className="font-medium mb-2">Data Sources</h3>
-                    <ul className="list-disc pl-5 text-sm">
-                      <li>NASA Earth Observations Program</li>
-                      <li>NOAA Climate Data</li>
-                      <li>Copernicus Climate Change Service (C3S)</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-blue-50 p-4 rounded">
-                    <h3 className="font-medium text-blue-800 mb-2">Want More Detailed Analysis?</h3>
-                    <p className="text-sm mb-3">
-                      Upgrade to Premium for personalized recommendations, cost analysis, and alternative locations.
-                    </p>
-                    <button 
-                      className="text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 rounded"
-                      onClick={() => setCurrentPlan('premium')}
-                    >
-                      Try Premium Free for 30 Days
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
             
-            {/* Climate Categories */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">Climate Categories</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {Object.entries(categories).map(([key, cat]) => (
-                  <div 
-                    key={key}
-                    className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition
-                      ${cat.variables.includes(variable) ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}
-                    onClick={() => {
-                      if (cat.variables.length > 0) {
-                        setVariable(cat.variables[0]);
-                      }
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <span className="text-2xl mr-2">{cat.icon}</span>
-                      <h3 className="font-medium">{cat.name}</h3>
-                    </div>
-                    <ul className="mt-2 text-sm text-gray-600">
-                      {cat.variables.map(v => (
-                        <li 
-                          key={v} 
-                          className={`py-1 ${v === variable ? 'font-bold text-blue-700' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setVariable(v);
-                          }}
-                        >
-                          {variables[v].name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Premium Feature Teaser */}
-            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            {/* #10 - Premium Feature Teaser */}
+            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Premium Features</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -907,6 +844,20 @@ const ClimateFaxApp = () => {
                   </button>
                 </div>
               </div>
+            </div>
+            
+            {/* #11 - Try Premium Free box */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-medium text-blue-800 mb-2">Want More Detailed Analysis?</h3>
+              <p className="text-sm mb-3">
+                Upgrade to Premium for personalized recommendations, cost analysis, and alternative locations.
+              </p>
+              <button 
+                className="text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 rounded"
+                onClick={() => setCurrentPlan('premium')}
+              >
+                Try Premium Free for 30 Days
+              </button>
             </div>
           </div>
         )}
