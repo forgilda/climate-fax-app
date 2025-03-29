@@ -1,8 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
 import { MobileNav } from "@/components/MobileNav";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -12,6 +13,7 @@ const ClimateFaxApp = () => {
   const [model, setModel] = useState('linear');
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('riskAssessment');
+  const [activeCategory, setActiveCategory] = useState('heat-fire');
   const [currentPlan, setCurrentPlan] = useState('free'); // 'free' or 'premium'
   const [userProfile, setUserProfile] = useState({
     healthcareAccess: 'important',
@@ -396,7 +398,7 @@ const ClimateFaxApp = () => {
   };
   
   // Custom tooltip component for charts
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: any[]; label?: string }) => {
     if (active && payload && payload.length) {
       const dataPoint = payload[0];
       const dataKey = dataPoint.dataKey;
@@ -471,6 +473,16 @@ const ClimateFaxApp = () => {
       return { name: loc.name, impact: baseImpacts[loc.id] || 5 };
     })
   ];
+
+  // Handle category selection
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    // Set the first variable in the selected category
+    if (categories[category]) {
+      const firstVar = categories[category].variables[0];
+      setVariable(firstVar);
+    }
+  };
   
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
@@ -523,6 +535,29 @@ const ClimateFaxApp = () => {
           </nav>
         </div>
 
+        {/* Climate Category Selection */}
+        <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+          <h3 className="text-sm font-medium text-gray-700 mb-3">Climate Risk Categories</h3>
+          <ToggleGroup 
+            type="single" 
+            value={activeCategory} 
+            onValueChange={(value) => value && handleCategoryChange(value)}
+            className="flex flex-wrap gap-2 justify-between"
+          >
+            {Object.entries(categories).map(([key, category]) => (
+              <ToggleGroupItem 
+                key={key} 
+                value={key}
+                className="flex-1 min-w-[100px] px-2 py-2 flex flex-col items-center justify-center gap-1 text-sm"
+                aria-label={category.name}
+              >
+                <span className="text-xl">{category.icon}</span>
+                <span className="text-xs font-medium whitespace-normal text-center">{category.name}</span>
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
+
         {/* Main Controls - Always visible */}
         <div className="grid grid-cols-1 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
           <div>
@@ -545,9 +580,17 @@ const ClimateFaxApp = () => {
               onChange={(e) => setVariable(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             >
-              {Object.entries(variables).map(([key, info]) => (
-                <option key={key} value={key}>{info.icon} {info.name}</option>
-              ))}
+              {activeCategory && categories[activeCategory] ? (
+                categories[activeCategory].variables.map((varKey) => (
+                  <option key={varKey} value={varKey}>
+                    {variables[varKey]?.icon} {variables[varKey]?.name}
+                  </option>
+                ))
+              ) : (
+                Object.entries(variables).map(([key, info]) => (
+                  <option key={key} value={key}>{info.icon} {info.name}</option>
+                ))
+              )}
             </select>
           </div>
           
