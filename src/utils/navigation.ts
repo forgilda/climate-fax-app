@@ -8,7 +8,7 @@ export interface Location {
 
 // Fallback location when router context is not available
 export const DEFAULT_LOCATION: Location = {
-  pathname: "/"
+  pathname: "/home"
 };
 
 // Navigation utilities that work both inside and outside router context
