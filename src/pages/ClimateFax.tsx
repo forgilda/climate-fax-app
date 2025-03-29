@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -71,7 +70,7 @@ const ClimateFaxApp = () => {
     'thunderstorms': { name: 'Thunderstorms', unit: 'events', icon: '⛈️' }
   };
 
-  // Sample regions with more details
+  // Sample regions with more details - Updated Colorado risks to be more accurate
   const regions = {
     'california': {
       name: 'California', 
@@ -104,7 +103,7 @@ const ClimateFaxApp = () => {
       name: 'Colorado', 
       icon: '🏔️',
       majorCities: ['Denver', 'Boulder', 'Colorado Springs'],
-      mainRisks: ['wildfires', 'drought', 'flooding'],
+      mainRisks: ['wildfires', 'drought', 'landslides'],
       safetyIndex: 80,
       insuranceIndex: 65,
       affordabilityIndex: 45
@@ -170,6 +169,9 @@ const ClimateFaxApp = () => {
           } else if (variable === 'seaLevelRise' && region === 'florida') {
             // Consistent sea level rise for Florida (higher than average)
             value = (year - 1980) * 0.12 + (Math.sin(year * 0.1) * 0.05);
+          } else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') {
+            // Colorado has no coastal issues or hurricanes
+            value = 0;
           } else {
             value = 5 + (year - 1980) * 0.5 + Math.sin(year * 0.3) * 5;
           }
@@ -215,6 +217,9 @@ const ClimateFaxApp = () => {
             // Sea level rise acceleration for Florida
             const yearsInFuture = year - 2024;
             value = lastHistoricalValue * (1 + (yearsInFuture * 0.02));
+          } else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') {
+            // Colorado has no coastal issues or hurricanes - even in prediction
+            value = 0;
           }
           
           chartData.push({
@@ -248,6 +253,7 @@ const ClimateFaxApp = () => {
     else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) riskModifier = 15;
     else if (variable === 'tsunamis' && region === 'texas') riskModifier = -20; // Very low risk
     else if (variable === 'seaLevelRise' && region === 'florida') riskModifier = 25;
+    else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') riskModifier = -30; // No risk for these in Colorado
     else riskModifier = 5;
     
     // Risk level based on prediction model
@@ -729,74 +735,4 @@ const ClimateFaxApp = () => {
             </div>
 
             {/* Stay or Go Recommendation */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-2">
-                Recommendation for {regions[region]?.name || region}
-              </h3>
-              <div className="flex items-start mt-4">
-                <div 
-                  className="flex items-center justify-center rounded-full w-12 h-12 text-xl flex-shrink-0"
-                  style={{ backgroundColor: recommendation.color }}
-                >
-                  {recommendation.icon}
-                </div>
-                <div className="ml-4">
-                  <div className="text-lg font-semibold" style={{ color: recommendation.color }}>
-                    {recommendation.recommendation}
-                  </div>
-                  <ul className="mt-2 text-sm text-gray-600 list-disc ml-4">
-                    {recommendation.reasons.map((reason, index) => (
-                      <li key={index}>{reason}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Stay or Go Tab - Premium Feature */}
-        {activeTab === 'stayOrGo' && (
-          <div>
-            {currentPlan === 'premium' ? (
-              <div>Premium content would go here</div>
-            ) : (
-              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-                <h3 className="text-xl font-semibold mb-4">Upgrade to Premium</h3>
-                <p className="text-gray-600 mb-4">
-                  Access detailed insurance cost projections and property value forecasts.
-                </p>
-                <button className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                  Upgrade Now
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-        
-        {/* Alternatives Tab - Premium Feature */}
-        {activeTab === 'alternatives' && (
-          <div>
-            {currentPlan === 'premium' ? (
-              <div>Premium content would go here</div>
-            ) : (
-              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-                <h3 className="text-xl font-semibold mb-4">Upgrade to Premium</h3>
-                <p className="text-gray-600 mb-4">
-                  Discover safer and more affordable locations based on your preferences.
-                </p>
-                <button className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                  Upgrade Now
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-      </main>
-      
-      <MobileNav />
-    </div>
-  );
-};
-
-export default ClimateFaxApp;
+            <div className="bg-white rounded-
