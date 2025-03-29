@@ -521,6 +521,7 @@ const ClimateFaxApp = () => {
   const [addressInput, setAddressInput] = useState('');
   const [zipCodeInput, setZipCodeInput] = useState('');
   
+  // Render function
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
       {/* 1. LOGO */}
@@ -729,4 +730,4 @@ const ClimateFaxApp = () => {
             )}
 
             {/* 8. WILDFIRE METHODOLOGY NOTE if applicable */}
-            {variable === 'wildfires' &&
+            {variable === 'wildfires
