@@ -10,7 +10,16 @@ const AboutPage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
-      <MobileHeader title="ClimateFAX" showBackButton={true} />
+      {/* Updated header to match the KNOW YOUR RISK page */}
+      <MobileHeader title="" showBackButton={true}>
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="text-2xl font-bold relative">
+            <span className="text-black">Climate</span>
+            <span className="text-orange-500">FAX</span>
+            <span className="absolute top-0 right-0 -mt-1 -mr-3 text-xs">®</span>
+          </div>
+        </div>
+      </MobileHeader>
       
       <main className="px-4 py-6">
         <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab} className="w-full">

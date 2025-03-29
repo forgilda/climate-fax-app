@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -847,38 +848,7 @@ const ClimateFaxApp = () => {
               </p>
             </div>
             
-            {/* Stay or Go Recommendation */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Stay or Go Recommendation</h2>
-              <div 
-                className="border-2 rounded-lg p-6"
-                style={{ borderColor: recommendation.color }}
-              >
-                <div className="flex items-center mb-4">
-                  <span className="text-3xl mr-3">{recommendation.icon}</span>
-                  <div>
-                    <h3 
-                      className="text-xl font-bold" 
-                      style={{ color: recommendation.color }}
-                    >
-                      {recommendation.recommendation}
-                    </h3>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Based on climate risk, property value, and insurance analysis
-                    </p>
-                  </div>
-                </div>
-                
-                <h4 className="font-medium text-gray-700 mb-2">Key Factors:</h4>
-                <ul className="list-disc pl-5 space-y-1">
-                  {recommendation.reasons.map((reason, index) => (
-                    <li key={index} className="text-gray-700">{reason}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            
-            {/* Insurance Analysis */}
+            {/* Insurance Analysis - Moving "Stay or Go Recommendation" to the Alternatives tab */}
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Insurance Analysis</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1038,6 +1008,37 @@ const ClimateFaxApp = () => {
               <p className="mt-2 text-purple-700">
                 Discover safer alternative locations based on your lifestyle preferences and priorities.
               </p>
+            </div>
+            
+            {/* MOVED - Stay or Go Recommendation now appears here on the Alternatives tab */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Stay or Go Recommendation</h2>
+              <div 
+                className="border-2 rounded-lg p-6"
+                style={{ borderColor: recommendation.color }}
+              >
+                <div className="flex items-center mb-4">
+                  <span className="text-3xl mr-3">{recommendation.icon}</span>
+                  <div>
+                    <h3 
+                      className="text-xl font-bold" 
+                      style={{ color: recommendation.color }}
+                    >
+                      {recommendation.recommendation}
+                    </h3>
+                    <p className="text-gray-600 text-sm mt-1">
+                      Based on climate risk, property value, and insurance analysis
+                    </p>
+                  </div>
+                </div>
+                
+                <h4 className="font-medium text-gray-700 mb-2">Key Factors:</h4>
+                <ul className="list-disc pl-5 space-y-1">
+                  {recommendation.reasons.map((reason, index) => (
+                    <li key={index} className="text-gray-700">{reason}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
             
             {/* Alternative Locations */}
