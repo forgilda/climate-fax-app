@@ -730,4 +730,4 @@ const ClimateFaxApp = () => {
             )}
 
             {/* 8. WILDFIRE METHODOLOGY NOTE if applicable */}
-            {variable === 'wildfires
+            {variable ===
