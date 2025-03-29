@@ -41,7 +41,7 @@ const ClimateFaxApp = () => {
             />
           </div>
 
-          {/* 3. KNOW section options */}
+          {/* 2. KNOW section options */}
           <div className="mb-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">KNOW</h2>
             <div className="grid grid-cols-3 gap-2">
@@ -51,7 +51,7 @@ const ClimateFaxApp = () => {
             </div>
           </div>
 
-          {/* 2. Region selection with better typeface */}
+          {/* 3. Region selection with better typeface */}
           <div className="mb-4">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">Region</h2>
             <select 
