@@ -36,7 +36,7 @@ const SplashPage = () => {
             <span className="absolute top-0 right-0 -mt-1 -mr-3 text-xs">®</span>
           </div>
           <p className="text-gray-600 mt-2">
-            Make informed climate decisions
+            Find safer ground
           </p>
         </div>
 
@@ -54,19 +54,19 @@ const SplashPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                   <span className="text-3xl">🔥</span>
-                  <p className="text-sm mt-2">Track Climate Risks</p>
+                  <p className="text-sm mt-2">Natural Disaster Risks</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                   <span className="text-3xl">🏡</span>
-                  <p className="text-sm mt-2">Property Value Impact</p>
+                  <p className="text-sm mt-2">Protect Equity</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                   <span className="text-3xl">📊</span>
-                  <p className="text-sm mt-2">Data Visualization</p>
+                  <p className="text-sm mt-2">Long Term Predictions</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-                  <span className="text-3xl">🧠</span>
-                  <p className="text-sm mt-2">Smart Recommendations</p>
+                  <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                  <p className="text-sm mt-2">Personalized</p>
                 </div>
               </div>
               
