@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -123,22 +122,26 @@ const ClimateFaxApp = () => {
     'california': {
       'regular': 8500,
       'high-risk': 25000,
-      'available': false // Insurance generally unavailable in California
+      'available': false, // Insurance generally unavailable in California
+      'homeValue': 500000 // Base home value for calculation
     },
     'florida': {
       'regular': 9200,
       'high-risk': 30000,
-      'available': false // Insurance generally unavailable in Florida
+      'available': false, // Insurance generally unavailable in Florida
+      'homeValue': 500000 // Base home value for calculation
     },
     'texas': {
       'regular': 2500,
       'high-risk': 7500,
-      'available': true
+      'available': true,
+      'homeValue': 500000 // Base home value for calculation
     },
     'colorado': {
       'regular': 2100,
       'high-risk': 6800,
-      'available': true
+      'available': true,
+      'homeValue': 500000 // Base home value for calculation
     }
   };
   
@@ -316,6 +319,9 @@ const ClimateFaxApp = () => {
     const needsFloodInsurance = variable === 'flooding' || variable === 'seaLevelRise';
     const floodInsuranceCost = needsFloodInsurance ? 2800 : 0;
     
+    // Home value used for calculation
+    const homeValue = insuranceRates[region]?.homeValue || 500000;
+    
     // Insurance notes based on availability
     let notes = "";
     if (!isAvailable) {
@@ -330,7 +336,8 @@ const ClimateFaxApp = () => {
       available: isAvailable,
       annualRate: rate + floodInsuranceCost,
       notes: notes,
-      includesFlood: needsFloodInsurance
+      includesFlood: needsFloodInsurance,
+      homeValue: homeValue
     };
   };
 
@@ -678,7 +685,12 @@ const ClimateFaxApp = () => {
                     </div>
                   )}
                 </div>
-                <div className="mt-2 text-xs text-gray-500">{insuranceInfo.notes}</div>
+                <div className="mt-2 text-xs text-gray-500">
+                  {insuranceInfo.notes}
+                  <div className="mt-1 italic">
+                    Based on a ${(insuranceInfo.homeValue/1000).toLocaleString()}k home value
+                  </div>
+                </div>
               </div>
             </div>
 
