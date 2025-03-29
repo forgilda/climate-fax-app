@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Copyright } from "@/components/Copyright";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -1471,6 +1472,7 @@ const ClimateFaxApp = () => {
       </main>
       
       <MobileNav />
+      <Copyright />
     </div>
   );
 };
