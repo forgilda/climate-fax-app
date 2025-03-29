@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -312,13 +313,15 @@ const ClimateFaxApp = () => {
     return Math.round(impact * multiplier);
   };
 
-  // Add new address state
+  // Add address state
   const [address, setAddress] = useState({
     street: '',
     city: '',
     state: '',
     zipCode: ''
   });
+  
+  const [addressAnalyzed, setAddressAnalyzed] = useState(false);
   
   // Handle address change
   const handleAddressChange = (e) => {
@@ -327,6 +330,11 @@ const ClimateFaxApp = () => {
       ...prev,
       [name]: value
     }));
+  };
+  
+  // Handle address analysis
+  const handleAddressAnalysis = () => {
+    setAddressAnalyzed(true);
   };
 
   // Get corresponding insurance information - Updated logic
@@ -729,13 +737,3 @@ const ClimateFaxApp = () => {
                         strokeWidth={2}
                         strokeDasharray="5 5"
                         connectNulls
-                        activeDot={{ r: 6 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            )}
-
-            {/* 8. WILDFIRE METHODOLOGY NOTE if applicable */}
-            {variable === 'wildfires' && (
