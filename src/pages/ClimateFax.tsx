@@ -145,7 +145,7 @@ const ClimateFaxApp = () => {
     }
   };
   
-  // Generate data when variables change
+  // Format chart data with two decimal places
   useEffect(() => {
     setLoading(true);
     
@@ -716,4 +716,4 @@ const ClimateFaxApp = () => {
                   <div 
                     key={key}
                     className={`p-4 rounded-lg border-2 cursor-pointer hover:bg-gray-50 transition
-                      ${cat.
+                      ${cat.variables
