@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -726,4 +727,55 @@ const ClimateFaxApp = () => {
                 <h3 className="font-medium text-yellow-800">Wildfire Methodology Note</h3>
                 <p className="text-sm text-yellow-700">
                   This model counts significant wildfires (≥1,000 acres or causing significant damage).
-                  California alone experienced over 8,000 total wildfire incidents in 2023, but
+                  California alone experienced over 8,000 total wildfire incidents in 2023, but most were smaller events not included in these counts.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Stay or Go Tab (premium feature) */}
+        {activeTab === 'stayOrGo' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="text-center py-8">
+              <div className="inline-block mb-4 p-3 bg-purple-100 rounded-full">
+                <div className="text-4xl">💰</div>
+              </div>
+              <h2 className="text-xl font-bold mb-2">Premium Feature</h2>
+              <p className="text-gray-600 mb-6">
+                Upgrade to ClimateFAX Premium to access detailed insurance impact forecasts
+                and personalized property value projections.
+              </p>
+              <button className="bg-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700">
+                Upgrade Now
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Alternatives Tab (premium feature) */}
+        {activeTab === 'alternatives' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="text-center py-8">
+              <div className="inline-block mb-4 p-3 bg-purple-100 rounded-full">
+                <div className="text-4xl">🏠</div>
+              </div>
+              <h2 className="text-xl font-bold mb-2">Premium Feature</h2>
+              <p className="text-gray-600 mb-6">
+                Upgrade to ClimateFAX Premium to discover climate-resilient alternative
+                locations based on your preferences and risk profile.
+              </p>
+              <button className="bg-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700">
+                Upgrade Now
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
+
+      <MobileNav />
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
