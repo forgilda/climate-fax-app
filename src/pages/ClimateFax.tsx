@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -730,4 +731,207 @@ const ClimateFaxApp = () => {
             )}
 
             {/* 8. WILDFIRE METHODOLOGY NOTE if applicable */}
-            {variable === 'wildfires
+            {variable === 'wildfires' && (
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 mb-6">
+                <h3 className="text-sm font-bold text-amber-800 mb-2">About Wildfire Data</h3>
+                <p className="text-xs text-amber-700">
+                  Wildfire data is based on historical fire events and projected climate conditions. 
+                  California shows a significant increase in wildfire frequency due to prolonged droughts
+                  and higher temperatures, consistent with recent studies from climate researchers.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Stay or Go Tab (Premium) */}
+        {activeTab === 'stayOrGo' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Should You Stay or Go?</h2>
+              <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-semibold">
+                Premium Feature
+              </div>
+            </div>
+            
+            {/* Top recommendation box */}
+            <div 
+              className="mb-6 p-5 rounded-lg border-2" 
+              style={{ borderColor: recommendation.color, backgroundColor: `${recommendation.color}10` }}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl">{recommendation.icon}</span>
+                <h3 className="text-lg font-bold" style={{ color: recommendation.color }}>
+                  {recommendation.recommendation}
+                </h3>
+              </div>
+              
+              <div className="ml-11">
+                <h4 className="font-semibold mb-1 text-gray-700">Key factors:</h4>
+                <ul className="list-disc pl-5 text-sm">
+                  {recommendation.reasons.map((reason, index) => (
+                    <li key={index} className="text-gray-600 mb-1">{reason}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            
+            {/* Insurance status */}
+            <div className="mb-6">
+              <h3 className="text-md font-bold text-gray-800 mb-3">Insurance Status</h3>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 font-medium">Annual Premium:</span>
+                  <span className="font-bold text-lg">${insuranceInfo.annualRate.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 font-medium">Insurance Available:</span>
+                  <span className={`font-semibold ${insuranceInfo.available ? 'text-green-600' : 'text-red-600'}`}>
+                    {insuranceInfo.available ? 'Yes' : 'No'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 font-medium">Includes Flood Coverage:</span>
+                  <span className="font-semibold">
+                    {insuranceInfo.includesFlood ? 'Yes (Required)' : 'Not Required'}
+                  </span>
+                </div>
+                <div className="mt-3 text-sm text-gray-600 italic">
+                  {insuranceInfo.notes}
+                </div>
+              </div>
+            </div>
+            
+            {/* Property value impact */}
+            <div className="mb-6">
+              <h3 className="text-md font-bold text-gray-800 mb-3">Property Value Impact</h3>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-gray-600 font-medium">Projected 10-year impact:</span>
+                  <span className="font-bold text-lg text-red-600">-{propertyImpact}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div 
+                    className="h-2.5 rounded-full" 
+                    style={{ 
+                      width: `${Math.min(100, propertyImpact * 3)}%`,
+                      backgroundColor: getPropertyImpactColor(propertyImpact)
+                    }}
+                  ></div>
+                </div>
+                <div className="mt-3 text-sm text-gray-600">
+                  Property in {regions[region].name} is projected to lose approximately {propertyImpact}% of its value 
+                  over the next decade due to {variables[variable].name.toLowerCase()} risk.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Alternative Locations Tab (Premium) */}
+        {activeTab === 'alternatives' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Climate-Safe Alternatives</h2>
+              <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-semibold">
+                Premium Feature
+              </div>
+            </div>
+            
+            {alternativeLocations.length > 0 ? (
+              <div>
+                <p className="text-gray-600 mb-4">
+                  Based on your current location ({regions[region].name}) and climate risk profile,
+                  here are safer alternatives with lower climate risks:
+                </p>
+                
+                {alternativeLocations.map(location => (
+                  <div 
+                    key={location.id}
+                    className="mb-4 bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-blue-300 transition-colors"
+                    onClick={() => toggleLocationDetails(location.id)}
+                  >
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{location.icon}</span>
+                        <h3 className="font-bold text-gray-800">{location.name}</h3>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-semibold">
+                          Safety: {location.safetyIndex}/100
+                        </div>
+                        <div className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-semibold">
+                          Insurance: {location.insuranceIndex}/100
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {selectedLocationDetails === location.id && (
+                      <div className="mt-4 pt-4 border-t border-gray-200">
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <h4 className="text-sm font-semibold text-gray-700 mb-2">Major Cities</h4>
+                            <ul className="list-disc pl-5 text-sm text-gray-600">
+                              {regions[location.id].majorCities.map((city, idx) => (
+                                <li key={idx}>{city}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-gray-700 mb-2">Climate Risks</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {location.mainRisks.map((risk, idx) => (
+                                <span key={idx} className="inline-flex items-center px-2 py-1 bg-gray-100 text-xs rounded">
+                                  {risk.icon} {risk.name}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="bg-gray-100 p-3 rounded">
+                            <h4 className="text-sm font-semibold text-gray-700 mb-1">Annual Insurance</h4>
+                            <p className="text-lg font-bold">
+                              ${insuranceRates[location.id].regular.toLocaleString()}
+                            </p>
+                            <p className="text-xs text-green-600">
+                              Save ${(insuranceInfo.annualRate - insuranceRates[location.id].regular).toLocaleString()} annually
+                            </p>
+                          </div>
+                          <div className="bg-gray-100 p-3 rounded">
+                            <h4 className="text-sm font-semibold text-gray-700 mb-1">Property Value Impact</h4>
+                            <p className="text-lg font-bold text-amber-600">
+                              -{valueImpactData.find(d => d.name === location.name)?.impact || 0}%
+                            </p>
+                            <p className="text-xs text-green-600">
+                              {propertyImpact - (valueImpactData.find(d => d.name === location.name)?.impact || 0)}% less depreciation
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <div className="text-5xl mb-4">🏡</div>
+                <h3 className="text-lg font-semibold mb-2">No Alternatives Found</h3>
+                <p className="text-gray-600">
+                  We couldn't find any suggested alternatives for your location.
+                  Try changing your region to see recommendations.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
+      
+      {/* Bottom navigation */}
+      <MobileNav />
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
