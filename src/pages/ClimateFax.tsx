@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -735,4 +736,228 @@ const ClimateFaxApp = () => {
             </div>
 
             {/* Stay or Go Recommendation */}
-            <div className="bg-white rounded-
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+              <h3 className="text-lg font-medium text-gray-700 mb-2">Recommendation</h3>
+              <div className="flex items-start">
+                <div 
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
+                  style={{ backgroundColor: `${recommendation.color}20` }}
+                >
+                  {recommendation.icon}
+                </div>
+                <div className="ml-4">
+                  <div className="text-lg font-semibold" style={{ color: recommendation.color }}>
+                    {recommendation.recommendation}
+                  </div>
+                  <ul className="mt-1 space-y-1">
+                    {recommendation.reasons.map((reason, index) => (
+                      <li key={index} className="text-sm text-gray-600 flex items-start">
+                        <span className="mr-2">•</span> {reason}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Stay or Go Tab (Premium Feature) */}
+        {activeTab === 'stayOrGo' && (
+          <div>
+            {currentPlan === 'premium' ? (
+              <div className="space-y-6">
+                {/* Premium content for Stay or Go tab */}
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <h3 className="text-lg font-medium text-gray-700 mb-3">Financial Impact Analysis</h3>
+                  <div className="h-56">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={insuranceComparisonData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="value" name="Annual Insurance Cost ($)" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="mt-3 text-sm text-gray-500 text-center">Insurance cost comparison between regions</div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <h3 className="text-lg font-medium text-gray-700 mb-3">Property Value Protection</h3>
+                  <div className="h-56">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={valueImpactData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="impact" name="10-Year Value Impact (%)" fill="#FF9800" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="mt-3 text-sm text-gray-500 text-center">Projected 10-year property value impact comparison</div>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div className="text-6xl mb-4">🔒</div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Premium Feature</h3>
+                <p className="text-gray-600 mb-6">Unlock detailed financial impact analysis and personalized recommendations with ClimateFAX Premium.</p>
+                <button className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  Upgrade to Premium
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Alternatives Tab (Premium Feature) */}
+        {activeTab === 'alternatives' && (
+          <div>
+            {currentPlan === 'premium' ? (
+              <div className="space-y-6">
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <h3 className="text-lg font-medium text-gray-700 mb-4">Alternative Locations</h3>
+                  {alternativeLocations.length > 0 ? (
+                    <div className="space-y-4">
+                      {alternativeLocations.map((location) => (
+                        <div 
+                          key={location.id} 
+                          className="border rounded-lg overflow-hidden"
+                        >
+                          <div 
+                            className="p-4 bg-gray-50 flex justify-between items-center cursor-pointer"
+                            onClick={() => toggleLocationDetails(location.id)}
+                          >
+                            <div className="flex items-center">
+                              <span className="text-2xl mr-3">{location.icon}</span>
+                              <span className="font-medium">{location.name}</span>
+                            </div>
+                            <div className="flex space-x-4">
+                              <div className="text-center">
+                                <div className="text-xs text-gray-500">Safety</div>
+                                <div className="font-medium">{location.safetyIndex}/100</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-xs text-gray-500">Insurance</div>
+                                <div className="font-medium">{location.insuranceIndex}/100</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-xs text-gray-500">Affordability</div>
+                                <div className="font-medium">{location.affordabilityIndex}/100</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {selectedLocationDetails === location.id && (
+                            <div className="p-4 bg-white border-t">
+                              <h4 className="font-medium mb-2">Climate Risk Profile</h4>
+                              <div className="flex flex-wrap gap-2 mb-4">
+                                {location.mainRisks.map((risk, index) => (
+                                  <div key={index} className="bg-gray-100 px-2 py-1 rounded text-sm flex items-center">
+                                    <span className="mr-1">{risk.icon}</span> {risk.name}
+                                  </div>
+                                ))}
+                              </div>
+                              
+                              <h4 className="font-medium mb-2">Major Cities</h4>
+                              <div className="flex flex-wrap gap-2">
+                                {regions[location.id]?.majorCities.map((city, index) => (
+                                  <div key={index} className="bg-gray-100 px-2 py-1 rounded text-sm">
+                                    {city}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      <p>No alternative locations recommended for this region.</p>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <h3 className="text-lg font-medium text-gray-700 mb-4">Personalized Factors</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Healthcare Access Importance</label>
+                      <select 
+                        value={userProfile.healthcareAccess}
+                        onChange={(e) => setUserProfile({...userProfile, healthcareAccess: e.target.value})}
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                      >
+                        <option value="critical">Critical - Need specialized care</option>
+                        <option value="important">Important - Regular access needed</option>
+                        <option value="somewhat">Somewhat important</option>
+                        <option value="minor">Minor consideration</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Lifestyle</label>
+                      <select 
+                        value={userProfile.lifestylePreference}
+                        onChange={(e) => setUserProfile({...userProfile, lifestylePreference: e.target.value})}
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                      >
+                        <option value="urban">Urban - City living</option>
+                        <option value="suburban">Suburban - Mix of access and space</option>
+                        <option value="rural">Rural - More space, fewer services</option>
+                        <option value="remote">Remote - Maximum space and privacy</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Work Situation</label>
+                      <select 
+                        value={userProfile.workSituation}
+                        onChange={(e) => setUserProfile({...userProfile, workSituation: e.target.value})}
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                      >
+                        <option value="office">Office-based - Need to commute</option>
+                        <option value="hybrid">Hybrid - Partial remote work</option>
+                        <option value="remote">Fully remote - Can live anywhere</option>
+                        <option value="retired">Retired - No commute needed</option>
+                      </select>
+                    </div>
+                    
+                    <button className="bg-blue-600 text-white w-full font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                      Update Recommendations
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div className="text-6xl mb-4">🔒</div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Premium Feature</h3>
+                <p className="text-gray-600 mb-6">Unlock personalized alternative locations and detailed comparisons with ClimateFAX Premium.</p>
+                <button className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  Upgrade to Premium
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+        
+        <MobileNav />
+      </main>
+    </div>
+  );
+};
+
+export default ClimateFaxApp;
