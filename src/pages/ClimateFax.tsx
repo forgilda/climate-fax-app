@@ -727,4 +727,4 @@ const ClimateFaxApp = () => {
                 <h3 className="font-medium text-yellow-800">Wildfire Methodology Note</h3>
                 <p className="text-sm text-yellow-700">
                   This model counts significant wildfires (≥1,000 acres or causing significant damage).
-                  California alone experienced over
+                  California alone experienced over 500
