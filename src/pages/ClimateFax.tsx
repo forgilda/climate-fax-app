@@ -685,7 +685,7 @@ const ClimateFaxApp = () => {
                         <XAxis type="number" label={{ value: 'Annual Premium ($)', position: 'insideBottom', offset: -5 }} />
                         <YAxis type="category" dataKey="name" width={80} />
                         <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Annual Premium']} />
-                        <Bar dataKey="value" nameKey="name" />
+                        <Bar dataKey="value" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -707,7 +707,7 @@ const ClimateFaxApp = () => {
                         />
                         <YAxis type="category" dataKey="name" width={80} />
                         <Tooltip formatter={(value) => [`${value}%`, 'Value Decline']} />
-                        <Bar dataKey="impact" nameKey="name">
+                        <Bar dataKey="impact">
                           {valueImpactData.map((entry, index) => (
                             <Cell 
                               key={`cell-${index}`} 
