@@ -512,38 +512,38 @@ const ClimateFaxApp = () => {
         </div>
       </MobileHeader>
 
-      {/* Feature Tabs with Subscription Status Indicators */}
+      {/* Feature Tabs with Subscription Status Indicators - UPDATED for more impact */}
       <div className="flex items-center mx-auto my-4 max-w-2xl px-4">
         <div className="flex-1 text-center">
           <div 
-            className={`pb-2 ${activeTab === 'riskAssessment' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}
+            className={`pb-2 ${activeTab === 'riskAssessment' ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-600'}`}
             onClick={() => setActiveTab('riskAssessment')}
           >
             <div className="flex flex-col items-center justify-center">
-              <span className="text-sm font-medium">Know Your Risk</span>
-              <span className="mt-1 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded-full">Free</span>
+              <span className="text-sm font-extrabold tracking-wide uppercase">Know Your Risk</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded-full font-medium">Free</span>
             </div>
           </div>
         </div>
         <div className="flex-1 text-center">
           <div 
-            className={`pb-2 ${activeTab === 'stayOrGo' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}
+            className={`pb-2 ${activeTab === 'stayOrGo' ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-600'}`}
             onClick={() => setActiveTab('stayOrGo')}
           >
             <div className="flex flex-col items-center justify-center">
-              <span className="text-sm font-medium">Know Your Cost</span>
-              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Premium</span>
+              <span className="text-sm font-extrabold tracking-wide uppercase">Know Your Cost</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full font-medium">Premium</span>
             </div>
           </div>
         </div>
         <div className="flex-1 text-center">
           <div 
-            className={`pb-2 ${activeTab === 'alternatives' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}
+            className={`pb-2 ${activeTab === 'alternatives' ? 'border-b-2 border-blue-600 text-blue-600 font-bold' : 'text-gray-600'}`}
             onClick={() => setActiveTab('alternatives')}
           >
             <div className="flex flex-col items-center justify-center">
-              <span className="text-sm font-medium">Know Your Options</span>
-              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Premium</span>
+              <span className="text-sm font-extrabold tracking-wide uppercase">Know Your Options</span>
+              <span className="mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full font-medium">Premium</span>
             </div>
           </div>
         </div>
