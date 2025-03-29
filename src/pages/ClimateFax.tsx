@@ -69,7 +69,7 @@ const ClimateFaxApp = () => {
     'thunderstorms': { name: 'Thunderstorms', unit: 'events', icon: '⛈️' }
   };
 
-  // Sample regions with more details - Asheville removed
+  // Sample regions with more details
   const regions = {
     'california': {
       name: 'California', 
@@ -109,22 +109,22 @@ const ClimateFaxApp = () => {
     }
   };
 
-  // Alternative locations based on risk profile - Asheville removed
+  // Alternative locations based on risk profile
   const suggestedLocations = {
     'california': ['colorado'],
     'florida': ['colorado'],
     'texas': ['colorado']
   };
   
-  // Insurance rate estimates (per year) - Asheville removed and updated California/Florida rates
+  // Insurance rate estimates (per year) - Updated to reflect difficulty in California and Florida
   const insuranceRates = {
     'california': {
-      'regular': 4800,
-      'high-risk': 15500
+      'regular': 8500,
+      'high-risk': 25000
     },
     'florida': {
-      'regular': 5200,
-      'high-risk': 18500
+      'regular': 9200,
+      'high-risk': 30000
     },
     'texas': {
       'regular': 2500,
@@ -299,7 +299,7 @@ const ClimateFaxApp = () => {
       (variable === 'seaLevelRise' && region === 'florida') ||
       (variable === 'flooding' && region === 'texas');
     
-    // Special case for California and Florida - very difficult to insure
+    // Special case for California and Florida - nearly impossible to insure
     const isNearlyUninsurable = 
       (region === 'california' && (variable === 'wildfires' || variable === 'drought')) ||
       (region === 'florida' && (variable === 'hurricanes' || variable === 'seaLevelRise'));
@@ -309,22 +309,23 @@ const ClimateFaxApp = () => {
     
     // Apply additional surcharge for nearly uninsurable areas
     if (isNearlyUninsurable) {
-      rate = rate * 1.7; // 70% surcharge for these high-risk areas
+      rate = rate * 2; // 100% surcharge for these high-risk areas
     }
     
     // Insurance availability
     const notAvailable = 
-      (region === 'california' && variable === 'wildfires' && model === 'accelerated') ||
+      (region === 'california' && variable === 'wildfires') ||
+      (region === 'california' && variable === 'drought') ||
       (region === 'florida' && variable === 'hurricanes') ||
-      (region === 'florida' && variable === 'seaLevelRise' && model !== 'mitigation');
+      (region === 'florida' && variable === 'seaLevelRise');
     
     return {
       available: !notAvailable,
       annualRate: rate,
       notes: notAvailable ? 
-        "Insurance coverage is extremely limited or unavailable in this high-risk area." : 
+        "Insurance coverage is unavailable in this high-risk area." : 
         (isHighRisk ? 
-          "This area has very limited insurance availability and high premiums due to elevated risk." : 
+          "This area has extremely limited insurance availability and very high premiums due to elevated risk." : 
           "Standard insurance coverage should be available in this area.")
     };
   };
@@ -489,7 +490,7 @@ const ClimateFaxApp = () => {
   
   return (
     <div className="bg-gray-50 min-h-screen pb-16">
-      <MobileHeader showBackButton={true}>
+      <MobileHeader title="" showBackButton={true}>
         <div className="flex flex-col items-center justify-center w-full">
           <div className="text-2xl font-bold relative">
             <span className="text-black">Climate</span>
@@ -499,7 +500,7 @@ const ClimateFaxApp = () => {
         </div>
       </MobileHeader>
 
-      {/* Feature Tabs with Subscription Status Indicators - Moved to top */}
+      {/* Feature Tabs with Subscription Status Indicators */}
       <div className="flex items-center mx-auto my-4 max-w-2xl px-4">
         <div className="flex-1 text-center">
           <div 
@@ -537,6 +538,20 @@ const ClimateFaxApp = () => {
       </div>
 
       <main className="px-4 py-2">
+        {/* Region Selection - Moved to top as requested */}
+        <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
+          <select 
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          >
+            {Object.entries(regions).map(([key, info]) => (
+              <option key={key} value={key}>{info.icon} {info.name}</option>
+            ))}
+          </select>
+        </div>
+        
         {/* Climate Category Selection */}
         <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
           <h3 className="text-sm font-medium text-gray-700 mb-3">Climate Risk Categories</h3>
@@ -560,21 +575,8 @@ const ClimateFaxApp = () => {
           </ToggleGroup>
         </div>
 
-        {/* Main Controls - Always visible */}
+        {/* Variable and Model Selection */}
         <div className="grid grid-cols-1 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
-            <select 
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            >
-              {Object.entries(regions).map(([key, info]) => (
-                <option key={key} value={key}>{info.icon} {info.name}</option>
-              ))}
-            </select>
-          </div>
-          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Climate Variable</label>
             <select 
@@ -653,7 +655,7 @@ const ClimateFaxApp = () => {
                   <div 
                     className={`text-white font-bold px-2 py-1 rounded ${insuranceInfo.available ? 'bg-green-500' : 'bg-red-500'}`}
                   >
-                    {insuranceInfo.available ? 'Available' : 'Limited'}
+                    {insuranceInfo.available ? 'Available' : 'Unavailable'}
                   </div>
                   <div className="ml-3 text-gray-700">
                     ${insuranceInfo.annualRate}/year
