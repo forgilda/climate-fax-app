@@ -54,7 +54,7 @@ const SplashPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                   <span className="text-3xl">🔥</span>
-                  <p className="text-sm mt-2">Natural Disaster Risks</p>
+                  <p className="text-sm mt-2">Assess Risk</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm text-center">
                   <span className="text-3xl">🏡</span>
