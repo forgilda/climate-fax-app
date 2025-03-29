@@ -744,4 +744,4 @@ const ClimateFaxApp = () => {
                   className="flex items-center justify-center rounded-full w-12 h-12 text-xl flex-shrink-0"
                   style={{ backgroundColor: recommendation.color, color: 'white' }}
                 >
-                  {recommendation.
+                  {
