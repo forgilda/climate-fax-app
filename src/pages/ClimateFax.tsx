@@ -638,7 +638,7 @@ const ClimateFaxApp = () => {
           </div>
         </div>
         
-        {/* Risk Assessment Tab - UPDATED */}
+        {/* Risk Assessment Tab */}
         {activeTab === 'riskAssessment' && (
           <div>
             {/* Risk Score Dashboard */}
