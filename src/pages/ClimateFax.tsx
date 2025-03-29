@@ -7,7 +7,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { Input } from "@/components/ui/input";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -728,249 +727,548 @@ const ClimateFaxApp = () => {
                 <h3 className="font-medium text-yellow-800">Wildfire Methodology Note</h3>
                 <p className="text-sm text-yellow-700">
                   This model counts significant wildfires (≥1,000 acres or causing significant damage).
-                  California alone experienced over 500
+                  California alone experienced over 8,000 total wildfire incidents in 2023, but most were smaller fires.
                 </p>
               </div>
             )}
-          </div>
-        )}
-        
-        {/* Stay or Go Tab */}
-        {activeTab === 'stayOrGo' && (
-          <div>
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Insurance & Property Impact</h2>
-              <p className="text-gray-600">Analyzing long-term insurance and property value impacts for {regions[region].name}</p>
-            </div>
             
-            {/* Insurance Section */}
-            <div className="bg-white p-6 rounded-lg shadow mb-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <span className="mr-2">🏠</span> Insurance Coverage Assessment
-              </h3>
-              
-              <div className="bg-gray-50 p-4 rounded mb-4">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Insurance Availability</span>
-                  <span className={`text-sm font-bold ${insuranceInfo.available ? 'text-green-600' : 'text-red-600'}`}>
-                    {insuranceInfo.available ? 'Available' : 'Limited/Unavailable'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Est. Annual Premium</span>
-                  <span className="text-sm font-bold">${insuranceInfo.annualRate.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Includes Flood Insurance</span>
-                  <span className={`text-sm font-bold ${insuranceInfo.includesFlood ? 'text-blue-600' : 'text-gray-600'}`}>
-                    {insuranceInfo.includesFlood ? 'Required' : 'Optional'}
-                  </span>
-                </div>
+            {variable === 'tsunamis' && region === 'texas' && (
+              <div className="bg-blue-50 p-4 rounded-lg mb-4">
+                <h3 className="font-medium text-blue-800">Texas Tsunami Risk Note</h3>
+                <p className="text-sm text-blue-700">
+                  Texas has a very low tsunami risk due to the protected nature of the Gulf of Mexico. According to NOAA data, 
+                  no significant tsunamis have affected the Texas Gulf Coast in recorded history.
+                </p>
               </div>
-              
-              <div className="bg-yellow-50 p-3 rounded text-sm text-yellow-800">
-                <p><strong>Note:</strong> {insuranceInfo.notes}</p>
-              </div>
-            </div>
+            )}
             
-            {/* Property Value Section */}
-            <div className="bg-white p-6 rounded-lg shadow mb-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <span className="mr-2">📉</span> Property Value Impact
-              </h3>
-              
-              <div className="flex items-center mb-4">
-                <div className="w-full">
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Projected 10-Year Impact</span>
-                    <span className="font-bold text-red-600">-{propertyImpact}%</span>
+            {/* 9. RISK SCORE DASHBOARD - MODIFIED TO REMOVE PROPERTY IMPACT AND INSURANCE BOXES */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-white rounded-lg shadow-sm p-4">
+                <h3 className="text-lg font-medium text-gray-700 mb-2">Overall Risk Score</h3>
+                <div className="flex items-center">
+                  <div 
+                    className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl"
+                    style={{ backgroundColor: riskCategory.color }}
+                  >
+                    {riskScore}
                   </div>
-                  <div className="h-6 w-full bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-red-500 rounded-full" 
-                      style={{width: `${Math.min(100, propertyImpact * 2)}%`}}
-                    ></div>
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-500 mt-1">
-                    <span>Low Impact</span>
-                    <span>Severe Impact</span>
+                  <div className="ml-4">
+                    <div className="text-lg font-semibold" style={{ color: riskCategory.color }}>
+                      {riskCategory.category}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      Risk Level
+                    </div>
                   </div>
                 </div>
               </div>
-              
-              <div className="bg-white p-3 rounded border border-gray-200 text-sm">
-                <p>A ${insuranceInfo.homeValue.toLocaleString()} home in {regions[region].name} could decrease in value by approximately <span className="font-bold text-red-600">${Math.round(insuranceInfo.homeValue * (propertyImpact/100)).toLocaleString()}</span> over the next decade due to increasing climate risks.</p>
+
+              <div className="bg-white rounded-lg shadow-sm p-4">
+                <h3 className="text-lg font-medium text-gray-700 mb-2">Key Risks</h3>
+                <div className="flex flex-col">
+                  {regions[region].mainRisks.map((risk, index) => (
+                    <div key={index} className="flex items-center mb-1">
+                      <span className="mr-2">{variables[risk]?.icon || '❓'}</span>
+                      <span className="text-sm">{variables[risk]?.name || risk}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        
-        {/* Alternatives Tab */}
-        {activeTab === 'alternatives' && (
-          <div>
-            <div className="text-center mb-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Location Alternatives</h2>
-              <p className="text-gray-600">Comparing {regions[region].name} with climate-resilient alternatives</p>
+            
+            {/* 10. PREMIUM FEATURES BOX */}
+            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Premium Features</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                  <div className="flex items-center mb-3">
+                    <span className="inline-block p-2 bg-orange-100 text-orange-600 rounded-lg mr-3">💵</span>
+                    <h3 className="font-medium text-gray-800">Know Your Cost</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">
+                    Get detailed analysis of how climate risks affect your property value, insurance rates, and long-term costs.
+                  </p>
+                  <button 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded"
+                    onClick={() => setActiveTab('stayOrGo')}
+                  >
+                    Learn More
+                  </button>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                  <div className="flex items-center mb-3">
+                    <span className="inline-block p-2 bg-blue-100 text-blue-600 rounded-lg mr-3">🗺️</span>
+                    <h3 className="font-medium text-gray-800">Know Your Options</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">
+                    Discover safer alternative locations based on your lifestyle preferences and priorities.
+                  </p>
+                  <button 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded"
+                    onClick={() => setActiveTab('alternatives')}
+                  >
+                    Learn More
+                  </button>
+                </div>
+              </div>
             </div>
             
-            {/* Sample Premium Upgrade Box */}
-            <div className="bg-purple-100 border border-purple-300 rounded-lg p-4 mb-6 text-center">
-              <h3 className="font-semibold text-purple-800 mb-2">Climate Migration Consultation</h3>
-              <p className="text-sm text-purple-700 mb-3">
-                Get personalized relocation recommendations based on your budget, lifestyle preferences, and risk tolerance.
+            {/* 11. TRY PREMIUM FREE BOX */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <div className="flex items-center">
+                <span className="text-blue-600 text-xl mr-2">✨</span>
+                <h3 className="font-medium text-blue-800">Want More Detailed Analysis?</h3>
+              </div>
+              <p className="text-sm text-blue-700 mb-3 mt-2">
+                Upgrade to Premium for personalized recommendations, cost analysis, and alternative locations.
               </p>
-              <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md text-sm">
-                Upgrade to Premium
+              <button 
+                className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded"
+                onClick={() => setCurrentPlan('premium')}
+              >
+                Try Premium Free for 30 Days
               </button>
             </div>
-            
-            {/* ZIP code insurance lookup - Ultra-clean version */}
-            <div className="bg-white rounded-lg p-4 border border-gray-200 mt-6 mb-6 max-w-md mx-auto text-left">
-              <h3 className="font-medium text-gray-700 mb-2">Get Location-Specific Insurance Information</h3>
-              <div className="flex space-x-2">
-                <input 
-                  type="text" 
-                  placeholder="Enter ZIP code" 
-                  className="flex-1 p-2 border border-gray-300 rounded-md"
-                />
-                <button
-                  type="button"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
-                >
-                  Check
-                </button>
+          </div>
+        )}
+        
+        {/* Stay or Go Tab Content - PREMIUM */}
+        {activeTab === 'stayOrGo' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center">
+                <span className="text-purple-600 text-xl mr-2">✨</span>
+                <h2 className="text-lg font-bold text-purple-800">Sample Premium Feature</h2>
               </div>
-              <p className="mt-2 text-xs text-gray-500">
-                Some areas in California and Florida are under insurance moratoriums or limited to state FAIR plans.
+              <p className="mt-2 text-purple-700">
+                Get insights about the financial impact of climate risk on your property and insurance.
               </p>
             </div>
             
-            {/* Stay or Go Recommendation */}
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h3 className="text-lg font-semibold mb-4">Stay or Go Recommendation</h3>
-              
-              <div className="flex items-center mb-4">
-                <div 
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mr-4"
-                  style={{ backgroundColor: recommendation.color, color: 'white' }}
-                >
-                  {recommendation.icon}
+            {/* Insurance Analysis - Moving "Stay or Go Recommendation" to the Alternatives tab */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Insurance Analysis</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-700 mb-3">Current Situation</h3>
+                  
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Availability</span>
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${insuranceInfo.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        {insuranceInfo.available ? 'Available' : 'Limited/Unavailable'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Annual Premium</span>
+                      <span className="text-sm font-bold">${insuranceInfo.annualRate.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Includes Flood Insurance</span>
+                      <span className="text-sm">{insuranceInfo.includesFlood ? 'Yes (+$2,800)' : 'No'}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="text-sm text-gray-600 italic">
+                    {insuranceInfo.notes}
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-medium text-lg" style={{ color: recommendation.color }}>
-                    {recommendation.recommendation}
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    Based on climate projections, insurance trends, and property forecasts
-                  </p>
+                
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-700 mb-3">5-Year Projection</h3>
+                  
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Estimated Premium Increase</span>
+                      <span className="text-sm font-bold text-amber-600">+{model === 'accelerated' ? '65' : (model === 'mitigation' ? '35' : '45')}%</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Projected Annual Cost</span>
+                      <span className="text-sm font-bold">
+                        ${Math.round(insuranceInfo.annualRate * (1 + (model === 'accelerated' ? 0.65 : (model === 'mitigation' ? 0.35 : 0.45)))).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">5-Year Total Cost</span>
+                      <span className="text-sm font-bold">
+                        ${Math.round(insuranceInfo.annualRate * 5 * (1 + (model === 'accelerated' ? 0.65 : (model === 'mitigation' ? 0.35 : 0.45)) / 2)).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {!insuranceInfo.available && (
+                    <div className="bg-red-50 p-3 rounded border border-red-200">
+                      <p className="text-sm text-red-700">
+                        <strong>Warning:</strong> Insurance may become completely unavailable in this area within 5 years under current projections.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
               
-              <div className="bg-gray-50 p-3 rounded mb-4">
-                <h4 className="font-medium mb-2">Key Factors</h4>
-                <ul className="list-disc list-inside space-y-1 text-sm">
+              <div className="mt-5">
+                <h3 className="font-medium text-gray-700 mb-3">Insurance Cost Comparison</h3>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={insuranceComparisonData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis label={{ value: 'Annual Premium ($)', angle: -90, position: 'insideLeft' }} />
+                      <Tooltip formatter={(value) => ['$' + value.toLocaleString(), 'Annual Premium']} />
+                      <Legend />
+                      <Bar dataKey="value" name="Annual Premium" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+            
+            {/* Property Value Impact */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Property Value Impact</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-700 mb-3">Current Value</h3>
+                  
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Estimated Home Value</span>
+                      <span className="text-lg font-bold">${insuranceInfo.homeValue.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Location</span>
+                      <span className="text-sm">{regions[region].name}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-700 mb-3">10-Year Projection</h3>
+                  
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Climate Impact</span>
+                      <span className="text-sm font-bold text-red-600">-{propertyImpact}%</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Value After Climate Impact</span>
+                      <span className="text-sm font-bold">
+                        ${Math.round(insuranceInfo.homeValue * (1 - propertyImpact/100)).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-600">Potential Loss</span>
+                      <span className="text-sm font-bold text-red-600">
+                        -${Math.round(insuranceInfo.homeValue * (propertyImpact/100)).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {propertyImpact > 15 && (
+                    <div className="bg-amber-50 p-3 rounded border border-amber-200">
+                      <p className="text-sm text-amber-700">
+                        <strong>Note:</strong> This area is projected to see significant property devaluation due to increasing climate risks.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="font-medium text-gray-700 mb-3">Property Value Impact Comparison</h3>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={valueImpactData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis label={{ value: 'Value Impact (%)', angle: -90, position: 'insideLeft' }} />
+                      <Tooltip formatter={(value) => ['-' + value + '%', 'Property Value Impact']} />
+                      <Legend />
+                      <Bar dataKey="impact" name="Value Impact %" fill="#FF9800" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Alternatives Tab Content - PREMIUM */}
+        {activeTab === 'alternatives' && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center">
+                <span className="text-purple-600 text-xl mr-2">✨</span>
+                <h2 className="text-lg font-bold text-purple-800">Sample Premium Feature</h2>
+              </div>
+              <p className="mt-2 text-purple-700">
+                Discover safer alternative locations based on your lifestyle preferences and priorities.
+              </p>
+            </div>
+            
+            {/* MOVED - Stay or Go Recommendation now appears here on the Alternatives tab */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Stay or Go Recommendation</h2>
+              <div 
+                className="border-2 rounded-lg p-6"
+                style={{ borderColor: recommendation.color }}
+              >
+                <div className="flex items-center mb-4">
+                  <span className="text-3xl mr-3">{recommendation.icon}</span>
+                  <div>
+                    <h3 
+                      className="text-xl font-bold" 
+                      style={{ color: recommendation.color }}
+                    >
+                      {recommendation.recommendation}
+                    </h3>
+                    <p className="text-gray-600 text-sm mt-1">
+                      Based on climate risk, property value, and insurance analysis
+                    </p>
+                  </div>
+                </div>
+                
+                <h4 className="font-medium text-gray-700 mb-2">Key Factors:</h4>
+                <ul className="list-disc pl-5 space-y-1">
                   {recommendation.reasons.map((reason, index) => (
-                    <li key={index}>{reason}</li>
+                    <li key={index} className="text-gray-700">{reason}</li>
                   ))}
                 </ul>
               </div>
             </div>
             
             {/* Alternative Locations */}
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h3 className="text-lg font-semibold mb-4">Alternative Locations</h3>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Alternative Locations</h2>
               
-              {alternativeLocations.length === 0 ? (
-                <p className="text-gray-600 italic">No alternative locations found</p>
-              ) : (
-                <div className="space-y-4">
-                  {alternativeLocations.map((location) => (
-                    <div 
-                      key={location.id}
-                      className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:bg-blue-50 transition cursor-pointer"
-                      onClick={() => toggleLocationDetails(location.id)}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center">
-                          <span className="text-2xl mr-3">{location.icon}</span>
-                          <h4 className="font-medium">{location.name}</h4>
-                        </div>
-                        <div className="flex space-x-2">
-                          <div className="text-center">
-                            <div className="text-xs text-gray-500">Safety</div>
-                            <div 
-                              className="text-sm font-bold"
-                              style={{ color: getRiskColor(100 - location.safetyIndex) }}
-                            >{location.safetyIndex}%</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-xs text-gray-500">Insurance</div>
-                            <div 
-                              className="text-sm font-bold"
-                              style={{ color: getRiskColor(100 - location.insuranceIndex) }}
-                            >{location.insuranceIndex}%</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-xs text-gray-500">Affordability</div>
-                            <div 
-                              className="text-sm font-bold"
-                              style={{ color: getRiskColor(100 - location.affordabilityIndex) }}
-                            >{location.affordabilityIndex}%</div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {selectedLocationDetails === location.id && (
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                <h3 className="font-medium text-gray-700 mb-3">Your Preferences</h3>
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                  <div className="bg-white p-3 rounded border border-gray-200">
+                    <span className="text-sm font-medium text-gray-600 block mb-1">Lifestyle</span>
+                    <span className="capitalize">{userProfile.lifestylePreference}</span>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-gray-200">
+                    <span className="text-sm font-medium text-gray-600 block mb-1">Work Situation</span>
+                    <span className="capitalize">{userProfile.workSituation}</span>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-gray-200">
+                    <span className="text-sm font-medium text-gray-600 block mb-1">Family Size</span>
+                    <span>{userProfile.familySize}</span>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-gray-200">
+                    <span className="text-sm font-medium text-gray-600 block mb-1">Budget</span>
+                    <span className="capitalize">{userProfile.budgetRange}</span>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-gray-200">
+                    <span className="text-sm font-medium text-gray-600 block mb-1">Healthcare</span>
+                    <span className="capitalize">{userProfile.healthcareAccess}</span>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-gray-200">
+                    <span className="text-sm font-medium text-gray-600 block mb-1">Schools</span>
+                    <span className="capitalize">{userProfile.schoolQuality}</span>
+                  </div>
+                </div>
+                
+                <button className="text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full md:w-auto">
+                  Update Preferences
+                </button>
+              </div>
+              
+              <div>
+                <h3 className="font-medium text-gray-700 mb-3">Recommended Alternatives to {regions[region].name}</h3>
+                
+                {alternativeLocations.length > 0 ? (
+                  <div className="space-y-4">
+                    {alternativeLocations.map((location) => (
+                      <div 
+                        key={location.id} 
+                        className="border border-gray-200 rounded-lg overflow-hidden"
+                      >
+                        <div 
+                          className="flex items-center justify-between p-4 cursor-pointer"
+                          onClick={() => toggleLocationDetails(location.id)}
+                        >
+                          <div className="flex items-center">
+                            <span className="text-2xl mr-3">{location.icon}</span>
                             <div>
-                              <h5 className="font-medium mb-2">Main Climate Risks</h5>
-                              <div className="flex flex-wrap gap-2">
-                                {location.mainRisks.map((risk, index) => (
-                                  <span key={index} className="inline-flex items-center bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                                    <span className="mr-1">{risk.icon}</span> {risk.name}
+                              <h4 className="font-medium">{location.name}</h4>
+                              <div className="flex space-x-1 text-xs text-gray-500 mt-1">
+                                {location.mainRisks.slice(0, 2).map((risk, i) => (
+                                  <span key={i} className="flex items-center">
+                                    {risk.icon} {risk.name}
+                                    {i < Math.min(location.mainRisks.length - 1, 1) && <span className="mx-1">•</span>}
                                   </span>
                                 ))}
                               </div>
                             </div>
-                            <div>
-                              <h5 className="font-medium mb-2">Major Cities</h5>
-                              <div className="text-sm text-gray-600">
-                                {regions[location.id]?.majorCities.join(', ')}
+                          </div>
+                          <div className="flex items-center space-x-4">
+                            <div className="hidden md:block">
+                              <div className="flex space-x-2 items-center">
+                                <div className="text-center">
+                                  <div className="text-xs text-gray-500">Safety</div>
+                                  <div className="mt-1 bg-gray-200 w-20 h-2 rounded-full overflow-hidden">
+                                    <div className="bg-green-500 h-full" style={{width: `${location.safetyIndex}%`}}></div>
+                                  </div>
+                                </div>
+                                <div className="text-center">
+                                  <div className="text-xs text-gray-500">Insurance</div>
+                                  <div className="mt-1 bg-gray-200 w-20 h-2 rounded-full overflow-hidden">
+                                    <div className="bg-blue-500 h-full" style={{width: `${location.insuranceIndex}%`}}></div>
+                                  </div>
+                                </div>
+                                <div className="text-center">
+                                  <div className="text-xs text-gray-500">Affordability</div>
+                                  <div className="mt-1 bg-gray-200 w-20 h-2 rounded-full overflow-hidden">
+                                    <div className="bg-purple-500 h-full" style={{width: `${location.affordabilityIndex}%`}}></div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          
-                          <div className="mt-4">
-                            <h5 className="font-medium mb-2">Insurance Comparison</h5>
-                            <div className="h-16">
-                              <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
-                                  data={[
-                                    { name: regions[region].name, value: insuranceInfo.annualRate },
-                                    { name: location.name, value: insuranceRates[location.id]?.regular || 2000 }
-                                  ]}
-                                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                                >
-                                  <CartesianGrid strokeDasharray="3 3" />
-                                  <XAxis dataKey="name" />
-                                  <YAxis />
-                                  <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, 'Annual Premium']} />
-                                  <Bar dataKey="value" fill="#8884d8" />
-                                </BarChart>
-                              </ResponsiveContainer>
+                            <div>
+                              <button className="text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 rounded">
+                                Compare
+                              </button>
                             </div>
                           </div>
                         </div>
-                      )}
+                        
+                        {selectedLocationDetails === location.id && (
+                          <div className="p-4 border-t border-gray-200 bg-gray-50">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div>
+                                <h5 className="font-medium text-gray-700 mb-2">Climate Risk Profile</h5>
+                                <ul className="space-y-1">
+                                  {location.mainRisks.map((risk, i) => (
+                                    <li key={i} className="flex items-center text-sm">
+                                      <span className="mr-2">{risk.icon}</span>
+                                      {risk.name}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div>
+                                <h5 className="font-medium text-gray-700 mb-2">Key Metrics</h5>
+                                <div className="space-y-2">
+                                  <div>
+                                    <div className="flex justify-between text-sm">
+                                      <span>Climate Safety</span>
+                                      <span className="font-medium">{location.safetyIndex}/100</span>
+                                    </div>
+                                    <Progress value={location.safetyIndex} className="h-2" />
+                                  </div>
+                                  <div>
+                                    <div className="flex justify-between text-sm">
+                                      <span>Insurance Availability</span>
+                                      <span className="font-medium">{location.insuranceIndex}/100</span>
+                                    </div>
+                                    <Progress value={location.insuranceIndex} className="h-2" />
+                                  </div>
+                                  <div>
+                                    <div className="flex justify-between text-sm">
+                                      <span>Affordability</span>
+                                      <span className="font-medium">{location.affordabilityIndex}/100</span>
+                                    </div>
+                                    <Progress value={location.affordabilityIndex} className="h-2" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <h5 className="font-medium text-gray-700 mb-2">Major Cities</h5>
+                                <div className="flex flex-wrap gap-2">
+                                  {regions[location.id].majorCities.map((city, i) => (
+                                    <span 
+                                      key={i}
+                                      className="px-2 py-1 bg-white border border-gray-200 rounded-full text-sm"
+                                    >
+                                      {city}
+                                    </span>
+                                  ))}
+                                </div>
+                                <div className="mt-4">
+                                  <button className="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+                                    Full Location Report
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <div className="flex items-center text-yellow-800">
+                      <span className="text-xl mr-2">⚠️</span>
+                      <p>No alternative locations found for your criteria. Try adjusting your preferences.</p>
                     </div>
-                  ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Your Moving Timeline */}
+            <div>
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Your Moving Timeline</h2>
+              
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="font-medium text-gray-700 mb-3">Current Timeframe: {userProfile.timeframe}</h3>
+                
+                <div className="mb-4">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-bold">1</div>
+                    <h4 className="ml-3 font-medium">Research Phase</h4>
+                  </div>
+                  <div className="pl-11">
+                    <p className="text-sm text-gray-600 mb-2">
+                      Explore alternative locations and evaluate climate risks.
+                    </p>
+                    <Alert variant="outline" className="mb-2">
+                      <AlertTitle className="text-sm font-medium">Next Step</AlertTitle>
+                      <AlertDescription className="text-xs">
+                        Compare insurance and property value projections across locations.
+                      </AlertDescription>
+                    </Alert>
+                  </div>
                 </div>
-              )}
+                
+                <div className="mb-4">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center text-sm font-bold">2</div>
+                    <h4 className="ml-3 font-medium text-gray-600">Planning Phase</h4>
+                  </div>
+                  <div className="pl-11">
+                    <p className="text-sm text-gray-500">
+                      Financial planning, property research, and timeline development.
+                    </p>
+                  </div>
+                </div>
+                
+                <div>
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center text-sm font-bold">3</div>
+                    <h4 className="ml-3 font-medium text-gray-600">Execution Phase</h4>
+                  </div>
+                  <div className="pl-11">
+                    <p className="text-sm text-gray-500">
+                      Selling current property, purchasing new home, and relocating.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
       </main>
+      
+      <MobileNav />
     </div>
   );
 };
