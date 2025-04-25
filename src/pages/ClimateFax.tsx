@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -9,9 +10,6 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Copyright } from "@/components/Copyright";
-import { LAInsuranceRiskMap } from "@/components/insurance/LAInsuranceRiskMap";
-import { InsuranceForecastDashboard } from "@/components/insurance/InsuranceForecastDashboard";
-import { LocationRecommendationEngine } from "@/components/insurance/LocationRecommendationEngine";
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -38,27 +36,6 @@ const ClimateFaxApp = () => {
     timeframe: '1-2 years'
   });
   const [selectedLocationDetails, setSelectedLocationDetails] = useState(null);
-  
-  // Add new state for the insurance feature
-  const [insuranceTab, setInsuranceTab] = useState('risk');
-  const [insuranceAppVersion, setInsuranceAppVersion] = useState('premium');
-  const [userInsuranceZipCode, setUserInsuranceZipCode] = useState('90049');
-  
-  // Feature gates based on subscription level
-  const insuranceFeatureAccess = {
-    risk: true,
-    forecast: insuranceAppVersion !== 'free',
-    recommendation: insuranceAppVersion === 'premium'
-  };
-  
-  const handleInsuranceTabChange = (tab) => {
-    if (insuranceFeatureAccess[tab]) {
-      setInsuranceTab(tab);
-    } else {
-      // In a real app, show upgrade prompt
-      alert('This feature requires a subscription upgrade');
-    }
-  };
   
   // Define categories
   const categories = {
@@ -684,56 +661,6 @@ const ClimateFaxApp = () => {
       </div>
 
       <main className="px-4 py-2">
-        {/* Insurance Risk Assessment Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="border-b border-gray-200 mb-6">
-            <nav className="flex -mb-px">
-              <button
-                onClick={() => handleInsuranceTabChange('risk')}
-                className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
-                  insuranceTab === 'risk'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Risk Assessment
-                <span className="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded-full">Free</span>
-              </button>
-              
-              <button
-                onClick={() => handleInsuranceTabChange('forecast')}
-                className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
-                  insuranceTab === 'forecast'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } ${!insuranceFeatureAccess.forecast && 'opacity-50'}`}
-              >
-                Insurance Forecast
-                <span className="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Standard</span>
-              </button>
-              
-              <button
-                onClick={() => handleInsuranceTabChange('recommendation')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  insuranceTab === 'recommendation'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } ${!insuranceFeatureAccess.recommendation && 'opacity-50'}`}
-              >
-                Location Options
-                <span className="ml-2 px-2 py-0.5 text-xs bg-purple-100 text-purple-800 rounded-full">Premium</span>
-              </button>
-            </nav>
-          </div>
-          
-          {/* Insurance Tab Content */}
-          <div className="mb-6">
-            {insuranceTab === 'risk' && <LAInsuranceRiskMap />}
-            {insuranceTab === 'forecast' && insuranceFeatureAccess.forecast && <InsuranceForecastDashboard />}
-            {insuranceTab === 'recommendation' && insuranceFeatureAccess.recommendation && <LocationRecommendationEngine />}
-          </div>
-        </div>
-        
         {/* Risk Assessment Tab */}
         {activeTab === 'riskAssessment' && (
           <div className="bg-white rounded-lg shadow-md p-6">
