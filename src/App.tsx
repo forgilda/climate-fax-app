@@ -8,6 +8,8 @@ import NotFound from "./pages/NotFound";
 import ClimateFaxApp from "./pages/ClimateFax";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -20,12 +22,45 @@ function App() {
         <TooltipProvider>
           <Sonner />
           <Routes>
-            <Route path="/" element={<SplashPage />} />
-            <Route path="/climate-fax" element={<ClimateFaxApp />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/about" element={<AboutPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            
+            {/* Protected Routes */}
+            <Route 
+              path="/" 
+              element={
+                <ProtectedRoute>
+                  <SplashPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/climate-fax" 
+              element={
+                <ProtectedRoute>
+                  <ClimateFaxApp />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/contact" 
+              element={
+                <ProtectedRoute>
+                  <ContactPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/about" 
+              element={
+                <ProtectedRoute>
+                  <AboutPage />
+                </ProtectedRoute>
+              } 
+            />
+            
             {/* Redirect /index to splash page */}
             <Route path="/index" element={<Navigate to="/" replace />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
