@@ -46,8 +46,10 @@ const LoginPage = () => {
       <Card className="w-[350px] shadow-lg border-orange-200">
         <CardHeader className="pb-6">
           <div className="flex justify-center mb-4">
-            <div className="h-16 w-16 bg-orange-100 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold text-orange-600">CF</span>
+            <div className="text-4xl font-bold relative inline-block">
+              <span className="text-black">Climate</span>
+              <span className="text-orange-500">FAX</span>
+              <span className="absolute top-0 right-0 -mt-1 -mr-3 text-xs">®</span>
             </div>
           </div>
           <CardTitle className="text-center text-orange-700">ClimateFAX Access</CardTitle>
