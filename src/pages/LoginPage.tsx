@@ -50,6 +50,7 @@ const LoginPage = () => {
               src="/placeholder.svg" 
               alt="ClimateFAX Logo" 
               className="h-16 w-16 object-contain"
+              style={{ display: 'block' }}
             />
           </div>
           <CardTitle className="text-center text-orange-700">ClimateFAX Access</CardTitle>
