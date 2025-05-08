@@ -14,9 +14,6 @@ const queryClient = new QueryClient();
 
 // Define the App component as a function component
 function App() {
-  // Remove all authentication logic - direct access to the app
-
-  // Show normal app without password protection
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
