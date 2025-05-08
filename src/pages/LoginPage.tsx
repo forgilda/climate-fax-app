@@ -52,7 +52,6 @@ const LoginPage = () => {
               <span className="absolute top-0 right-0 -mt-1 -mr-3 text-xs">®</span>
             </div>
           </div>
-          <CardTitle className="text-center text-orange-700">ClimateFAX Access</CardTitle>
           <CardDescription className="text-center text-orange-600">
             Enter your password to access the site
           </CardDescription>
