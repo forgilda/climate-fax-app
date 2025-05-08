@@ -49,7 +49,7 @@ const LoginPage = () => {
             <img 
               src="/placeholder.svg" 
               alt="ClimateFAX Logo" 
-              className="h-16 w-auto"
+              className="h-16 w-16 object-contain"
             />
           </div>
           <CardTitle className="text-center text-orange-700">ClimateFAX Access</CardTitle>
