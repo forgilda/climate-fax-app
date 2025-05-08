@@ -17,7 +17,7 @@ const LoginPage = () => {
   
   // Check if already authenticated
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
     if (isAuthenticated === "true") {
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
@@ -28,8 +28,8 @@ const LoginPage = () => {
     e.preventDefault();
     
     if (password === PASSWORD) {
-      // Set authentication in localStorage
-      localStorage.setItem("isAuthenticated", "true");
+      // Set authentication in sessionStorage instead of localStorage
+      sessionStorage.setItem("isAuthenticated", "true");
       
       // Redirect to the page they were trying to access or home
       const from = location.state?.from?.pathname || "/";

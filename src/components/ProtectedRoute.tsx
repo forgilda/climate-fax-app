@@ -7,7 +7,10 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  
+  // Check for session storage instead of local storage
+  // Session storage is cleared when the browser is closed
+  const isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true";
 
   if (!isAuthenticated) {
     // Redirect to the login page, but save the current location
