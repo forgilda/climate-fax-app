@@ -46,12 +46,9 @@ const LoginPage = () => {
       <Card className="w-[350px] shadow-lg border-orange-200">
         <CardHeader className="pb-6">
           <div className="flex justify-center mb-4">
-            <img 
-              src="/placeholder.svg" 
-              alt="ClimateFAX Logo" 
-              className="h-16 w-16 object-contain"
-              style={{ display: 'block' }}
-            />
+            <div className="h-16 w-16 bg-orange-100 rounded-full flex items-center justify-center">
+              <span className="text-2xl font-bold text-orange-600">CF</span>
+            </div>
           </div>
           <CardTitle className="text-center text-orange-700">ClimateFAX Access</CardTitle>
           <CardDescription className="text-center text-orange-600">
