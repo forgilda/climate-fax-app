@@ -345,4 +345,3 @@ const ClimateFaxApp = () => {
 };
 
 export default ClimateFaxApp;
-
