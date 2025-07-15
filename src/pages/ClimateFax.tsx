@@ -360,9 +360,23 @@ const ClimateFaxApp = () => {
     }
   }, [region, selectedArea]);
   
+  const getCurrentNeighborhood = () => {
+    if (selectedNeighborhood && neighborhoodData[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood]) {
+      return neighborhoodData[region][selectedArea].neighborhoods[selectedNeighborhood];
+    }
+    return null;
+  };
+  
   // Calculate overall risk score (0-100)
   const calculateRiskScore = () => {
-    // Base factors per region
+    const neighborhood = getCurrentNeighborhood();
+    
+    // If we have neighborhood data, use its specific risk score
+    if (neighborhood && neighborhood.riskScore) {
+      return neighborhood.riskScore;
+    }
+    
+    // Otherwise fall back to existing logic
     const baseScores = {
       'california': 65,
       'florida': 70,
@@ -370,21 +384,18 @@ const ClimateFaxApp = () => {
       'colorado': 50
     };
     
-    // Get the appropriate risk based on selected variable
     let riskModifier = 0;
     
     if (variable === 'wildfires' && region === 'california') riskModifier = 15;
     else if (variable === 'hurricanes' && region === 'florida') riskModifier = 20;
     else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) riskModifier = 15;
-    else if (variable === 'tsunamis' && region === 'texas') riskModifier = -20; // Very low risk
+    else if (variable === 'tsunamis' && region === 'texas') riskModifier = -20;
     else if (variable === 'seaLevelRise' && region === 'florida') riskModifier = 25;
-    else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') riskModifier = -30; // No risk for these in Colorado
+    else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') riskModifier = -30;
     else riskModifier = 5;
     
-    // Risk level based on prediction model
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
-    // Calculate total score (capped at 0-100)
     const score = Math.min(100, Math.max(0, baseScores[region] + riskModifier + modelModifier));
     
     return score;
@@ -401,7 +412,14 @@ const ClimateFaxApp = () => {
   
   // Calculate property value impact
   const calculatePropertyImpact = () => {
-    // Base impact factors (percentage decline in 10 years)
+    const neighborhood = getCurrentNeighborhood();
+    
+    // If we have neighborhood property impact data, use it
+    if (neighborhood && neighborhood.propertyImpact) {
+      return neighborhood.propertyImpact;
+    }
+    
+    // Otherwise use existing logic
     const baseImpacts = {
       'california': { low: 5, high: 15 },
       'florida': { low: 8, high: 25 },
@@ -409,19 +427,16 @@ const ClimateFaxApp = () => {
       'colorado': { low: 2, high: 8 }
     };
     
-    // Apply model modifiers
     let multiplier = 1.0;
     if (model === 'accelerated') multiplier = 1.5;
     if (model === 'mitigation') multiplier = 0.7;
     
-    // Determine if this location is high impact for the selected variable
     const isHighImpact = 
       (variable === 'wildfires' && region === 'california') ||
       (variable === 'hurricanes' && region === 'florida') ||
       (variable === 'seaLevelRise' && region === 'florida') ||
       (variable === 'flooding' && region === 'florida');
     
-    // Calculate range of impact
     const impact = isHighImpact ? baseImpacts[region].high : baseImpacts[region].low;
     
     return Math.round(impact * multiplier);
@@ -429,21 +444,31 @@ const ClimateFaxApp = () => {
 
   // Get corresponding insurance information - Updated logic
   const getInsuranceInfo = () => {
-    // Insurance availability is primarily determined by region
-    const isAvailable = insuranceRates[region]?.available || false;
+    const neighborhood = getCurrentNeighborhood();
     
-    // Base rate based on region and risk level
-    const rateType = 'regular'; // In updated logic, risk level doesn't change rate, only region determines availability
+    // If we have neighborhood insurance data, use it
+    if (neighborhood) {
+      return {
+        available: neighborhood.insuranceAvailable,
+        annualRate: neighborhood.annualRate,
+        notes: neighborhood.insuranceAvailable ? 
+          "Standard insurance coverage should be available in this area." : 
+          "Insurance coverage is unavailable in this high-risk neighborhood.",
+        includesFlood: neighborhood.mainRisks.includes('flooding') || neighborhood.mainRisks.includes('seaLevelRise'),
+        homeValue: insuranceRates[region]?.homeValue || 500000
+      };
+    }
+    
+    // Fall back to existing logic if no neighborhood data
+    const isAvailable = insuranceRates[region]?.available || false;
+    const rateType = 'regular';
     let rate = insuranceRates[region]?.[rateType] || 2000;
     
-    // Add flood insurance if applicable (separate policy)
     const needsFloodInsurance = variable === 'flooding' || variable === 'seaLevelRise';
     const floodInsuranceCost = needsFloodInsurance ? 2800 : 0;
     
-    // Home value used for calculation
     const homeValue = insuranceRates[region]?.homeValue || 500000;
     
-    // Insurance notes based on availability
     let notes = "";
     if (!isAvailable) {
       notes = "Insurance coverage is unavailable in this high-risk region.";
