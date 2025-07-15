@@ -371,32 +371,63 @@ const ClimateFaxApp = () => {
   const calculateRiskScore = () => {
     const neighborhood = getCurrentNeighborhood();
     
-    // If we have neighborhood data, use its specific risk score
+    // Base score from neighborhood if available
+    let baseScore = 50;
     if (neighborhood && neighborhood.riskScore) {
-      return neighborhood.riskScore;
+      baseScore = neighborhood.riskScore;
+    } else {
+      const baseScores = {
+        'california': 65,
+        'florida': 70,
+        'texas': 60,
+        'colorado': 50
+      };
+      baseScore = baseScores[region] || 50;
     }
     
-    // Otherwise fall back to existing logic
-    const baseScores = {
-      'california': 65,
-      'florida': 70,
-      'texas': 60,
-      'colorado': 50
-    };
+    // Now adjust based on the specific variable selected and neighborhood characteristics
+    let variableModifier = 0;
     
-    let riskModifier = 0;
+    if (neighborhood) {
+      // Sea level rise and coastal risks - check elevation
+      if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion') && neighborhood.elevation) {
+        const elevationFeet = parseInt(neighborhood.elevation);
+        if (elevationFeet < 10) variableModifier = 30;  // Venice at 11 feet
+        else if (elevationFeet < 20) variableModifier = 20;
+        else if (elevationFeet < 50) variableModifier = 10;
+        else if (elevationFeet > 100) variableModifier = -30; // Pacific Palisades at 125 feet, Downtown LA at 285 feet
+      }
+      
+      // Wildfire risk - check if it's in their main risks
+      if (variable === 'wildfires' && neighborhood.mainRisks.includes('wildfires')) {
+        variableModifier = 20;
+      } else if (variable === 'wildfires' && !neighborhood.mainRisks.includes('wildfires')) {
+        variableModifier = -20;
+      }
+      
+      // Flooding - check FEMA zone and elevation
+      if (variable === 'flooding') {
+        if (neighborhood.femaZone?.includes('VE') || neighborhood.femaZone?.includes('AE')) {
+          variableModifier = 25;
+        } else if (neighborhood.femaZone?.includes('X')) {
+          variableModifier = -10;
+        }
+      }
+    } else {
+      // Fallback to original logic if no neighborhood data
+      if (variable === 'wildfires' && region === 'california') variableModifier = 15;
+      else if (variable === 'hurricanes' && region === 'florida') variableModifier = 20;
+      else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) variableModifier = 15;
+      else if (variable === 'tsunamis' && region === 'texas') variableModifier = -20;
+      else if (variable === 'seaLevelRise' && region === 'florida') variableModifier = 25;
+      else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') variableModifier = -30;
+    }
     
-    if (variable === 'wildfires' && region === 'california') riskModifier = 15;
-    else if (variable === 'hurricanes' && region === 'florida') riskModifier = 20;
-    else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) riskModifier = 15;
-    else if (variable === 'tsunamis' && region === 'texas') riskModifier = -20;
-    else if (variable === 'seaLevelRise' && region === 'florida') riskModifier = 25;
-    else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') riskModifier = -30;
-    else riskModifier = 5;
-    
+    // Model modifier remains the same
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
-    const score = Math.min(100, Math.max(0, baseScores[region] + riskModifier + modelModifier));
+    // Calculate final score
+    const score = Math.min(100, Math.max(0, baseScore + variableModifier + modelModifier));
     
     return score;
   };
