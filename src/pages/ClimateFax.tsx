@@ -386,13 +386,25 @@ const ClimateFaxApp = () => {
     
     let riskModifier = 0;
     
-    // Variable-specific adjustments based on historical data
+    // Winter storms - based on NOAA data
     if (variable === 'winterStorms') {
-      // Based on NOAA storm frequency data
-      if (region === 'texas') riskModifier = 15;  // Post-Uri vulnerability
-      else if (region === 'colorado') riskModifier = -10; // Prepared infrastructure
-      else if (region === 'florida') riskModifier = -30; // Extremely rare
-      else if (region === 'california') riskModifier = -25; // Very rare
+      if (region === 'texas') riskModifier = 15; // 1 catastrophic event per ~20 years
+      else if (region === 'colorado') riskModifier = 15; // Boulder gets 50+ inches snow/year
+      else if (region === 'florida') riskModifier = -30; // Near zero occurrence
+      else if (region === 'california') riskModifier = -25; // Rare except mountains
+    }
+    
+    // Wildfire - based on CAL FIRE and local fire dept data
+    if (neighborhood && variable === 'wildfires') {
+      if (neighborhood.fireZone === 'Very High Fire Hazard Severity Zone') {
+        riskModifier = 30; // Official CAL FIRE designation
+      }
+      else if (neighborhood.elevation && parseInt(neighborhood.elevation) < 50 && neighborhood.name.includes('Venice')) {
+        riskModifier = -40; // Coastal, no wildland interface per CAL FIRE maps
+      }
+      else if (neighborhood.mainRisks.includes('wildfires')) {
+        riskModifier = 25;
+      }
     }
     else if (variable === 'wildfires' && region === 'california') riskModifier = 20;
     else if (variable === 'hurricanes' && region === 'florida') riskModifier = 20;
