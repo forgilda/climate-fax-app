@@ -59,7 +59,7 @@ const ClimateFaxApp = () => {
     },
     'storm': {
       name: 'Storm Systems',
-      variables: ['hurricanes', 'tornadoes', 'thunderstorms'],
+      variables: ['hurricanes', 'tornadoes', 'winterStorms'],
       icon: '🌪️'
     }
   };
@@ -77,7 +77,7 @@ const ClimateFaxApp = () => {
     'coastalErosion': { name: 'Coastal Erosion', unit: 'feet', icon: '🏝️' },
     'hurricanes': { name: 'Hurricanes', unit: 'events', icon: '🌀' },
     'tornadoes': { name: 'Tornadoes', unit: 'events', icon: '🌪️' },
-    'thunderstorms': { name: 'Thunderstorms', unit: 'events', icon: '⛈️' }
+    'winterStorms': { name: 'Winter Storms', unit: 'events', icon: '❄️' }
   };
 
   // Sample regions with more details - Updated Colorado risks to be more accurate
@@ -421,13 +421,21 @@ const ClimateFaxApp = () => {
       else if (variable === 'tsunamis' && region === 'texas') variableModifier = -20;
       else if (variable === 'seaLevelRise' && region === 'florida') variableModifier = 25;
       else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') variableModifier = -30;
+      
+      // Winter storm risk
+      if (variable === 'winterStorms') {
+        if (region === 'texas') variableModifier = 20;
+        else if (region === 'colorado') variableModifier = -10;
+        else if (region === 'florida') variableModifier = -20;
+        else variableModifier = 5;
+      }
     }
     
     // Model modifier remains the same
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
     // Calculate final score
-    const score = Math.min(100, Math.max(0, baseScore + variableModifier + modelModifier));
+    const score = Math.min(95, Math.max(0, baseScore + variableModifier + modelModifier));
     
     return score;
   };
