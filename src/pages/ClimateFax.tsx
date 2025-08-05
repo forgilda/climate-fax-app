@@ -371,73 +371,44 @@ const ClimateFaxApp = () => {
   const calculateRiskScore = () => {
     const neighborhood = getCurrentNeighborhood();
     
-    // Base score from neighborhood if available
-    let baseScore = 50;
-    if (neighborhood && neighborhood.riskScore) {
-      baseScore = neighborhood.riskScore;
-    } else {
-      const baseScores = {
-        'california': 65,
-        'florida': 70,
-        'texas': 60,
-        'colorado': 50
-      };
-      baseScore = baseScores[region] || 50;
+    // If neighborhood has specific risk score for this variable, use it
+    if (neighborhood && neighborhood.riskScore && variable === 'wildfires' && neighborhood.mainRisks.includes('wildfires')) {
+      return Math.min(95, neighborhood.riskScore);
     }
     
-    // Now adjust based on the specific variable selected and neighborhood characteristics
-    let variableModifier = 0;
+    // Otherwise use regional historical data
+    const baseScores = {
+      'california': 65,
+      'florida': 70,
+      'texas': 60,
+      'colorado': 50
+    };
     
-    if (neighborhood) {
-      // Sea level rise and coastal risks - check elevation
-      if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion') && neighborhood.elevation) {
-        const elevationFeet = parseInt(neighborhood.elevation);
-        if (elevationFeet < 10) variableModifier = 30;  // Venice at 11 feet
-        else if (elevationFeet < 20) variableModifier = 20;
-        else if (elevationFeet < 50) variableModifier = 10;
-        else if (elevationFeet > 100) variableModifier = -30; // Pacific Palisades at 125 feet, Downtown LA at 285 feet
-      }
-      
-      // Wildfire risk - check if it's in their main risks
-      if (variable === 'wildfires' && neighborhood.mainRisks.includes('wildfires')) {
-        variableModifier = 20;
-      } else if (variable === 'wildfires' && !neighborhood.mainRisks.includes('wildfires')) {
-        variableModifier = -20;
-      }
-      
-      // Flooding - check FEMA zone and elevation
-      if (variable === 'flooding') {
-        if (neighborhood.femaZone?.includes('VE') || neighborhood.femaZone?.includes('AE')) {
-          variableModifier = 25;
-        } else if (neighborhood.femaZone?.includes('X')) {
-          variableModifier = -10;
-        }
-      }
-    } else {
-      // Fallback to original logic if no neighborhood data
-      if (variable === 'wildfires' && region === 'california') variableModifier = 15;
-      else if (variable === 'hurricanes' && region === 'florida') variableModifier = 20;
-      else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) variableModifier = 15;
-      else if (variable === 'tsunamis' && region === 'texas') variableModifier = -20;
-      else if (variable === 'seaLevelRise' && region === 'florida') variableModifier = 25;
-      else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') variableModifier = -30;
-      
-      // Winter storm risk
-      if (variable === 'winterStorms') {
-        if (region === 'texas') variableModifier = 20;
-        else if (region === 'colorado') variableModifier = -10;
-        else if (region === 'florida') variableModifier = -20;
-        else variableModifier = 5;
-      }
+    let riskModifier = 0;
+    
+    // Variable-specific adjustments based on historical data
+    if (variable === 'winterStorms') {
+      // Based on NOAA storm frequency data
+      if (region === 'texas') riskModifier = 15;  // Post-Uri vulnerability
+      else if (region === 'colorado') riskModifier = -10; // Prepared infrastructure
+      else if (region === 'florida') riskModifier = -30; // Extremely rare
+      else if (region === 'california') riskModifier = -25; // Very rare
+    }
+    else if (variable === 'wildfires' && region === 'california') riskModifier = 20;
+    else if (variable === 'hurricanes' && region === 'florida') riskModifier = 20;
+    else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) riskModifier = 15;
+    else if (variable === 'seaLevelRise' && region === 'florida') riskModifier = 25;
+    
+    // Elevation adjustment for coastal risks
+    if (neighborhood && (variable === 'seaLevelRise' || variable === 'flooding')) {
+      const elevation = parseInt(neighborhood.elevation);
+      if (elevation < 20) riskModifier += 20;
+      else if (elevation > 100) riskModifier -= 20;
     }
     
-    // Model modifier remains the same
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
-    // Calculate final score
-    const score = Math.min(95, Math.max(0, baseScore + variableModifier + modelModifier));
-    
-    return score;
+    return Math.min(95, Math.max(0, baseScores[region] + riskModifier + modelModifier));
   };
   
   // Get risk category based on score
