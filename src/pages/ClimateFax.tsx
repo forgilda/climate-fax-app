@@ -1066,71 +1066,127 @@ const ClimateFaxApp = () => {
           </div>
         )}
         
-        {/* Stay or Go Tab Content - Redirect to OPTIONS tab */}
+        {/* Stay or Go Tab Content - RESTORED COST ANALYSIS */}
         {activeTab === 'stayOrGo' && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <span className="text-blue-600 text-xl mr-2">🗺️</span>
-                  <h2 className="text-lg font-bold text-blue-800">Cost Analysis Moved to Know Your Options</h2>
-                </div>
-              </div>
-              <p className="mt-2 text-blue-700 mb-4">
-                Stay or Go recommendations and cost analysis are now available in the "Know Your Options" tab for better organization.
+          <div className="space-y-6">
+            {/* Cost Analysis Header */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                💰 Cost Analysis for {regions[region]?.name}
+              </h2>
+              <p className="text-gray-600">
+                Understand the financial impact of climate risks on your property and insurance.
               </p>
-              <button 
-                onClick={() => setActiveTab('alternatives')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
-              >
-                Go to Know Your Options →
-              </button>
             </div>
-            
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <span className="text-purple-600 text-xl mr-2">✨</span>
-                  <h3 className="text-lg font-bold text-purple-800">Detailed Cost Analysis - Coming Soon!</h3>
+
+            {/* Property Impact Analysis */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                🏠 Property Value Impact
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="text-center bg-red-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-red-600">-{propertyImpact}%</div>
+                  <div className="text-sm font-medium text-gray-700">Potential Value Loss</div>
+                  <div className="text-xs text-gray-500">Due to climate risks</div>
                 </div>
-                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
-                  Premium Feature
-                </span>
+                <div className="text-center bg-gray-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-gray-600">
+                    ${(500000 * (propertyImpact / 100)).toLocaleString()}
+                  </div>
+                  <div className="text-sm font-medium text-gray-700">Estimated Loss</div>
+                  <div className="text-xs text-gray-500">On $500k home</div>
+                </div>
+                <div className="text-center bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {regions[region]?.safetyIndex || 'N/A'}
+                  </div>
+                  <div className="text-sm font-medium text-gray-700">Safety Index</div>
+                  <div className="text-xs text-gray-500">Higher = Safer</div>
+                </div>
               </div>
-              <p className="text-purple-700 mb-4">
-                Advanced financial analysis including property value impacts, insurance projections, and relocation costs.
-              </p>
+            </div>
+
+            {/* Insurance Analysis */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                🛡️ Insurance Impact Analysis
+              </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">💰</span>
-                    <span>Property value impact projections</span>
-                  </div>
-                  <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">🏠</span>
-                    <span>Personalized home value analysis</span>
-                  </div>
-                  <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">🛡️</span>
-                    <span>Detailed insurance cost modeling</span>
+              {insuranceInfo.available ? (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <div className="flex items-center mb-2">
+                        <span className="text-green-600 mr-2">✅</span>
+                        <span className="font-medium text-green-800">Insurance Available</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>Annual Rate:</span>
+                          <span className="font-medium">${insuranceInfo.annualRate.toLocaleString()}/year</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>Risk Level:</span>
+                          <span className="font-medium">{riskScore > 70 ? 'High-Risk' : 'Standard'}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-yellow-50 p-4 rounded-lg">
+                      <h4 className="font-medium text-yellow-800 mb-2">Coverage Notes</h4>
+                      <div className="text-sm text-yellow-700">
+                        {insuranceInfo.notes}
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">📊</span>
-                    <span>10-year financial projections</span>
+              ) : (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <div className="flex items-center mb-2">
+                    <span className="text-red-600 mr-2">❌</span>
+                    <span className="font-medium text-red-800">Insurance Crisis</span>
                   </div>
-                  <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">🚛</span>
-                    <span>Relocation cost estimates</span>
-                  </div>
-                  <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">⚖️</span>
-                    <span>Stay vs. relocate financial comparison</span>
+                  <p className="text-red-700 text-sm mb-3">
+                    Major insurance companies have stopped writing new policies in {regions[region]?.name} due to extreme climate risks.
+                  </p>
+                  <div className="text-sm text-red-600">
+                    <div>• State-run FAIR plans may be only option</div>
+                    <div>• Rates up to 3x normal market rates</div>
+                    <div>• Limited coverage options</div>
+                    <div>• Long waiting lists for coverage</div>
                   </div>
                 </div>
+              )}
+            </div>
+
+            {/* Timeline Costs */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                📈 10-Year Cost Projection
+              </h3>
+              <div className="h-64 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={timelineData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip 
+                      formatter={(value) => [`$${value.toLocaleString()}`, 'Annual Cost']}
+                      labelStyle={{ color: '#374151' }}
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #D1D5DB',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Bar dataKey="cost" fill="#EF4444" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
+              <p className="text-sm text-gray-600 mt-4">
+                Projected annual costs including insurance, maintenance, and potential damage repairs.
+              </p>
             </div>
           </div>
         )}
