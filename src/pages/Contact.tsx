@@ -189,8 +189,9 @@ const ContactPage = () => {
             >
               🚀 Join Waitlist
             </Button>
-            <p className="text-xs text-muted-foreground italic mt-2">
-              * Beta version - All features and data are for evaluation purposes only. Patent pending.
+            <p className="text-xs text-muted-foreground italic mt-2 text-center">
+              * Beta version - All features and data are for evaluation purposes only.<br />
+              Patents pending.
             </p>
           </section>
           
