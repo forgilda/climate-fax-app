@@ -2,7 +2,12 @@ import React from 'react';
 import { MobileHeader } from '@/components/MobileHeader';
 
 const AdminDashboard = () => {
-  const signups = (window as any).climatefax_signups || [];
+  let signups = [];
+  try {
+    signups = JSON.parse(localStorage.getItem('signups') || '[]');
+  } catch (e) {
+    signups = [];
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -23,8 +28,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <p><span className="font-semibold">Name:</span> {signup.name}</p>
                   <p><span className="font-semibold">Email:</span> {signup.email}</p>
-                  <p><span className="font-semibold">Type:</span> <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">{signup.signup_type}</span></p>
-                  <p><span className="font-semibold">Date:</span> {new Date(signup.created_at).toLocaleString()}</p>
+                  <p><span className="font-semibold">Date:</span> {new Date(signup.date).toLocaleString()}</p>
                   {signup.message && (
                     <p className="md:col-span-2"><span className="font-semibold">Message:</span> {signup.message}</p>
                   )}

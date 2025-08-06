@@ -134,15 +134,22 @@ const ContactPage = () => {
                 }
                 
                 const signup = {
-                  id: Date.now(),
                   name: formData.name,
                   email: formData.email,
                   message: formData.message || '',
-                  signup_type: 'waitlist',
-                  created_at: new Date().toISOString()
+                  date: new Date().toISOString()
                 };
                 
-                (window as any).climatefax_signups.push(signup);
+                // Simple localStorage
+                let signups = [];
+                try {
+                  signups = JSON.parse(localStorage.getItem('signups') || '[]');
+                } catch (e) {
+                  signups = [];
+                }
+                signups.push(signup);
+                localStorage.setItem('signups', JSON.stringify(signups));
+                
                 form.reset();
               }}
             >
