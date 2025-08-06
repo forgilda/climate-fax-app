@@ -126,12 +126,22 @@ const ContactPage = () => {
           <section className="text-center">
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
+              type="button"
               onClick={async () => {
                 const formData = form.getValues();
+                console.log('Form data:', formData);
                 
-                if (!formData.name || !formData.email) {
+                // Basic validation
+                if (!formData.name?.trim()) {
+                  console.log('Name required');
                   return;
                 }
+                if (!formData.email?.trim()) {
+                  console.log('Email required'); 
+                  return;
+                }
+                
+                console.log('Submitting signup...');
                 
                 try {
                   const response = await fetch('https://zddkqemgpvdgabobqoio.supabase.co/functions/v1/submit-signup', {
@@ -149,6 +159,7 @@ const ContactPage = () => {
                   });
 
                   const result = await response.json();
+                  console.log('Response:', response.status, result);
                   
                   if (response.ok) {
                     form.reset();
