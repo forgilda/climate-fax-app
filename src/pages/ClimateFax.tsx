@@ -51,6 +51,11 @@ const ClimateFaxApp = () => {
   
   // Define categories
   const categories = {
+    'economic': {
+      name: 'Economic Impact',
+      variables: ['economicLoss'],
+      icon: '💰'
+    },
     'heat-fire': {
       name: 'Heat & Fire Risks',
       variables: ['wildfires', 'drought', 'heatwaves'],
