@@ -77,7 +77,15 @@ const ContactPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <MobileHeader title="Contact Us" showBackButton />
+      <MobileHeader title="" showBackButton>
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="text-2xl font-bold relative">
+            <span className="text-black">Climate</span>
+            <span className="text-orange-500">FAX</span>
+            <span className="absolute top-0 right-0 -mt-1 -mr-3 text-xs">®</span>
+          </div>
+        </div>
+      </MobileHeader>
       
       <main className="flex-1 container max-w-lg mx-auto p-4 pb-20">
         <div className="space-y-8">
