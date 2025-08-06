@@ -135,6 +135,8 @@ const ContactPage = () => {
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
               type="button"
               onClick={() => {
+                alert(`Saving signup for: ${name} - ${email}`);
+                
                 // Simple localStorage storage
                 const signups = JSON.parse(localStorage.getItem('signups') || '[]');
                 signups.push({
@@ -144,6 +146,8 @@ const ContactPage = () => {
                   date: new Date().toISOString()
                 });
                 localStorage.setItem('signups', JSON.stringify(signups));
+                
+                alert(`Signup saved! Total signups: ${signups.length}`);
                 
                 // Clear form
                 setName('');
