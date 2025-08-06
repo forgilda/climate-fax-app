@@ -30,9 +30,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const ContactPage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -43,7 +48,35 @@ const ContactPage = () => {
     },
   });
 
-  const isSubmitting = form.formState.isSubmitting;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbyLuDKfLPoRPju7cSL3OcgJ8iH3hm3HMv1UVrGd8P6a8Xfjoz7j6ONfuGY6NAVx6x3bPA/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message
+        })
+      });
+      
+      // Show success message
+      setShowSuccess(true);
+      toast.success("Successfully joined the waitlist!");
+      
+      // Clear form
+      setFormData({name: '', email: '', phone: '', message: ''});
+      
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -68,100 +101,77 @@ const ContactPage = () => {
           </section>
 
           <section>
-            <Form {...form}>
-              <form className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Your name" 
-                          value={name}
-                          onChange={(e) => {
-                            setName(e.target.value);
-                            form.setValue('name', e.target.value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="name" className="text-sm font-medium">
+                  Name
+                </label>
+                <Input 
+                  id="name"
+                  placeholder="Your name" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  required
                 />
-                
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="your.email@example.com" 
-                          type="email"
-                          value={email}
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                            form.setValue('email', e.target.value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">
+                  Email
+                </label>
+                <Input 
+                  id="email"
+                  placeholder="your.email@example.com" 
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
                 />
-                
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Optional Message/Suggestions</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="How can we help you?" 
-                          className="min-h-[120px]"
-                          value={message}
-                          onChange={(e) => {
-                            setMessage(e.target.value);
-                            form.setValue('message', e.target.value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="phone" className="text-sm font-medium">
+                  Phone (optional)
+                </label>
+                <Input 
+                  id="phone"
+                  placeholder="Your phone number" 
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
-              </form>
-            </Form>
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-sm font-medium">
+                  Optional Message/Suggestions
+                </label>
+                <Textarea 
+                  id="message"
+                  placeholder="How can we help you?" 
+                  className="min-h-[120px]"
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                />
+              </div>
+              
+              <Button 
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Joining...' : '🚀 Join Waitlist'}
+              </Button>
+              
+              {showSuccess && (
+                <div className="text-center text-green-600 font-medium">
+                  ✅ Successfully joined the waitlist!
+                </div>
+              )}
+            </form>
           </section>
 
-          {/* Waitlist Button */}
           <section className="text-center">
-            <Button 
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
-              type="button"
-              onClick={() => {
-                // Simple localStorage storage
-                const signups = JSON.parse(localStorage.getItem('signups') || '[]');
-                signups.push({
-                  name,
-                  email, 
-                  message,
-                  date: new Date().toISOString()
-                });
-                localStorage.setItem('signups', JSON.stringify(signups));
-                
-                // Clear form
-                setName('');
-                setEmail('');
-                setMessage('');
-              }}
-            >
-              🚀 Join Waitlist
-            </Button>
             <p className="text-xs text-muted-foreground italic mt-2 text-center">
               * Beta version - All features and data are for evaluation purposes only.<br />
               Patents pending.
