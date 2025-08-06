@@ -1,11 +1,11 @@
 
 import { Home, BarChart2, Mail, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { DEFAULT_LOCATION, navigateToPath, isPathActive } from "@/utils/navigation";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export function MobileNav() {
-  // Use a simple approach without router hooks
-  const location = typeof window !== 'undefined' ? { pathname: window.location.pathname } : DEFAULT_LOCATION;
+  const navigate = useNavigate();
+  const location = useLocation();
   
   const navItems = [
     { icon: Home, label: "Home", path: "/" },
@@ -15,14 +15,14 @@ export function MobileNav() {
   ];
 
   const handleNavigation = (path: string) => {
-    navigateToPath(path);
+    navigate(path);
   };
 
   return (
     <div className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
       <div className="flex h-16 items-center justify-around">
         {navItems.map((item) => {
-          const isActive = isPathActive(location.pathname, item.path);
+          const isActive = location.pathname === item.path;
           return (
             <button
               key={item.label}

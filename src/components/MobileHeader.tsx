@@ -1,6 +1,6 @@
 
 import { ChevronLeft } from "lucide-react";
-import { goBack } from "@/utils/navigation";
+import { useNavigate } from "react-router-dom";
 
 interface MobileHeaderProps {
   title: string;
@@ -15,11 +15,13 @@ export function MobileHeader({
   onBackClick,
   children
 }: MobileHeaderProps) {
+  const navigate = useNavigate();
+  
   const handleBackClick = () => {
     if (onBackClick) {
       onBackClick();
     } else {
-      goBack();
+      navigate(-1);
     }
   };
   
