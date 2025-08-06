@@ -43,6 +43,8 @@ const ContactPage = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      console.log('Form submission data:', data);
+      
       // Simple localStorage tracking
       const signup = {
         id: Date.now().toString(),
@@ -52,14 +54,18 @@ const ContactPage = () => {
         created_at: new Date().toISOString()
       };
       
+      console.log('Signup object to save:', signup);
+      
       // Get existing signups
       const existingSignups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+      console.log('Existing signups:', existingSignups);
       
       // Add new signup
       existingSignups.push(signup);
       
       // Save back to localStorage
       localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
+      console.log('Saved to localStorage successfully');
 
       toast.success("Message sent successfully", {
         description: "Thank you for contacting us. We'll get back to you soon.",
