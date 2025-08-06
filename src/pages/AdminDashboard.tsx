@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MobileHeader } from '@/components/MobileHeader';
 
 const AdminDashboard = () => {
-  // Debug all localStorage
-  alert(`All localStorage keys: ${Object.keys(localStorage).join(', ')}`);
-  
-  const signups = JSON.parse(localStorage.getItem('signups') || '[]');
-  
-  // Debug localStorage
-  console.log('localStorage signups:', localStorage.getItem('signups'));
-  console.log('parsed signups:', signups);
-  alert(`Admin Dashboard: Found ${signups.length} signups in localStorage`);
+  const [signups, setSignups] = useState([]);
+
+  useEffect(() => {
+    const loadSignups = () => {
+      try {
+        const data = localStorage.getItem('signups');
+        if (data) {
+          setSignups(JSON.parse(data));
+        }
+      } catch (error) {
+        console.error('Error loading signups:', error);
+      }
+    };
+
+    loadSignups();
+    
+    // Refresh every second to catch new signups
+    const interval = setInterval(loadSignups, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">

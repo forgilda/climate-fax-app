@@ -144,14 +144,6 @@ const ContactPage = () => {
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
               type="button"
               onClick={() => {
-                alert(`About to save: ${name} - ${email}`);
-                alert(`All localStorage keys before: ${Object.keys(localStorage).join(', ')}`);
-                
-                
-                // Check what's currently in localStorage
-                const currentData = localStorage.getItem('signups');
-                alert(`Current localStorage 'signups': ${currentData}`);
-                
                 // Simple localStorage storage
                 const signups = JSON.parse(localStorage.getItem('signups') || '[]');
                 signups.push({
@@ -160,14 +152,7 @@ const ContactPage = () => {
                   message,
                   date: new Date().toISOString()
                 });
-                
-                // Save to localStorage
                 localStorage.setItem('signups', JSON.stringify(signups));
-                
-                // Verify it was saved
-                const savedData = localStorage.getItem('signups');
-                alert(`After saving localStorage 'signups': ${savedData}`);
-                alert(`Total signups now: ${signups.length}`);
                 
                 // Clear form
                 setName('');
