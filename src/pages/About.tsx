@@ -45,9 +45,37 @@ const AboutPage = () => {
                   <li>NOAA Hurricane Database</li>
                   <li>NOAA Storm Prediction Center (Tornado Data)</li>
                   <li>NASA & NOAA Sea Level Monitoring</li>
+                  <li>FEMA - Federal Emergency Management Agency flood zone maps and risk assessments</li>
+                  <li>USGS - United States Geological Survey elevation and topographical data</li>
+                  <li>NWS - National Weather Service historical storm frequency statistics</li>
+                  <li>State Insurance Departments - Coverage availability and rate filing data</li>
+                  <li>US Census Bureau - Geographic and demographic data for ZIP codes</li>
                 </ul>
                 <p className="text-sm text-gray-500 mt-4">
                   Note: Only counts significant wildfires ≥1,000 acres or causing significant damage
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>How We Calculate Risk</CardTitle>
+                <CardDescription>
+                  Our methodology for neighborhood-specific risk scores
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-gray-600">
+                  ClimateFAX combines historical frequency data with current hazard maps to create neighborhood-specific risk scores. We use:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-sm text-gray-600">
+                  <li>Official hazard designations (FEMA flood zones, CAL FIRE severity zones)</li>
+                  <li>Historical event frequency from NOAA databases</li>
+                  <li>Elevation data from USGS to assess flood and fire risk</li>
+                  <li>Insurance availability as a market-based risk indicator</li>
+                </ul>
+                <p className="text-sm text-gray-600 mt-4 font-medium">
+                  We do not create predictions from scratch - we aggregate and analyze existing government data to make it actionable for your housing decisions.
                 </p>
               </CardContent>
             </Card>
