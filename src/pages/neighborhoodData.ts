@@ -163,6 +163,63 @@ const enhancedRegions = {
           }
         }
       },
+      'gulfCoast': {
+        name: 'Gulf Coast',
+        neighborhoods: {
+          'fortMyers': {
+            name: 'Fort Myers',
+            zipCode: '33901',
+            coordinates: { lat: 26.6406, lng: -81.8723 },
+            elevation: '10 feet',
+            femaZone: 'AE (High Risk)',
+            basementRisk: 'EXTREME',
+            safeFloor: '2nd floor minimum',
+            mainRisks: ['hurricanes', 'flooding', 'tornadoes'],
+            stormSurge: 'HIGH - Gulf exposure',
+            evacuationRoutes: 'I-75 inland',
+            floodHistory: 'Ian (2022), Helene (2024), Milton (2024)',
+            recentEvent: {
+              active: false,
+              type: 'hurricane',
+              date: '2024-10-09',
+              severity: 'major',
+              description: '5th hurricane in 2 years - Milton tornado + surge after Helene'
+            },
+            repeatVictim: true,
+            overallRisk: 'EXTREME',
+            riskScore: 93,
+            insuranceAvailable: false,
+            annualRate: 28000,
+            propertyImpact: 32
+          },
+          'fortMyersBeach': {
+            name: 'Fort Myers Beach',
+            zipCode: '33931',
+            coordinates: { lat: 26.4520, lng: -81.9481 },
+            elevation: '4 feet',
+            femaZone: 'VE (Velocity Zone)',
+            basementRisk: 'EXTREME',
+            safeFloor: 'Evacuate - barrier island',
+            mainRisks: ['hurricanes', 'flooding', 'seaLevelRise'],
+            stormSurge: 'EXTREME - Direct Gulf exposure',
+            barrierIsland: true,
+            floodHistory: 'Ian (2022), Helene (2024), Milton (2024) - 5 hurricanes in 2 years',
+            recentEvent: {
+              active: false,
+              type: 'hurricane',
+              date: '2024-10-09',
+              severity: 'catastrophic',
+              description: 'Residents asking if time to let go after 5th hurricane'
+            },
+            repeatVictim: true,
+            overallRisk: 'EXTREME',
+            riskScore: 96,
+            insuranceAvailable: false,
+            annualRate: 35000,
+            propertyImpact: 40
+          }
+        }
+      },
       'tampa_bay': {
         name: 'Tampa Bay Area',
         neighborhoods: {
