@@ -1412,6 +1412,85 @@ const ClimateFaxApp = () => {
             {/* Regional Overview */}
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Regional Overview: {regions[region].name}</h2>
+              
+              {/* Area and Neighborhood Selectors */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {enhancedRegions[region] && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Area</label>
+                    <select 
+                      value={selectedArea}
+                      onChange={(e) => setSelectedArea(e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
+                    >
+                      {Object.entries(enhancedRegions[region]?.subRegions || {}).map(([key, area]) => (
+                        <option key={key} value={key}>{(area as any).name}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                
+                {selectedArea && enhancedRegions[region]?.subRegions[selectedArea] && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Neighborhood</label>
+                    <select 
+                      value={selectedNeighborhood}
+                      onChange={(e) => setSelectedNeighborhood(e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
+                    >
+                      {Object.entries(enhancedRegions[region]?.subRegions?.[selectedArea]?.neighborhoods || {}).map(([key, neighborhood]) => (
+                        <option key={key} value={key}>{(neighborhood as any).name} ({(neighborhood as any).zipCode})</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+
+              {/* Selected Location Details */}
+              {selectedNeighborhood && enhancedRegions[region]?.subRegions[selectedArea]?.neighborhoods[selectedNeighborhood] && (
+                <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="text-sm text-gray-700">
+                    <span className="font-medium">Selected Location:</span> {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].name}
+                    <span className="mx-2">•</span>
+                    <span>Elevation: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].elevation}</span>
+                    <span className="mx-2">•</span>
+                    <span>FEMA Zone: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].femaZone}</span>
+                  </div>
+                  
+                  {/* Recent Event Alert */}
+                  {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].recentEvent && (
+                    <div className="mt-2 p-2 bg-red-100 border border-red-300 rounded">
+                      <span className="text-red-800 font-medium">🔴 RECENT EVENT: </span>
+                      <span className="text-red-700">
+                        {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].recentEvent.description}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Additional neighborhood details */}
+                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].floodHistory && (
+                      <div>
+                        <span className="font-medium text-gray-700">Flood History:</span> 
+                        <span className="text-gray-600 ml-1">
+                          {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].floodHistory}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].safeFloor && (
+                      <div>
+                        <span className="font-medium text-gray-700">Safe Floor:</span> 
+                        <span className="text-gray-600 ml-1">
+                          {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].safeFloor}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Regional Statistics */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-2">Climate Safety Score</h3>
