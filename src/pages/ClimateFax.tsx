@@ -1486,15 +1486,15 @@ const ClimateFaxApp = () => {
                   </div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-2">Affordability Index</h3>
+                  <h3 className="font-medium text-gray-700 mb-2">Property Value Impact</h3>
                   <div className="flex items-center">
                     <span className={`text-lg font-semibold ${
                       regions[region].affordabilityIndex >= 70 ? 'text-green-600' : 
                       regions[region].affordabilityIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
-                      {regions[region].affordabilityIndex}/100
+                      -{100 - regions[region].affordabilityIndex}%
                     </span>
-                    <span className="ml-2 text-xs text-gray-500">Higher is more affordable</span>
+                    <span className="ml-2 text-xs text-gray-500">10-year decline</span>
                   </div>
                 </div>
               </div>
