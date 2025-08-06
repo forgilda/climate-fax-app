@@ -792,7 +792,6 @@ const ClimateFaxApp = () => {
             {/* 4. CLIMATE CATEGORIES BOXES */}
             <div className="mb-8 bg-white p-4 rounded-lg shadow-sm">
               <label className="block text-base font-semibold text-gray-800 mb-2">Select Threat</label>
-              <br />
               <ToggleGroup
                 type="single" 
                 value={activeCategory} 
