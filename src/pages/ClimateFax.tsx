@@ -448,11 +448,8 @@ const ClimateFaxApp = () => {
   const calculateRiskScore = () => {
     const neighborhood = getCurrentNeighborhood();
     
-    // If we have neighborhood data, use its specific risk score
-    if (neighborhood && neighborhood.riskScore) {
-      return neighborhood.riskScore;
-    }
-    
+    // Use threat-specific calculation instead of generic neighborhood score
+    // The old logic returned neighborhood.riskScore here, but that ignored the specific threat
     // Threat-specific risk scores by region (from NOAA data and regional studies)
     const threatRiskMatrix = {
       'economicLoss': {
@@ -511,6 +508,13 @@ const ClimateFaxApp = () => {
     
     // Get base risk score for this threat-region combination
     let riskScore = threatRiskMatrix[variable]?.[region] || 50;
+    
+    // Debug logging for risk calculation
+    console.log(`Risk calculation for ${variable} in ${region}:`, {
+      rawScore: threatRiskMatrix[variable]?.[region],
+      finalScore: riskScore,
+      matrixEntry: threatRiskMatrix[variable]
+    });
     
     // Enforce geographic constraints for impossible scenarios
     if ((variable === 'tsunamis' || variable === 'seaLevelRise' || variable === 'coastalErosion') && 
