@@ -8,7 +8,11 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchSignups = async () => {
       try {
-        const response = await fetch('/functions/v1/get-signups');
+        const response = await fetch('https://zddkqemgpvdgabobqoio.supabase.co/functions/v1/get-signups', {
+          headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZGtxZW1ncHZkZ2Fib2Jxb2lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM1MjMzNjksImV4cCI6MjA0OTA5OTM2OX0.gLhUKb_Hs0GV_qAOJoRjpHQ7Kf4eQeRnYyWo-aXKNp8'
+          }
+        });
         if (response.ok) {
           const data = await response.json();
           setSignups(data.signups || []);

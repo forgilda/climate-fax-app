@@ -134,10 +134,11 @@ const ContactPage = () => {
                 }
                 
                 try {
-                  const response = await fetch('/functions/v1/submit-signup', {
+                  const response = await fetch('https://zddkqemgpvdgabobqoio.supabase.co/functions/v1/submit-signup', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
+                      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZGtxZW1ncHZkZ2Fib2Jxb2lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM1MjMzNjksImV4cCI6MjA0OTA5OTM2OX0.gLhUKb_Hs0GV_qAOJoRjpHQ7Kf4eQeRnYyWo-aXKNp8'
                     },
                     body: JSON.stringify({
                       name: formData.name,
@@ -147,11 +148,16 @@ const ContactPage = () => {
                     })
                   });
 
+                  const result = await response.json();
+                  
                   if (response.ok) {
                     form.reset();
+                    console.log('Signup successful:', result);
+                  } else {
+                    console.error('Signup failed:', result);
                   }
                 } catch (error) {
-                  console.error('Signup failed:', error);
+                  console.error('Signup error:', error);
                 }
               }}
             >
