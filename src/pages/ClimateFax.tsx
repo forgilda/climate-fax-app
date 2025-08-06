@@ -699,7 +699,7 @@ const ClimateFaxApp = () => {
         icon: "⚠️",
         reasons: [
           riskScore > 70 ? "High climate risk in this area" : null,
-          propertyImpact > 15 ? `Significant property value impact (${propertyImpact}% over 10 years)` : null,
+          propertyImpact > 15 ? `Significant property value impact (-${propertyImpact}% over 10 years)` : null,
           insuranceInfo.available ? null : "Limited insurance options"
         ].filter(Boolean)
       };
@@ -710,7 +710,7 @@ const ClimateFaxApp = () => {
         icon: "🏡",
         reasons: [
           "Manageable climate risk levels",
-          `Reasonable property value projection (${propertyImpact}% impact over 10 years)`,
+          `Reasonable property value projection (-${propertyImpact}% impact over 10 years)`,
           insuranceInfo.available ? "Insurance coverage available" : null
         ].filter(Boolean)
       };
@@ -1539,13 +1539,6 @@ const ClimateFaxApp = () => {
                     <li key={index} className="text-gray-700">{reason}</li>
                   ))}
                 </ul>
-                
-                <div className="mt-3 p-3 bg-gray-50 rounded border-l-4 border-red-400">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-gray-700">10-Year Property Value Impact:</span>
-                    <span className="text-red-600 font-semibold">-{100 - regions[region].affordabilityIndex}%</span>
-                  </div>
-                </div>
               </div>
             </div>
 
