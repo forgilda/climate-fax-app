@@ -1459,51 +1459,42 @@ const ClimateFaxApp = () => {
                 )}
               </div>
               
-              {/* Regional Statistics with Red/Yellow/Green Colors */}
+              {/* Regional Statistics */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-2">Climate Safety Score</h3>
                   <div className="flex items-center">
-                    <span className={`text-2xl font-bold ${
+                    <span className={`text-lg font-semibold ${
                       regions[region].safetyIndex >= 70 ? 'text-green-600' : 
                       regions[region].safetyIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
                       {regions[region].safetyIndex}/100
                     </span>
-                    <Progress 
-                      value={regions[region].safetyIndex} 
-                      className="ml-3 flex-1 h-2"
-                    />
+                    <span className="ml-2 text-xs text-gray-500">Higher is safer</span>
                   </div>
                 </div>
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-2">Insurance Availability</h3>
                   <div className="flex items-center">
-                    <span className={`text-2xl font-bold ${
+                    <span className={`text-lg font-semibold ${
                       regions[region].insuranceIndex >= 70 ? 'text-green-600' : 
                       regions[region].insuranceIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
                       {regions[region].insuranceIndex}/100
                     </span>
-                    <Progress 
-                      value={regions[region].insuranceIndex} 
-                      className="ml-3 flex-1 h-2"
-                    />
+                    <span className="ml-2 text-xs text-gray-500">Higher is better</span>
                   </div>
                 </div>
-                <div className="bg-white p-4 rounded-lg border">
+                <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-2">Affordability Index</h3>
                   <div className="flex items-center">
-                    <span className={`text-2xl font-bold ${
+                    <span className={`text-lg font-semibold ${
                       regions[region].affordabilityIndex >= 70 ? 'text-green-600' : 
                       regions[region].affordabilityIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
                       {regions[region].affordabilityIndex}/100
                     </span>
-                    <Progress 
-                      value={regions[region].affordabilityIndex} 
-                      className="ml-3 flex-1 h-2"
-                    />
+                    <span className="ml-2 text-xs text-gray-500">Higher is more affordable</span>
                   </div>
                 </div>
               </div>
