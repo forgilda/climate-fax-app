@@ -117,6 +117,15 @@ const ClimateFaxApp = () => {
       safetyIndex: 80,
       insuranceIndex: 65,
       affordabilityIndex: 45
+    },
+    'nyc': {
+      name: 'New York City',
+      icon: '🗽',
+      majorCities: ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island'],
+      mainRisks: ['flooding', 'hurricanes', 'winterStorms'],
+      safetyIndex: 60,
+      insuranceIndex: 55,
+      affordabilityIndex: 20
     }
   };
 
