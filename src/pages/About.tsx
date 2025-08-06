@@ -38,51 +38,7 @@ const AboutPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                
-                {/* NOAA Billion-Dollar Disaster Data */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                  <h3 className="text-lg font-semibold text-blue-800 mb-3 flex items-center">
-                    <span className="mr-2">💰</span>
-                    NOAA Billion-Dollar Climate Disasters (1980-2024)
-                  </h3>
-                  <p className="text-sm text-blue-700 mb-4">
-                    Real historical data showing the dramatic increase in climate-related economic losses from NOAA's National Centers for Environmental Information.
-                  </p>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-4">
-                    <div className="bg-white p-3 rounded border">
-                      <div className="text-lg font-bold text-blue-800">403</div>
-                      <div className="text-xs text-blue-600">Total Events</div>
-                      <div className="text-xs text-blue-600">(1980-2024)</div>
-                    </div>
-                    <div className="bg-white p-3 rounded border">
-                      <div className="text-lg font-bold text-green-800">$2.915T</div>
-                      <div className="text-xs text-green-600">Total Cost</div>
-                      <div className="text-xs text-green-600">(CPI-adjusted)</div>
-                    </div>
-                    <div className="bg-white p-3 rounded border">
-                      <div className="text-lg font-bold text-orange-800">23/yr</div>
-                      <div className="text-xs text-orange-600">Current Rate</div>
-                      <div className="text-xs text-orange-600">(2020-2024)</div>
-                    </div>
-                    <div className="bg-white p-3 rounded border">
-                      <div className="text-lg font-bold text-red-800">$149B</div>
-                      <div className="text-xs text-red-600">Annual Cost</div>
-                      <div className="text-xs text-red-600">(2020-2024 avg)</div>
-                    </div>
-                  </div>
-                  
-                  <div className="text-xs text-blue-600">
-                    <p>
-                      <strong>Source:</strong> NOAA National Centers for Environmental Information (NCEI) - 
-                      Billion-Dollar Weather and Climate Disasters database. Data includes 16,941 total deaths 
-                      from these disasters, with frequency increasing from 3 events/year in the 1980s to 23 events/year in the 2020s.
-                    </p>
-                  </div>
-                </div>
-
                 <ul className="list-disc pl-5 space-y-2">
-                  <li>NOAA National Centers for Environmental Information (NCEI) - Billion-Dollar Disaster Database</li>
                   <li>Copernicus Climate Change Service (C3S) Satellite Arrays</li>
                   <li>Copernicus Sentinel-2 and Sentinel-3 Imagery</li>
                   <li>CALFIRE & USFS (California Wildfire Data)</li>
