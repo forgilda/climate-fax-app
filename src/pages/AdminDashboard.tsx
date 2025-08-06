@@ -31,32 +31,21 @@ const AdminDashboard = () => {
 
   const fetchSignups = async () => {
     try {
-      // Call our edge function to get signups (requires admin auth)
-      const response = await fetch('/functions/v1/get-signups', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch signups');
-      }
-
-      const data = await response.json();
-
-      setSignups(data.signups || []);
+      // Get signups from localStorage
+      const signups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+      
+      setSignups(signups);
       
       // Calculate stats
       const today = new Date().toISOString().split('T')[0];
-      const todaySignups = data.signups?.filter((signup: Signup) => 
+      const todaySignups = signups.filter((signup: Signup) => 
         signup.created_at.startsWith(today)
-      ).length || 0;
+      ).length;
       
       setStats({
-        total: data.signups?.length || 0,
-        contacts: data.signups?.filter((s: Signup) => s.signup_type === 'contact').length || 0,
-        waitlist: data.signups?.filter((s: Signup) => s.signup_type === 'waitlist').length || 0,
+        total: signups.length,
+        contacts: signups.filter((s: Signup) => s.signup_type === 'contact').length,
+        waitlist: signups.filter((s: Signup) => s.signup_type === 'waitlist').length,
         today: todaySignups
       });
     } catch (error) {

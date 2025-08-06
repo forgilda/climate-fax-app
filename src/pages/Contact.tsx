@@ -43,24 +43,23 @@ const ContactPage = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      // Call Supabase edge function to save signup
-      const response = await fetch('/functions/v1/submit-signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          subject: 'Contact Form Submission',
-          signup_type: 'contact'
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit');
-      }
+      // Simple localStorage tracking
+      const signup = {
+        id: Date.now().toString(),
+        ...data,
+        subject: 'Contact Form Submission',
+        signup_type: 'contact',
+        created_at: new Date().toISOString()
+      };
+      
+      // Get existing signups
+      const existingSignups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+      
+      // Add new signup
+      existingSignups.push(signup);
+      
+      // Save back to localStorage
+      localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
 
       toast.success("Message sent successfully", {
         description: "Thank you for contacting us. We'll get back to you soon.",
@@ -156,30 +155,29 @@ const ContactPage = () => {
               onClick={async () => {
                 const formData = form.getValues();
                 try {
-                  const response = await fetch('/functions/v1/submit-signup', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      name: formData.name || 'Anonymous',
-                      email: formData.email || 'waitlist@climatefax.com',
-                      subject: 'Premium Features Waitlist',
-                      message: formData.message || 'User joined waitlist from contact page',
-                      signup_type: 'waitlist'
-                    }),
-                  });
+                  const signup = {
+                    id: Date.now().toString(),
+                    name: formData.name || 'Anonymous',
+                    email: formData.email || 'waitlist@climatefax.com',
+                    subject: 'Premium Features Waitlist',
+                    message: formData.message || 'User joined waitlist from contact page',
+                    signup_type: 'waitlist',
+                    created_at: new Date().toISOString()
+                  };
                   
-                  if (response.ok) {
-                    toast.success("Added to waitlist!", {
-                      description: "We'll contact you when premium features are available.",
-                    });
-                    form.reset();
-                  } else {
-                    toast.error("Something went wrong", {
-                      description: "Please try again later.",
-                    });
-                  }
+                  // Get existing signups
+                  const existingSignups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+                  
+                  // Add new signup
+                  existingSignups.push(signup);
+                  
+                  // Save back to localStorage
+                  localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
+                  
+                  toast.success("Added to waitlist!", {
+                    description: "We'll contact you when premium features are available.",
+                  });
+                  form.reset();
                 } catch (error) {
                   toast.error("Something went wrong", {
                     description: "Please try again later.",
