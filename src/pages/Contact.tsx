@@ -144,7 +144,7 @@ const ContactPage = () => {
               
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium">
-                  Message/Suggestions (optional)
+                  Optional Message/Suggestions
                 </label>
                 <Textarea 
                   id="message"
@@ -162,10 +162,6 @@ const ContactPage = () => {
               >
                 {isSubmitting ? 'Joining...' : '🚀 Join Waitlist'}
               </Button>
-              
-              <p className="text-xs text-muted-foreground text-center mt-2">
-                Your contact information will not be shared with third parties.
-              </p>
               
               {showSuccess && (
                 <div className="text-center text-green-600 font-medium">
