@@ -173,8 +173,6 @@ const ContactPage = () => {
                   return;
                 }
                 
-                alert('Purple button processing... Check admin after clicking OK');
-                
                 try {
                   const signup = {
                     id: Date.now().toString(),
@@ -195,14 +193,11 @@ const ContactPage = () => {
                   // Save back to localStorage
                   localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
                   
-                  alert('Saved to localStorage! Go check /admin now');
-                  
                   toast.success("Added to waitlist!", {
                     description: "We'll contact you when premium features are available.",
                   });
                   form.reset();
                 } catch (error) {
-                  alert('Error: ' + error);
                   toast.error("Something went wrong", {
                     description: "Please try again later.",
                   });
