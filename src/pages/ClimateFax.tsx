@@ -673,16 +673,15 @@ const ClimateFaxApp = () => {
 
   // Property value impact comparison
   const valueImpactData = [
-    { name: regions[region].name, impact: propertyImpact },
+    { name: regions[region].name, impact: -propertyImpact },
     ...alternativeLocations.map(loc => {
       const baseImpacts = {
         'california': 10,
         'florida': 15,
         'texas': 8,
-        'colorado': 4,
-        'nyc': 12
+        'colorado': 4
       };
-      return { name: loc.name, impact: baseImpacts[loc.id] || 5 };
+      return { name: loc.name, impact: -(baseImpacts[loc.id] || 5) };
     })
   ];
 
@@ -1269,10 +1268,18 @@ const ClimateFaxApp = () => {
                     <BarChart data={valueImpactData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
-                      <YAxis label={{ value: 'Value Impact (%)', angle: -90, position: 'insideLeft' }} />
-                      <Tooltip formatter={(value) => ['-' + value + '%', 'Property Value Impact']} />
+                      <YAxis 
+                        label={{ value: 'Property Value Impact (%)', angle: -90, position: 'insideLeft' }}
+                        domain={[-50, 0]}
+                        ticks={[-50, -40, -30, -20, -10, 0]}
+                      />
+                      <Tooltip formatter={(value) => [value + '%', 'Property Value Loss']} />
                       <Legend />
-                      <Bar dataKey="impact" name="Value Impact %" fill="#FF9800" />
+                      <Bar dataKey="impact" name="Value Loss %" fill="#DC2626">
+                        {valueImpactData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.impact < -30 ? '#991B1B' : '#DC2626'} />
+                        ))}
+                      </Bar>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
