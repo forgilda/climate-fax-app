@@ -380,18 +380,21 @@ const ClimateFaxApp = () => {
   const calculateRiskScore = () => {
     const neighborhood = getCurrentNeighborhood();
     
-    // If neighborhood has specific risk score for this variable, use it
-    if (neighborhood && neighborhood.riskScore && variable === 'wildfires' && neighborhood.mainRisks.includes('wildfires')) {
-      return Math.min(95, neighborhood.riskScore);
+    // If we have neighborhood data, use its specific risk score
+    if (neighborhood && neighborhood.riskScore) {
+      return neighborhood.riskScore;
     }
     
-    // Otherwise use regional historical data
+    // Handle NYC specifically since it uses 'nyc' not individual borough keys
     const baseScores = {
       'california': 65,
       'florida': 70,
       'texas': 60,
-      'colorado': 50
+      'colorado': 50,
+      'nyc': 65  // Add NYC base score
     };
+    
+    let baseScore = baseScores[region] || 50;
     
     let riskModifier = 0;
     
@@ -399,6 +402,7 @@ const ClimateFaxApp = () => {
     if (variable === 'winterStorms') {
       if (region === 'texas') riskModifier = 15; // 1 catastrophic event per ~20 years
       else if (region === 'colorado') riskModifier = 15; // Boulder gets 50+ inches snow/year
+      else if (region === 'nyc') riskModifier = 10; // Regular winter storms
       else if (region === 'florida') riskModifier = -30; // Near zero occurrence
       else if (region === 'california') riskModifier = -25; // Rare except mountains
     }
@@ -417,8 +421,11 @@ const ClimateFaxApp = () => {
     }
     else if (variable === 'wildfires' && region === 'california') riskModifier = 20;
     else if (variable === 'hurricanes' && region === 'florida') riskModifier = 20;
+    else if (variable === 'hurricanes' && region === 'nyc') riskModifier = 15; // NYC hurricane risk
     else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) riskModifier = 15;
+    else if (variable === 'flooding' && region === 'nyc') riskModifier = 20; // High flooding risk in NYC
     else if (variable === 'seaLevelRise' && region === 'florida') riskModifier = 25;
+    else if (variable === 'seaLevelRise' && region === 'nyc') riskModifier = 15; // NYC sea level rise risk
     
     // Elevation adjustment for coastal risks
     if (neighborhood && (variable === 'seaLevelRise' || variable === 'flooding')) {
@@ -429,7 +436,7 @@ const ClimateFaxApp = () => {
     
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
-    return Math.min(95, Math.max(0, baseScores[region] + riskModifier + modelModifier));
+    return Math.min(95, Math.max(0, baseScore + riskModifier + modelModifier));
   };
   
   // Get risk category based on score
