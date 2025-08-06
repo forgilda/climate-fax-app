@@ -95,6 +95,9 @@ const ContactPage = () => {
               We hope you enjoy exploring our free Beta model!<br /><br />
               Have questions about ClimateFAX or want to join our waitlist for premium features? Contact us here:
             </p>
+            <p className="text-xs text-muted-foreground italic mt-2">
+              * Beta version - All features and data are for evaluation purposes only. Patent pending.
+            </p>
           </section>
 
           <section>
@@ -133,7 +136,7 @@ const ContactPage = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Optional Message</FormLabel>
+                      <FormLabel>Optional Message/Suggestions</FormLabel>
                       <FormControl>
                         <Textarea 
                           placeholder="How can we help you?" 
