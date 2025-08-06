@@ -1412,7 +1412,7 @@ const ClimateFaxApp = () => {
             {/* Regional Overview */}
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Regional Overview: {regions[region].name}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-2">Climate Safety Score</h3>
                   <div className="flex items-center">
@@ -1432,6 +1432,17 @@ const ClimateFaxApp = () => {
                   <div className="flex items-center">
                     <span className="text-2xl font-bold text-purple-600">{regions[region].affordabilityIndex}/100</span>
                     <Progress value={regions[region].affordabilityIndex} className="ml-3 flex-1 h-2" />
+                  </div>
+                </div>
+              </div>
+              
+              {/* City variation warning box */}
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="flex items-center text-yellow-800">
+                  <span className="text-xl mr-2">⚠️</span>
+                  <div>
+                    <h4 className="font-medium">Regional Variation</h4>
+                    <p className="text-sm mt-1">Climate risks can vary significantly between cities within {regions[region].name}. Consider neighborhood-level data for precise assessments.</p>
                   </div>
                 </div>
               </div>
@@ -1474,7 +1485,7 @@ const ClimateFaxApp = () => {
                 <span className="text-purple-600 text-2xl mr-3">✨</span>
                 <h2 className="text-xl font-bold text-purple-800">Premium Features - Coming Soon!</h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="bg-white/60 p-4 rounded-lg">
                   <h3 className="font-semibold text-purple-700 mb-2">🏠 Personalized Relocation Planning</h3>
                   <p className="text-purple-600 text-sm">Custom recommendations based on your family size, work situation, and lifestyle preferences</p>
@@ -1491,46 +1502,70 @@ const ClimateFaxApp = () => {
                   <h3 className="font-semibold text-purple-700 mb-2">📋 Action Plan Generator</h3>
                   <p className="text-purple-600 text-sm">Step-by-step guides for climate-smart relocation decisions</p>
                 </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🏥 Healthcare & School Mapping</h3>
+                  <p className="text-purple-600 text-sm">Quality ratings and accessibility analysis for medical facilities and educational institutions</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">📊 Real Estate Market Analysis</h3>
+                  <p className="text-purple-600 text-sm">Climate-adjusted property value projections and investment potential assessments</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🚨 Early Warning System</h3>
+                  <p className="text-purple-600 text-sm">Personalized alerts for emerging climate risks and evacuation recommendations</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🤝 Community Connection</h3>
+                  <p className="text-purple-600 text-sm">Connect with other climate-conscious families and local support networks</p>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg">
+                  Get Early Access - Coming Soon
+                </button>
               </div>
             </div>
 
-            {/* Safer Alternative Locations Comparison */}
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
+            {/* Orange Alternative Locations Comparison */}
+            <div className="bg-orange-50 border-l-4 border-orange-400 rounded-lg p-6">
               <div className="flex items-center mb-4">
-                <span className="text-orange-600 text-2xl mr-3">🏞️</span>
+                <span className="text-orange-600 text-2xl mr-3">🌍</span>
                 <h2 className="text-xl font-bold text-orange-800">Safer Alternative Locations</h2>
               </div>
               <p className="text-orange-700 mb-4">Based on your current location in {regions[region].name}, here are climate-safer alternatives:</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {alternativeLocations.slice(0, 2).map((location) => (
-                  <div key={location.id} className="bg-white p-4 rounded-lg border border-orange-200">
+                  <div 
+                    key={location.id} 
+                    className="bg-white p-4 rounded-lg border border-orange-200 cursor-pointer hover:border-orange-300 transition-colors"
+                    onClick={() => setRegion(location.id)}
+                  >
                     <div className="flex items-center mb-3">
                       <span className="text-2xl mr-3">{location.icon}</span>
                       <div>
                         <h3 className="font-semibold text-gray-800">{location.name}</h3>
-                        <p className="text-sm text-gray-600">Climate Safety: {location.safetyIndex}/100</p>
+                        <p className="text-sm text-gray-600">
+                          {regions[location.id].majorCities.slice(0, 2).join(', ')}
+                        </p>
                       </div>
                     </div>
                     
                     <div className="space-y-2 mb-3">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Primary Risks:</span>
-                        <span className="text-gray-800">{location.mainRisks.slice(0,2).map(r => r.name).join(', ')}</span>
+                        <span className="text-gray-600">Safety:</span>
+                        <span className="text-green-600 font-medium">{location.safetyIndex}%</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Insurance Available:</span>
-                        <span className="text-green-600 font-medium">Yes ({location.insuranceIndex}/100)</span>
+                        <span className="text-gray-600">Insurance:</span>
+                        <span className="text-blue-600 font-medium">{location.insuranceIndex}%</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Affordability:</span>
-                        <span className="text-blue-600 font-medium">{location.affordabilityIndex}/100</span>
+                        <span className="text-purple-600 font-medium">{location.affordabilityIndex}%</span>
                       </div>
                     </div>
-                    
-                    <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded text-sm">
-                      Compare to {regions[region].name}
-                    </button>
                   </div>
                 ))}
               </div>
