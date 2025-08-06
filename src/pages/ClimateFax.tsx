@@ -1571,15 +1571,30 @@ const ClimateFaxApp = () => {
                     <div className="space-y-2 mb-3">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Safety:</span>
-                        <span className="text-green-600 font-medium">{location.safetyIndex}%</span>
+                        <span className={`font-medium ${
+                          location.safetyIndex >= 70 ? 'text-green-600' : 
+                          location.safetyIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                        }`}>
+                          {location.safetyIndex}%
+                        </span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Insurance:</span>
-                        <span className="text-blue-600 font-medium">{location.insuranceIndex}%</span>
+                        <span className={`font-medium ${
+                          location.insuranceIndex >= 70 ? 'text-green-600' : 
+                          location.insuranceIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                        }`}>
+                          {location.insuranceIndex}%
+                        </span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Affordability:</span>
-                        <span className="text-purple-600 font-medium">{location.affordabilityIndex}%</span>
+                        <span className={`font-medium ${
+                          location.affordabilityIndex >= 70 ? 'text-green-600' : 
+                          location.affordabilityIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                        }`}>
+                          {location.affordabilityIndex}%
+                        </span>
                       </div>
                     </div>
                   </div>
