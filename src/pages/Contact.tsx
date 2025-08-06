@@ -29,13 +29,10 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-// GLOBAL SIGNUPS ARRAY
-if (!(window as any).climatefax_signups) {
-  (window as any).climatefax_signups = [];
-}
-
 const ContactPage = () => {
-  const [signupCount, setSignupCount] = useState((window as any).climatefax_signups.length);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -80,7 +77,11 @@ const ContactPage = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your name" {...field} />
+                        <Input 
+                          placeholder="Your name" 
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -94,7 +95,12 @@ const ContactPage = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="your.email@example.com" type="email" {...field} />
+                        <Input 
+                          placeholder="your.email@example.com" 
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -110,8 +116,9 @@ const ContactPage = () => {
                       <FormControl>
                         <Textarea 
                           placeholder="How can we help you?" 
-                          className="min-h-[120px]" 
-                          {...field} 
+                          className="min-h-[120px]"
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
                         />
                       </FormControl>
                       <FormMessage />
@@ -127,49 +134,21 @@ const ContactPage = () => {
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
               type="button"
-              onClick={async () => {
-                const formData = form.getValues();
-                console.log('Form data:', formData);
+              onClick={() => {
+                // Simple localStorage storage
+                const signups = JSON.parse(localStorage.getItem('signups') || '[]');
+                signups.push({
+                  name,
+                  email, 
+                  message,
+                  date: new Date().toISOString()
+                });
+                localStorage.setItem('signups', JSON.stringify(signups));
                 
-                // Basic validation
-                if (!formData.name?.trim()) {
-                  console.log('Name required');
-                  return;
-                }
-                if (!formData.email?.trim()) {
-                  console.log('Email required'); 
-                  return;
-                }
-                
-                console.log('Submitting signup...');
-                
-                try {
-                  const response = await fetch('https://zddkqemgpvdgabobqoio.supabase.co/functions/v1/submit-signup', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZGtxZW1ncHZkZ2Fib2Jxb2lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM1MjMzNjksImV4cCI6MjA0OTA5OTM2OX0.gLhUKb_Hs0GV_qAOJoRjpHQ7Kf4eQeRnYyWo-aXKNp8'
-                    },
-                    body: JSON.stringify({
-                      name: formData.name,
-                      email: formData.email,
-                      message: formData.message || '',
-                      signup_type: 'waitlist'
-                    })
-                  });
-
-                  const result = await response.json();
-                  console.log('Response:', response.status, result);
-                  
-                  if (response.ok) {
-                    form.reset();
-                    console.log('Signup successful:', result);
-                  } else {
-                    console.error('Signup failed:', result);
-                  }
-                } catch (error) {
-                  console.error('Signup error:', error);
-                }
+                // Clear form
+                setName('');
+                setEmail('');
+                setMessage('');
               }}
             >
               🚀 Join Waitlist
