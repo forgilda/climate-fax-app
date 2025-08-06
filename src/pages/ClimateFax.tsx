@@ -566,6 +566,15 @@ const ClimateFaxApp = () => {
     const propertyImpact = calculatePropertyImpact();
     const insuranceInfo = getInsuranceInfo();
     
+    // Debug logging
+    console.log('Recommendation Debug:', {
+      region,
+      riskScore,
+      propertyImpact,
+      insuranceAvailable: insuranceInfo.available,
+      displaySafety: 100 - riskScore
+    });
+    
     // Strong factors that could lead to "Go" recommendation
     const criticalFactors = [
       (!insuranceInfo.available), // No insurance available
