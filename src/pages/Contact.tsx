@@ -126,31 +126,33 @@ const ContactPage = () => {
           <section className="text-center">
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
-              onClick={() => {
+              onClick={async () => {
                 const formData = form.getValues();
                 
                 if (!formData.name || !formData.email) {
                   return;
                 }
                 
-                const signup = {
-                  name: formData.name,
-                  email: formData.email,
-                  message: formData.message || '',
-                  date: new Date().toISOString()
-                };
-                
-                // Simple localStorage
-                let signups = [];
                 try {
-                  signups = JSON.parse(localStorage.getItem('signups') || '[]');
-                } catch (e) {
-                  signups = [];
+                  const response = await fetch('/functions/v1/submit-signup', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      name: formData.name,
+                      email: formData.email,
+                      message: formData.message || '',
+                      signup_type: 'waitlist'
+                    })
+                  });
+
+                  if (response.ok) {
+                    form.reset();
+                  }
+                } catch (error) {
+                  console.error('Signup failed:', error);
                 }
-                signups.push(signup);
-                localStorage.setItem('signups', JSON.stringify(signups));
-                
-                form.reset();
               }}
             >
               🚀 Join Waitlist
