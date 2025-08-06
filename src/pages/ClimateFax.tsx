@@ -1413,104 +1413,65 @@ const ClimateFaxApp = () => {
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Regional Overview: {regions[region].name}</h2>
               
-              {/* Area and Neighborhood Selectors */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                {enhancedRegions[region] && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Area</label>
-                    <select 
-                      value={selectedArea}
-                      onChange={(e) => setSelectedArea(e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
-                    >
-                      {Object.entries(enhancedRegions[region]?.subRegions || {}).map(([key, area]) => (
-                        <option key={key} value={key}>{(area as any).name}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                
-                {selectedArea && enhancedRegions[region]?.subRegions[selectedArea] && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Neighborhood</label>
-                    <select 
-                      value={selectedNeighborhood}
-                      onChange={(e) => setSelectedNeighborhood(e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
-                    >
-                      {Object.entries(enhancedRegions[region]?.subRegions?.[selectedArea]?.neighborhoods || {}).map(([key, neighborhood]) => (
-                        <option key={key} value={key}>{(neighborhood as any).name} ({(neighborhood as any).zipCode})</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
+              {/* State Selector */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select State/Region</label>
+                <select 
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
+                  className="w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
+                >
+                  {Object.entries(regions).map(([key, info]) => (
+                    <option key={key} value={key}>{info.icon} {info.name}</option>
+                  ))}
+                </select>
               </div>
-
-              {/* Selected Location Details */}
-              {selectedNeighborhood && enhancedRegions[region]?.subRegions[selectedArea]?.neighborhoods[selectedNeighborhood] && (
-                <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="text-sm text-gray-700">
-                    <span className="font-medium">Selected Location:</span> {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].name}
-                    <span className="mx-2">•</span>
-                    <span>Elevation: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].elevation}</span>
-                    <span className="mx-2">•</span>
-                    <span>FEMA Zone: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].femaZone}</span>
-                  </div>
-                  
-                  {/* Recent Event Alert */}
-                  {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].recentEvent && (
-                    <div className="mt-2 p-2 bg-red-100 border border-red-300 rounded">
-                      <span className="text-red-800 font-medium">🔴 RECENT EVENT: </span>
-                      <span className="text-red-700">
-                        {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].recentEvent.description}
-                      </span>
-                    </div>
-                  )}
-                  
-                  {/* Additional neighborhood details */}
-                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                    {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].floodHistory && (
-                      <div>
-                        <span className="font-medium text-gray-700">Flood History:</span> 
-                        <span className="text-gray-600 ml-1">
-                          {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].floodHistory}
-                        </span>
-                      </div>
-                    )}
-                    
-                    {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].safeFloor && (
-                      <div>
-                        <span className="font-medium text-gray-700">Safe Floor:</span> 
-                        <span className="text-gray-600 ml-1">
-                          {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].safeFloor}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
               
-              {/* Regional Statistics */}
+              {/* Regional Statistics with Red/Yellow/Green Colors */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg border">
                   <h3 className="font-medium text-gray-700 mb-2">Climate Safety Score</h3>
                   <div className="flex items-center">
-                    <span className="text-2xl font-bold text-green-600">{regions[region].safetyIndex}/100</span>
-                    <Progress value={regions[region].safetyIndex} className="ml-3 flex-1 h-2" />
+                    <span className={`text-2xl font-bold ${
+                      regions[region].safetyIndex >= 70 ? 'text-green-600' : 
+                      regions[region].safetyIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                    }`}>
+                      {regions[region].safetyIndex}/100
+                    </span>
+                    <Progress 
+                      value={regions[region].safetyIndex} 
+                      className="ml-3 flex-1 h-2"
+                    />
                   </div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg border">
                   <h3 className="font-medium text-gray-700 mb-2">Insurance Availability</h3>
                   <div className="flex items-center">
-                    <span className="text-2xl font-bold text-blue-600">{regions[region].insuranceIndex}/100</span>
-                    <Progress value={regions[region].insuranceIndex} className="ml-3 flex-1 h-2" />
+                    <span className={`text-2xl font-bold ${
+                      regions[region].insuranceIndex >= 70 ? 'text-green-600' : 
+                      regions[region].insuranceIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                    }`}>
+                      {regions[region].insuranceIndex}/100
+                    </span>
+                    <Progress 
+                      value={regions[region].insuranceIndex} 
+                      className="ml-3 flex-1 h-2"
+                    />
                   </div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg border">
                   <h3 className="font-medium text-gray-700 mb-2">Affordability Index</h3>
                   <div className="flex items-center">
-                    <span className="text-2xl font-bold text-purple-600">{regions[region].affordabilityIndex}/100</span>
-                    <Progress value={regions[region].affordabilityIndex} className="ml-3 flex-1 h-2" />
+                    <span className={`text-2xl font-bold ${
+                      regions[region].affordabilityIndex >= 70 ? 'text-green-600' : 
+                      regions[region].affordabilityIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                    }`}>
+                      {regions[region].affordabilityIndex}/100
+                    </span>
+                    <Progress 
+                      value={regions[region].affordabilityIndex} 
+                      className="ml-3 flex-1 h-2"
+                    />
                   </div>
                 </div>
               </div>
