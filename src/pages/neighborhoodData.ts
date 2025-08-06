@@ -565,50 +565,58 @@ const enhancedRegions = {
         }
       }
     },
-    michigan: {
-      westMichigan: {
-        name: 'West Michigan',
-        neighborhoods: {
-          grand_rapids: {
-            name: 'Grand Rapids',
-            zipCode: '49503',
-            coordinates: { lat: 42.9634, lng: -85.6681 },
-            elevation: '640 feet',
-            femaZone: 'X (Moderate Risk)',
-            basementRisk: 'MODERATE',
-            safeFloor: 'Ground floor generally safe',
-            mainRisks: ['winterStorms', 'flooding'],
-            floodHistory: 'Grand River 2013 - major flooding',
-            overallRisk: 'MODERATE',
-            riskScore: 48,
-            insuranceAvailable: true,
-            annualRate: 1687,
-            propertyImpact: 8
+    'michigan': {
+      name: 'Michigan',
+      icon: '🌊',
+      subRegions: {
+        westMichigan: {
+          name: 'West Michigan',
+          neighborhoods: {
+            grand_rapids: {
+              name: 'Grand Rapids',
+              zipCode: '49503',
+              coordinates: { lat: 42.9634, lng: -85.6681 },
+              elevation: '640 feet',
+              femaZone: 'X (Moderate Risk)',
+              basementRisk: 'MODERATE',
+              safeFloor: 'Ground floor generally safe',
+              mainRisks: ['winterStorms', 'flooding'],
+              floodHistory: 'Grand River 2013 - major flooding',
+              overallRisk: 'MODERATE',
+              riskScore: 48,
+              insuranceAvailable: true,
+              annualRate: 1687,
+              propertyImpact: 8
+            }
           }
         }
       }
     },
-    oregon: {
-      centralOregon: {
-        name: 'Central Oregon',
-        neighborhoods: {
-          bend: {
-            name: 'Bend',
-            zipCode: '97701',
-            coordinates: { lat: 44.0582, lng: -121.3153 },
-            elevation: '3,623 feet',
-            femaZone: 'X (Minimal Risk)',
-            basementRisk: 'LOW',
-            safeFloor: 'Ground floor generally safe',
-            mainRisks: ['wildfires', 'drought', 'winterStorms'],
-            fireZone: 'Moderate - Defensible space important',
-            snowfall: '33 inches annually',
-            evacuationRoutes: 'US-97, US-20',
-            overallRisk: 'MODERATE',
-            riskScore: 58,
-            insuranceAvailable: true,
-            annualRate: 3200,
-            propertyImpact: 6
+    'oregon': {
+      name: 'Oregon',
+      icon: '🌲',
+      subRegions: {
+        centralOregon: {
+          name: 'Central Oregon',
+          neighborhoods: {
+            bend: {
+              name: 'Bend',
+              zipCode: '97701',
+              coordinates: { lat: 44.0582, lng: -121.3153 },
+              elevation: '3,623 feet',
+              femaZone: 'X (Minimal Risk)',
+              basementRisk: 'LOW',
+              safeFloor: 'Ground floor generally safe',
+              mainRisks: ['wildfires', 'drought', 'winterStorms'],
+              fireZone: 'Moderate - Defensible space important',
+              snowfall: '33 inches annually',
+              evacuationRoutes: 'US-97, US-20',
+              overallRisk: 'MODERATE',
+              riskScore: 58,
+              insuranceAvailable: true,
+              annualRate: 3200,
+              propertyImpact: 6
+            }
           }
         }
       }
