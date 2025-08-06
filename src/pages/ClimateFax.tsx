@@ -444,10 +444,15 @@ const ClimateFaxApp = () => {
     return null;
   };
   
-  // Calculate overall risk score (0-100) - Using real NOAA data
+  // Calculate overall risk score (0-100) - Match what's displayed
   const calculateRiskScore = () => {
-    // Use the same real NOAA risk calculation used elsewhere in the app
-    return getRegionalRiskFromNOAA(region);
+    // Use the same logic as the display: neighborhood risk if available, otherwise regional
+    const displayedSafetyScore = getCurrentNeighborhood()?.riskScore 
+      ? (100 - getCurrentNeighborhood().riskScore) 
+      : regions[region].safetyIndex;
+    
+    // Convert back to risk score (higher = more dangerous) for recommendation logic
+    return 100 - displayedSafetyScore;
   };
   // Get risk category based on score
   const getRiskCategory = (score) => {
