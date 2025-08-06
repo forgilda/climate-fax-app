@@ -578,13 +578,13 @@ const enhancedRegions = {
             basementRisk: 'LOW',
             safeFloor: 'Ground floor safe',
             mainRisks: ['winterStorms', 'flooding'],
-            overallRisk: 'LOW',
-            riskScore: 35,
+            winterStormRisk: 'HIGH - 75 inches snow annually',
+            floodHistory: 'Grand River floods (2013)',
+            overallRisk: 'MODERATE',
+            riskScore: 45,
             insuranceAvailable: true,
             annualRate: 1700,
-            propertyImpact: 5,
-            floodHistory: 'Grand River 2013',
-            notes: 'Climate haven city'
+            propertyImpact: 5
           },
           traverse_city: {
             name: 'Traverse City',
@@ -594,9 +594,10 @@ const enhancedRegions = {
             femaZone: 'X (Minimal Risk)',
             basementRisk: 'LOW',
             safeFloor: 'Ground floor safe',
-            mainRisks: ['winterStorms'],
-            overallRisk: 'VERY LOW',
-            riskScore: 30,
+            mainRisks: ['winterStorms', 'lakefront_erosion'],
+            winterStormRisk: 'HIGH - 120 inches snow annually',
+            overallRisk: 'LOW',
+            riskScore: 40,
             insuranceAvailable: true,
             annualRate: 1500,
             propertyImpact: 3
