@@ -196,15 +196,25 @@ const ContactPage = () => {
           </section>
           
           <section className="bg-white rounded-lg border p-4 shadow-sm">
-            <div className="flex items-start space-x-3">
-              <MapPin className="h-5 w-5 text-orange-500 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium">Our Office</h3>
-                <address className="not-italic text-muted-foreground text-sm">
-                  750 N San Vicente Blvd.<br />
-                  Suite 800 West<br />
-                  W. Hollywood, CA 90069
-                </address>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <MapPin className="h-5 w-5 text-orange-500 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-medium">Our Office</h3>
+                  <address className="not-italic text-muted-foreground text-sm">
+                    Pacific Design Center - Red Building<br />
+                    750 N San Vicente Blvd.<br />
+                    Suite 800 West<br />
+                    W. Hollywood, CA 90069
+                  </address>
+                </div>
+              </div>
+              <div className="rounded-lg overflow-hidden">
+                <img 
+                  src="/src/assets/pacific-design-center.jpg"
+                  alt="Pacific Design Center Red Building - Our Office Location"
+                  className="w-full h-48 object-cover"
+                />
               </div>
             </div>
           </section>
