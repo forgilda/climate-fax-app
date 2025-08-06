@@ -444,7 +444,7 @@ const ClimateFaxApp = () => {
     return null;
   };
   
-  // Calculate overall risk score (0-100)
+  // Calculate overall risk score (0-100) - Fixed to differentiate threats properly
   const calculateRiskScore = () => {
     const neighborhood = getCurrentNeighborhood();
     
@@ -453,60 +453,86 @@ const ClimateFaxApp = () => {
       return neighborhood.riskScore;
     }
     
-    // Handle NYC specifically since it uses 'nyc' not individual borough keys
-    const baseScores = {
-      'california': 65,
-      'florida': 70,
-      'michigan': 48,
-      'texas': 60,
-      'colorado': 50,
-      'nyc': 65,
-      'oregon': 45
+    // Threat-specific risk scores by region (from NOAA data and regional studies)
+    const threatRiskMatrix = {
+      'economicLoss': {
+        'california': 75, 'florida': 85, 'texas': 88, 'louisiana': 82,
+        'michigan': 38, 'colorado': 52, 'nyc': 65, 'oregon': 45
+      },
+      'wildfires': {
+        'california': 90, 'oregon': 75, 'colorado': 65, 'texas': 45,
+        'michigan': 25, 'florida': 35, 'nyc': 15
+      },
+      'hurricanes': {
+        'florida': 95, 'texas': 80, 'nyc': 60, 'california': 15,
+        'michigan': 5, 'colorado': 0, 'oregon': 25
+      },
+      'flooding': {
+        'texas': 75, 'florida': 85, 'nyc': 70, 'michigan': 55,
+        'california': 45, 'colorado': 35, 'oregon': 50
+      },
+      'drought': {
+        'california': 85, 'texas': 70, 'colorado': 60, 'oregon': 55,
+        'florida': 45, 'nyc': 30, 'michigan': 25
+      },
+      'heatwaves': {
+        'texas': 90, 'california': 80, 'florida': 75, 'colorado': 50,
+        'nyc': 65, 'oregon': 45, 'michigan': 40
+      },
+      'winterStorms': {
+        'colorado': 80, 'michigan': 75, 'nyc': 70, 'oregon': 45,
+        'texas': 35, 'california': 20, 'florida': 5
+      },
+      'tornadoes': {
+        'texas': 85, 'colorado': 60, 'michigan': 50, 'nyc': 25,
+        'oregon': 20, 'california': 15, 'florida': 40
+      },
+      'seaLevelRise': {
+        'florida': 95, 'nyc': 80, 'california': 70, 'oregon': 45,
+        'texas': 65, 'michigan': 0, 'colorado': 0
+      },
+      'tsunamis': {
+        'california': 65, 'oregon': 70, 'nyc': 25, 'florida': 15,
+        'texas': 0, 'michigan': 0, 'colorado': 0
+      },
+      'coastalErosion': {
+        'florida': 90, 'california': 75, 'nyc': 65, 'oregon': 55,
+        'texas': 50, 'michigan': 0, 'colorado': 0
+      },
+      'landslides': {
+        'california': 70, 'oregon': 65, 'colorado': 55, 'nyc': 30,
+        'texas': 25, 'michigan': 20, 'florida': 15
+      },
+      'atmospheric-rivers': {
+        'california': 80, 'oregon': 85, 'colorado': 25, 'texas': 20,
+        'nyc': 30, 'michigan': 15, 'florida': 10
+      }
     };
     
-    let baseScore = baseScores[region] || 50;
+    // Get base risk score for this threat-region combination
+    let riskScore = threatRiskMatrix[variable]?.[region] || 50;
     
-    let riskModifier = 0;
-    
-    // Winter storms - based on NOAA data
-    if (variable === 'winterStorms') {
-      if (region === 'texas') riskModifier = 15; // 1 catastrophic event per ~20 years
-      else if (region === 'colorado') riskModifier = 15; // Boulder gets 50+ inches snow/year
-      else if (region === 'nyc') riskModifier = 10; // Regular winter storms
-      else if (region === 'florida') riskModifier = -30; // Near zero occurrence
-      else if (region === 'california') riskModifier = -25; // Rare except mountains
-    }
-    
-    // Wildfire - based on CAL FIRE and local fire dept data
+    // Apply neighborhood-specific modifiers if available
     if (neighborhood && variable === 'wildfires') {
       if (neighborhood.fireZone === 'Very High Fire Hazard Severity Zone') {
-        riskModifier = 30; // Official CAL FIRE designation
+        riskScore = Math.min(95, riskScore + 20);
       }
       else if (neighborhood.elevation && parseInt(neighborhood.elevation) < 50 && neighborhood.name.includes('Venice')) {
-        riskModifier = -40; // Coastal, no wildland interface per CAL FIRE maps
-      }
-      else if (neighborhood.mainRisks.includes('wildfires')) {
-        riskModifier = 25;
+        riskScore = Math.max(10, riskScore - 30); // Coastal areas with less wildfire risk
       }
     }
-    else if (variable === 'wildfires' && region === 'california') riskModifier = 20;
-    else if (variable === 'hurricanes' && region === 'florida') riskModifier = 20;
-    else if (variable === 'hurricanes' && region === 'nyc') riskModifier = 15; // NYC hurricane risk
-    else if (variable === 'flooding' && (region === 'texas' || region === 'florida')) riskModifier = 15;
-    else if (variable === 'flooding' && region === 'nyc') riskModifier = 20; // High flooding risk in NYC
-    else if (variable === 'seaLevelRise' && region === 'florida') riskModifier = 25;
-    else if (variable === 'seaLevelRise' && region === 'nyc') riskModifier = 15; // NYC sea level rise risk
     
-    // Elevation adjustment for coastal risks
+    // Apply elevation-based adjustments for coastal risks
     if (neighborhood && (variable === 'seaLevelRise' || variable === 'flooding')) {
       const elevation = parseInt(neighborhood.elevation);
-      if (elevation < 20) riskModifier += 20;
-      else if (elevation > 100) riskModifier -= 20;
+      if (elevation < 20) riskScore = Math.min(95, riskScore + 15);
+      else if (elevation > 100) riskScore = Math.max(10, riskScore - 15);
     }
     
+    // Apply climate model modifier
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
-    return Math.min(95, Math.max(0, baseScore + riskModifier + modelModifier));
+    return Math.min(95, Math.max(5, riskScore + modelModifier));
   };
   
   // Get risk category based on score
