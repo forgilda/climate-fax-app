@@ -1220,16 +1220,21 @@ const ClimateFaxApp = () => {
           </div>
         )}
         
-        {/* Stay or Go Tab Content - PREMIUM */}
+        {/* Stay or Go Tab Content - PREMIUM - Coming Soon */}
         {activeTab === 'stayOrGo' && (
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-              <div className="flex items-center">
-                <span className="text-purple-600 text-xl mr-2">✨</span>
-                <h2 className="text-lg font-bold text-purple-800">Sample Premium Feature</h2>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <span className="text-purple-600 text-xl mr-2">✨</span>
+                  <h2 className="text-lg font-bold text-purple-800">Cost Analysis for {regions[region]?.name} - Coming Soon!</h2>
+                </div>
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
+                  In Development
+                </span>
               </div>
               <p className="mt-2 text-purple-700">
-                Get insights about the financial impact of climate risk on your property and insurance.
+                Get detailed financial analysis of how climate risks in {regions[region]?.name} affect your property value, insurance rates, and long-term costs.
               </p>
             </div>
             
@@ -1518,35 +1523,62 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
-            {/* Premium Feature Notice - enhanced with upgrade benefits */}
+            {/* Consolidated Premium Features - Coming Soon */}
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-              <div className="flex items-center">
-                <span className="text-purple-600 text-xl mr-2">✨</span>
-                <h2 className="text-lg font-bold text-purple-800">Upgrade for Enhanced Climate Intelligence</h2>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
+                  <span className="text-purple-600 text-xl mr-2">✨</span>
+                  <h2 className="text-lg font-bold text-purple-800">Premium Features - Coming Soon!</h2>
+                </div>
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
+                  In Development
+                </span>
               </div>
-              <p className="mt-2 text-purple-700">
-                Get city-specific risk ratings instead of regional averages, plus detailed neighborhood analysis.
+              <p className="text-purple-700 mb-4">
+                Get city-specific risk ratings, neighborhood analysis, and advanced climate intelligence tools.
               </p>
-              <div className="mt-3 space-y-2">
-                <div className="flex items-center text-sm text-purple-700">
-                  <span className="mr-2">🎯</span>
-                  <span>Individual city ratings (not state averages)</span>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">📍</span>
+                    <span>ZIP code lookup & block-level risk scoring</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🎯</span>
+                    <span>Individual city ratings (not state averages)</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🏘️</span>
+                    <span>Neighborhood-level risk assessment</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🗺️</span>
+                    <span>Alternative safer locations analysis</span>
+                  </div>
                 </div>
-                <div className="flex items-center text-sm text-purple-700">
-                  <span className="mr-2">📍</span>
-                  <span>ZIP code lookup feature (coming soon!)</span>
-                </div>
-                <div className="flex items-center text-sm text-purple-700">
-                  <span className="mr-2">🏘️</span>
-                  <span>Neighborhood-level risk assessment</span>
-                </div>
-                <div className="flex items-center text-sm text-purple-700">
-                  <span className="mr-2">📊</span>
-                  <span>Historical disaster impact by specific location</span>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">📊</span>
+                    <span>Full location reports with historical data</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🔬</span>
+                    <span>Advanced research & methodology access</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">💰</span>
+                    <span>Property value impact projections</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🛡️</span>
+                    <span>Insurance availability by specific location</span>
+                  </div>
                 </div>
               </div>
-              <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                Upgrade to Premium
+              
+              <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium">
+                Get Early Access - Coming Soon
               </button>
             </div>
             
