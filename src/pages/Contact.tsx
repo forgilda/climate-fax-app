@@ -80,7 +80,10 @@ const ContactPage = () => {
                         <Input 
                           placeholder="Your name" 
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                            form.setValue('name', e.target.value);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -99,7 +102,10 @@ const ContactPage = () => {
                           placeholder="your.email@example.com" 
                           type="email"
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            form.setValue('email', e.target.value);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -118,7 +124,10 @@ const ContactPage = () => {
                           placeholder="How can we help you?" 
                           className="min-h-[120px]"
                           value={message}
-                          onChange={(e) => setMessage(e.target.value)}
+                          onChange={(e) => {
+                            setMessage(e.target.value);
+                            form.setValue('message', e.target.value);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
