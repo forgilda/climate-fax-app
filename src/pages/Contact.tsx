@@ -189,7 +189,9 @@ const ContactPage = () => {
                 existing.push(signup);
                 localStorage.setItem('climatefax_signups', JSON.stringify(existing));
                 
-                alert('SAVED! Name: ' + name + ', Email: ' + email + '. Check /admin now!');
+                toast.success("Added to waitlist!", {
+                  description: "We'll contact you when premium features are available.",
+                });
                 
                 // Clear form
                 nameInput.value = '';
