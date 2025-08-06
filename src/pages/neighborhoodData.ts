@@ -577,14 +577,29 @@ const enhancedRegions = {
             femaZone: 'X (Minimal Risk)',
             basementRisk: 'LOW',
             safeFloor: 'Ground floor safe',
-            mainRisks: ['winterStorms', 'rare_flooding'],
-            greatLakesBuffer: '30 miles from Lake Michigan',
-            waterSupply: 'Great Lakes (20% of world freshwater)',
+            mainRisks: ['winterStorms', 'flooding'],
             overallRisk: 'LOW',
-            riskScore: 28,
+            riskScore: 35,
             insuranceAvailable: true,
-            annualRate: 1800,
-            propertyImpact: 2
+            annualRate: 1700,
+            propertyImpact: 5,
+            floodHistory: 'Grand River 2013',
+            notes: 'Climate haven city'
+          },
+          traverse_city: {
+            name: 'Traverse City',
+            zipCode: '49684',
+            coordinates: { lat: 44.7631, lng: -85.6206 },
+            elevation: '600 feet',
+            femaZone: 'X (Minimal Risk)',
+            basementRisk: 'LOW',
+            safeFloor: 'Ground floor safe',
+            mainRisks: ['winterStorms'],
+            overallRisk: 'VERY LOW',
+            riskScore: 30,
+            insuranceAvailable: true,
+            annualRate: 1500,
+            propertyImpact: 3
           }
         }
       }
