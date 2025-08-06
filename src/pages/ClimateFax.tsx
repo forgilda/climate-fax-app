@@ -1413,6 +1413,19 @@ const ClimateFaxApp = () => {
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Regional Overview: {regions[region].name}</h2>
               
+              {/* State Selector */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select State/Region</label>
+                <select 
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
+                  className="w-full md:w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white"
+                >
+                  {Object.entries(regions).map(([key, info]) => (
+                    <option key={key} value={key}>{info.icon} {info.name}</option>
+                  ))}
+                </select>
+              </div>
               {/* Area and Neighborhood Selectors */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 {enhancedRegions[region] && (
