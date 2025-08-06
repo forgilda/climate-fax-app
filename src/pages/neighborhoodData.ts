@@ -574,18 +574,19 @@ const enhancedRegions = {
             zipCode: '97701',
             coordinates: { lat: 44.0582, lng: -121.3153 },
             elevation: '3,623 feet',
-            femaZone: 'X (Minimal Risk)',
+            femaZone: 'WUI (Wildland-Urban Interface)',
             basementRisk: 'LOW',
-            safeFloor: 'Ground floor generally safe',
+            safeFloor: 'Ground floor - evacuate for fires',
             mainRisks: ['wildfires', 'drought', 'winterStorms'],
-            fireZone: 'Moderate - Defensible space important',
+            fireZone: 'HIGH - 100% of census tracts at significant risk',
             snowfall: '33 inches annually',
             evacuationRoutes: 'US-97, US-20',
-            overallRisk: 'MODERATE',
-            riskScore: 58,
-            insuranceAvailable: true,
-            annualRate: 3200,
-            propertyImpact: 6
+            insuranceAvailable: false,  // Major insurers pulling out
+            insuranceNotes: 'Safeco/Progressive restricting new policies',
+            annualRate: 9000,  // Up from ~$1000 to $9000+ per article
+            propertyImpact: 15,
+            overallRisk: 'HIGH',
+            riskScore: 75  // Not the haven we thought!
           }
         }
       }
