@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import { Mail, MapPin, Send } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +29,14 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+// GLOBAL SIGNUPS ARRAY
+if (!(window as any).climatefax_signups) {
+  (window as any).climatefax_signups = [];
+}
+
 const ContactPage = () => {
+  const [signupCount, setSignupCount] = useState((window as any).climatefax_signups.length);
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,46 +47,6 @@ const ContactPage = () => {
   });
 
   const isSubmitting = form.formState.isSubmitting;
-
-  const onSubmit = async (data: FormValues) => {
-    alert('Form submitted! Check admin now.');
-    try {
-      console.log('Form submission data:', data);
-      
-      // Simple localStorage tracking
-      const signup = {
-        id: Date.now().toString(),
-        ...data,
-        subject: 'Contact Form Submission',
-        signup_type: 'contact',
-        created_at: new Date().toISOString()
-      };
-      
-      console.log('Signup object to save:', signup);
-      
-      // Get existing signups
-      const existingSignups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
-      console.log('Existing signups:', existingSignups);
-      
-      // Add new signup
-      existingSignups.push(signup);
-      
-      // Save back to localStorage
-      localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
-      console.log('Saved to localStorage successfully');
-
-      toast.success("Message sent successfully", {
-        description: "Thank you for contacting us. We'll get back to you soon.",
-      });
-      
-      form.reset();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Failed to send message", {
-        description: "Please try again later or contact us directly.",
-      });
-    }
-  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -105,7 +72,7 @@ const ContactPage = () => {
 
           <section>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form className="space-y-4">
                 <FormField
                   control={form.control}
                   name="name"
@@ -150,9 +117,9 @@ const ContactPage = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                 />
-               </form>
-             </Form>
+                />
+              </form>
+            </Form>
           </section>
 
           {/* Waitlist Button */}
@@ -160,54 +127,33 @@ const ContactPage = () => {
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
               onClick={() => {
-                // Get the actual form values
-                const nameInput = document.querySelector('input[placeholder="Your name"]') as HTMLInputElement;
-                const emailInput = document.querySelector('input[placeholder="your.email@example.com"]') as HTMLInputElement;
-                const messageInput = document.querySelector('textarea[placeholder="How can we help you?"]') as HTMLTextAreaElement;
+                const formData = form.getValues();
                 
-                const name = nameInput?.value || '';
-                const email = emailInput?.value || '';
-                const message = messageInput?.value || '';
-                
-                if (!name || !email) {
-                  alert('Please fill in Name and Email');
+                if (!formData.name || !formData.email) {
+                  toast.error("Please fill in Name and Email");
                   return;
                 }
                 
-                // Save to localStorage
                 const signup = {
-                  id: Date.now().toString(),
-                  name: name,
-                  email: email,
-                  subject: 'Premium Features Waitlist',
-                  message: message || 'User joined waitlist',
+                  id: Date.now(),
+                  name: formData.name,
+                  email: formData.email,
+                  message: formData.message || 'Joined waitlist',
                   signup_type: 'waitlist',
                   created_at: new Date().toISOString()
                 };
                 
-                const existing = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
-                existing.push(signup);
-                localStorage.setItem('climatefax_signups', JSON.stringify(existing));
-                
-                // Force immediate check
-                console.log('IMMEDIATELY AFTER SAVE:', localStorage.getItem('climatefax_signups'));
-                
-                // Test if it persists
-                setTimeout(() => {
-                  console.log('AFTER 1 SECOND:', localStorage.getItem('climatefax_signups'));
-                }, 1000);
+                (window as any).climatefax_signups.push(signup);
+                setSignupCount((window as any).climatefax_signups.length);
                 
                 toast.success("Added to waitlist!", {
                   description: "We'll contact you when premium features are available.",
                 });
                 
-                // Clear form
-                nameInput.value = '';
-                emailInput.value = '';
-                messageInput.value = '';
+                form.reset();
               }}
             >
-              🚀 Join Waitlist
+              🚀 Join Waitlist ({signupCount} joined)
             </Button>
             <p className="text-xs text-muted-foreground italic mt-2 text-center">
               * Beta version - All features and data are for evaluation purposes only.<br />
