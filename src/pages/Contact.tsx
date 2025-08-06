@@ -159,49 +159,32 @@ const ContactPage = () => {
           <section className="text-center">
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
-              onClick={async (e) => {
-                e.preventDefault();
+              onClick={() => {
+                // Super simple version
+                const name = (document.querySelector('input[name="name"]') as HTMLInputElement)?.value;
+                const email = (document.querySelector('input[name="email"]') as HTMLInputElement)?.value;
+                const message = (document.querySelector('textarea[name="message"]') as HTMLTextAreaElement)?.value;
                 
-                // Get form data
-                const formData = form.getValues();
-                
-                // Check if name and email are filled
-                if (!formData.name || !formData.email) {
-                  toast.error("Please fill in Name and Email", {
-                    description: "These fields are required to join the waitlist.",
-                  });
+                if (!name || !email) {
+                  alert('Please fill in Name and Email');
                   return;
                 }
                 
-                try {
-                  const signup = {
-                    id: Date.now().toString(),
-                    name: formData.name,
-                    email: formData.email,
-                    subject: 'Premium Features Waitlist',
-                    message: formData.message || 'User joined waitlist from contact page',
-                    signup_type: 'waitlist',
-                    created_at: new Date().toISOString()
-                  };
-                  
-                  // Get existing signups
-                  const existingSignups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
-                  
-                  // Add new signup
-                  existingSignups.push(signup);
-                  
-                  // Save back to localStorage
-                  localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
-                  
-                  toast.success("Added to waitlist!", {
-                    description: "We'll contact you when premium features are available.",
-                  });
-                  form.reset();
-                } catch (error) {
-                  toast.error("Something went wrong", {
-                    description: "Please try again later.",
-                  });
-                }
+                const signup = {
+                  id: Date.now().toString(),
+                  name: name,
+                  email: email,
+                  subject: 'Premium Features Waitlist',
+                  message: message || 'User joined waitlist',
+                  signup_type: 'waitlist',
+                  created_at: new Date().toISOString()
+                };
+                
+                const existing = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+                existing.push(signup);
+                localStorage.setItem('climatefax_signups', JSON.stringify(existing));
+                
+                alert('Success! Go check /admin');
               }}
             >
               🚀 Join Waitlist
