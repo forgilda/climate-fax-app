@@ -1441,7 +1441,7 @@ const ClimateFaxApp = () => {
                         <span className="text-orange-600 text-xl mr-2">🗺️</span>
                         <h3 className="text-lg font-bold text-orange-800">Since we recommend caution for {regions[region]?.name}...</h3>
                       </div>
-                      <span className="px-3 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">
+                      <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
                         Premium - Coming Soon
                       </span>
                     </div>
@@ -1525,8 +1525,8 @@ const ClimateFaxApp = () => {
                     <span>Property value impact projections</span>
                   </div>
                   <div className="flex items-center text-sm text-purple-700">
-                    <span className="mr-2">🛡️</span>
-                    <span>Insurance availability by specific location</span>
+                    <span className="mr-2">📍</span>
+                    <span>Precise ZIP code climate risk analysis</span>
                   </div>
                 </div>
               </div>
@@ -1535,68 +1535,8 @@ const ClimateFaxApp = () => {
                 Get Early Access - Coming Soon
               </button>
             </div>
-            
-            {/* Economic Loss Analysis Section */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                <span className="mr-2">💰</span>
-                Billion-Dollar Climate Disasters
-              </h2>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="mb-4">
-                  <button
-                    onClick={() => setVariable('economicLoss')}
-                    className={`px-4 py-2 rounded font-medium ${
-                      variable === 'economicLoss' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    View Economic Impact Data
-                  </button>
-                </div>
-                
-                {variable === 'economicLoss' && (
-                  <div className="bg-white p-4 rounded-lg border">
-                    <div className="mb-4">
-                      <h3 className="font-medium text-gray-800 mb-2">NOAA Billion-Dollar Disaster Trends</h3>
-                      <p className="text-sm text-gray-600 mb-3">
-                        Real historical data showing the dramatic increase in climate-related economic losses:
-                      </p>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-4">
-                        <div className="bg-blue-50 p-3 rounded">
-                          <div className="text-lg font-bold text-blue-800">403</div>
-                          <div className="text-xs text-blue-600">Total Events</div>
-                          <div className="text-xs text-blue-600">(1980-2024)</div>
-                        </div>
-                        <div className="bg-green-50 p-3 rounded">
-                          <div className="text-lg font-bold text-green-800">$2.9T</div>
-                          <div className="text-xs text-green-600">Total Cost</div>
-                          <div className="text-xs text-green-600">(Inflation-adjusted)</div>
-                        </div>
-                        <div className="bg-orange-50 p-3 rounded">
-                          <div className="text-lg font-bold text-orange-800">23/yr</div>
-                          <div className="text-xs text-orange-600">Current Rate</div>
-                          <div className="text-xs text-orange-600">(2020-2024)</div>
-                        </div>
-                        <div className="bg-red-50 p-3 rounded">
-                          <div className="text-lg font-bold text-red-800">$149B</div>
-                          <div className="text-xs text-red-600">Annual Cost</div>
-                          <div className="text-xs text-red-600">(2020-2024 avg)</div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Chart section will automatically show when economicLoss is selected */}
-                    <div className="text-center">
-                      <p className="text-sm text-gray-500 italic">
-                        Chart showing historical and projected economic losses will appear in the main visualization above.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+          </div>
+        )}
             
             {/* ZIP Code Lookup Section - Premium Feature Coming Soon */}
             <div className="mb-6">
