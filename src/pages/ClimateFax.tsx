@@ -183,6 +183,24 @@ const ClimateFaxApp = () => {
       'high-risk': 6800,
       'available': true,
       'homeValue': 500000 // Base home value for calculation
+    },
+    'michigan': {
+      'regular': 1800,
+      'high-risk': 4500,
+      'available': true,
+      'homeValue': 500000 // Base home value for calculation
+    },
+    'nyc': {
+      'regular': 3200,
+      'high-risk': 8500,
+      'available': true,
+      'homeValue': 500000 // Base home value for calculation
+    },
+    'oregon': {
+      'regular': 2400,
+      'high-risk': 6200,
+      'available': true,
+      'homeValue': 500000 // Base home value for calculation
     }
   };
 
@@ -411,9 +429,11 @@ const ClimateFaxApp = () => {
     const baseScores = {
       'california': 65,
       'florida': 70,
+      'michigan': 35,
       'texas': 60,
       'colorado': 50,
-      'nyc': 65  // Add NYC base score
+      'nyc': 65,
+      'oregon': 45
     };
     
     let baseScore = baseScores[region] || 50;
@@ -483,6 +503,7 @@ const ClimateFaxApp = () => {
     const baseImpacts = {
       'california': { low: 5, high: 15 },
       'florida': { low: 8, high: 25 },
+      'michigan': { low: 2, high: 6 },
       'texas': { low: 3, high: 12 },
       'colorado': { low: 2, high: 8 },
       'nyc': { low: 6, high: 18 },
@@ -701,6 +722,7 @@ const ClimateFaxApp = () => {
       const baseImpacts = {
         'california': 10,
         'florida': 15,
+        'michigan': 4,
         'texas': 8,
         'colorado': 4
       };
