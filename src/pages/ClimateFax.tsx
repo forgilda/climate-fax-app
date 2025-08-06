@@ -13,9 +13,6 @@ import { Copyright } from "@/components/Copyright";
 import { enhancedRegions } from './neighborhoodData';
 
 const ClimateFaxApp = () => {
-  // Add debugging for Michigan data
-  console.log('enhancedRegions object:', enhancedRegions);
-  console.log('Michigan data:', enhancedRegions['michigan']);
   
   
   // Main state variables
@@ -438,7 +435,7 @@ const ClimateFaxApp = () => {
     const baseScores = {
       'california': 65,
       'florida': 70,
-      'michigan': 35,
+      'michigan': 48,
       'texas': 60,
       'colorado': 50,
       'nyc': 65,
