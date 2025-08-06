@@ -24,7 +24,6 @@ import { Copyright } from "@/components/Copyright";
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  subject: z.string().min(5, { message: "Subject must be at least 5 characters." }),
   message: z.string().optional(),
 });
 
@@ -36,7 +35,6 @@ const ContactPage = () => {
     defaultValues: {
       name: "",
       email: "",
-      subject: "",
       message: "",
     },
   });
@@ -53,6 +51,7 @@ const ContactPage = () => {
         },
         body: JSON.stringify({
           ...data,
+          subject: 'Contact Form Submission',
           signup_type: 'contact'
         }),
       });
@@ -122,20 +121,6 @@ const ContactPage = () => {
                 
                 <FormField
                   control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Subject</FormLabel>
-                      <FormControl>
-                        <Input placeholder="What's this about?" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
                   name="message"
                   render={({ field }) => (
                     <FormItem>
@@ -170,7 +155,7 @@ const ContactPage = () => {
                     body: JSON.stringify({
                       name: formData.name || 'Anonymous',
                       email: formData.email || 'waitlist@climatefax.com',
-                      subject: formData.subject || 'Premium Features Waitlist',
+                      subject: 'Premium Features Waitlist',
                       message: formData.message || 'User joined waitlist from contact page',
                       signup_type: 'waitlist'
                     }),
@@ -193,7 +178,7 @@ const ContactPage = () => {
                 }
               }}
             >
-              🚀 Join Premium Features Waitlist
+              🚀 Join Waitlist
             </Button>
           </section>
           
