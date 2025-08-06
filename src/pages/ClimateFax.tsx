@@ -1518,15 +1518,36 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
-            {/* Premium Feature Notice - moved after region selection */}
+            {/* Premium Feature Notice - enhanced with upgrade benefits */}
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
               <div className="flex items-center">
                 <span className="text-purple-600 text-xl mr-2">✨</span>
-                <h2 className="text-lg font-bold text-purple-800">Sample Premium Feature</h2>
+                <h2 className="text-lg font-bold text-purple-800">Upgrade for Enhanced Climate Intelligence</h2>
               </div>
               <p className="mt-2 text-purple-700">
-                Discover safer alternative locations based on your lifestyle preferences and priorities.
+                Get city-specific risk ratings instead of regional averages, plus detailed neighborhood analysis.
               </p>
+              <div className="mt-3 space-y-2">
+                <div className="flex items-center text-sm text-purple-700">
+                  <span className="mr-2">🎯</span>
+                  <span>Individual city ratings (not state averages)</span>
+                </div>
+                <div className="flex items-center text-sm text-purple-700">
+                  <span className="mr-2">📍</span>
+                  <span>ZIP code lookup feature (coming soon!)</span>
+                </div>
+                <div className="flex items-center text-sm text-purple-700">
+                  <span className="mr-2">🏘️</span>
+                  <span>Neighborhood-level risk assessment</span>
+                </div>
+                <div className="flex items-center text-sm text-purple-700">
+                  <span className="mr-2">📊</span>
+                  <span>Historical disaster impact by specific location</span>
+                </div>
+              </div>
+              <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                Upgrade to Premium
+              </button>
             </div>
             
             {/* Economic Loss Analysis Section */}
@@ -1654,10 +1675,50 @@ const ClimateFaxApp = () => {
               </div>
             </div>
 
-            {/* ZIP Code Lookup Section - Moved to bottom */}
+            {/* ZIP Code Lookup Section - Premium Feature Coming Soon */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">ZIP Code Lookup</h2>
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">ZIP Code Lookup</h2>
+                <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
+                  Premium - Coming Soon!
+                </span>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg border-2 border-dashed border-gray-300">
+                <div className="text-center py-6">
+                  <div className="text-4xl mb-3">🚀</div>
+                  <h3 className="text-lg font-medium text-gray-700 mb-2">Enhanced ZIP Code Analysis Coming Soon</h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Get precise, neighborhood-level climate risk assessments for any ZIP code in the US.
+                  </p>
+                  <div className="text-left max-w-md mx-auto mb-4">
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <span className="mr-2">✓</span>
+                        <span>Block-level risk scoring</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="mr-2">✓</span>
+                        <span>Historical disaster impact data</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="mr-2">✓</span>
+                        <span>Insurance availability by ZIP</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="mr-2">✓</span>
+                        <span>Property value impact projections</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium">
+                    Get Early Access
+                  </button>
+                </div>
+              </div>
+              
+              {/* Demo ZIP Code Section - Limited */}
+              <div className="mt-4 bg-white p-4 rounded-lg border">
+                <h3 className="font-medium text-gray-700 mb-3">Demo: Try Sample ZIP Codes</h3>
                 <div className="flex flex-col md:flex-row gap-3 mb-4">
                   <div className="flex-1">
                     <label htmlFor="zip-code" className="block text-sm font-medium text-gray-700 mb-1">
