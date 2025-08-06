@@ -57,7 +57,7 @@ const enhancedRegions = {
               date: '2025-01-07',
               severity: 'catastrophic',
               deaths: 9,
-              description: 'Palisades Fire - 23,700+ acres, thousands of structures destroyed'
+              description: 'Jan 2025 - Palisades Fire - 23,700+ acres, thousands of structures destroyed'
             },
             evacuationRoutes: 'PCH, Sunset Blvd',
             overallRisk: 'EXTREME',
@@ -115,7 +115,7 @@ const enhancedRegions = {
               date: '2025-01-07',
               severity: 'catastrophic',
               deaths: 19,
-              description: 'Eaton Fire - 14,000+ acres, 9,000+ structures, 5th deadliest CA fire in history'
+              description: 'Jan 2025 - Eaton Fire - 14,000+ acres, 9,000+ structures, 5th deadliest CA fire'
             },
             evacuationWarning: 'West Altadena received alerts hours after East Altadena',
             overallRisk: 'EXTREME',
@@ -132,10 +132,10 @@ const enhancedRegions = {
     name: 'Florida',
     icon: '🌴',
     subRegions: {
-      'miami_dade': {
-        name: 'Miami-Dade County',
+      'southeastFlorida': {
+        name: 'Southeast Florida',
         neighborhoods: {
-          'miami_beach': {
+          'miamiBeach': {
             name: 'Miami Beach',
             zipCode: '33139',
             coordinates: { lat: 25.7907, lng: -80.1300 },
@@ -183,7 +183,7 @@ const enhancedRegions = {
               type: 'hurricane',
               date: '2024-10-09',
               severity: 'major',
-              description: '5th hurricane in 2 years - Milton tornado + surge after Helene'
+              description: 'Oct 2024 - Hurricane Milton damage after Sept 2024 Helene'
             },
             repeatVictim: true,
             overallRisk: 'EXTREME',
@@ -209,7 +209,7 @@ const enhancedRegions = {
               type: 'hurricane',
               date: '2024-10-09',
               severity: 'catastrophic',
-              description: 'Residents asking if time to let go after 5th hurricane'
+              description: 'Oct 2024 - Residents asking if time to let go after 5th hurricane in 2 years'
             },
             repeatVictim: true,
             overallRisk: 'EXTREME',
@@ -220,21 +220,26 @@ const enhancedRegions = {
           }
         }
       },
-      'tampa_bay': {
+      'tampaBay': {
         name: 'Tampa Bay Area',
         neighborhoods: {
-          'downtown_tampa': {
-            name: 'Downtown Tampa',
+          'tampa': {
+            name: 'Tampa',
             zipCode: '33602',
             coordinates: { lat: 27.9506, lng: -82.4572 },
             elevation: '48 feet',
             femaZone: 'AE (High Risk)',
             basementRisk: 'HIGH',
+            safeFloor: '2nd floor recommended',
             mainRisks: ['hurricanes', 'flooding', 'lightning'],
             stormSurge: 'HIGH - Tampa Bay funnel effect',
             lightningCapital: 'Highest strike density in US',
+            floodHistory: 'Multiple hurricanes, dodged direct Milton hit',
             overallRisk: 'HIGH',
-            riskScore: 84
+            riskScore: 84,
+            insuranceAvailable: false,
+            annualRate: 15000,
+            propertyImpact: 20
           }
         }
       }
@@ -295,7 +300,7 @@ const enhancedRegions = {
               date: '2025-07-04',
               severity: 'catastrophic',
               deaths: 135,
-              description: '2nd deadliest flood in Texas history (1st: Galveston 1900 - 6,000+ dead)'
+              description: 'July 2025 - 2nd deadliest flood in Texas history (1st: Galveston 1900 - 6,000+ dead)'
             },
             overallRisk: 'EXTREME',
             riskScore: 95,
@@ -320,7 +325,7 @@ const enhancedRegions = {
               date: '2025-07-04',
               severity: 'catastrophic',
               deaths: 27,
-              description: 'Camp Mystic - 27 campers and counselors died'
+              description: 'July 2025 - Camp Mystic - 27 campers and counselors died'
             },
             overallRisk: 'EXTREME',
             riskScore: 98,
@@ -411,7 +416,7 @@ const enhancedRegions = {
               type: 'flooding',
               date: '2025-07-16',
               severity: 'major',
-              description: '2nd highest rainfall in NYC history - subway flooding'
+              description: 'July 2025 - 2nd highest rainfall in NYC history - subway flooding'
             },
             overallRisk: 'HIGH',
             riskScore: 78,
@@ -457,7 +462,7 @@ const enhancedRegions = {
               type: 'flooding',
               date: '2025-07-16',
               severity: 'moderate',
-              description: 'Street flooding from record rainfall'
+              description: 'July 2025 - Street flooding from record rainfall'
             },
             overallRisk: 'MODERATE',
             riskScore: 52,
@@ -488,7 +493,7 @@ const enhancedRegions = {
               type: 'flooding',
               date: '2025-07-16',
               severity: 'major',
-              description: 'Waterfront flooding from record rainfall'
+              description: 'July 2025 - Waterfront flooding from record rainfall'
             },
             overallRisk: 'EXTREME',
             riskScore: 87,
@@ -519,7 +524,7 @@ const enhancedRegions = {
               type: 'flooding',
               date: '2025-07-16',
               severity: 'moderate',
-              description: 'Cross Bronx Expressway closed from flooding'
+              description: 'July 2025 - Cross Bronx Expressway closed from flooding'
             },
             overallRisk: 'HIGH',
             riskScore: 74,
@@ -549,7 +554,7 @@ const enhancedRegions = {
               type: 'flooding',
               date: '2025-07-16',
               severity: 'major',
-              description: '4-6 inches rain, Staten Island Railway suspended'
+              description: 'July 2025 - 4-6 inches rain, Staten Island Railway suspended'
             },
             overallRisk: 'EXTREME',
             riskScore: 91,
