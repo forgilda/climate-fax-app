@@ -747,7 +747,7 @@ const ClimateFaxApp = () => {
                 
                 {enhancedRegions[region] && (
                   <div>
-                    <label className="block text-base font-semibold text-gray-800 mb-2">Select Area</label>
+                    <label className="block text-base font-semibold text-gray-800 mb-2">Select Region</label>
                     <select 
                       value={selectedArea}
                       onChange={(e) => setSelectedArea(e.target.value)}

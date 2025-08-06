@@ -4,8 +4,40 @@ const enhancedRegions = {
     name: 'California',
     icon: '🏞️',
     subRegions: {
-      'los_angeles': {
-        name: 'Los Angeles',
+      'northernCalifornia': {
+        name: 'Northern California',
+        neighborhoods: {
+          'marina_district': {
+            name: 'Marina District',
+            zipCode: '94123',
+            coordinates: { lat: 37.8027, lng: -122.4364 },
+            elevation: '16 feet',
+            femaZone: 'AE (High Risk)',
+            basementRisk: 'EXTREME',
+            safeFloor: '2nd floor minimum',
+            mainRisks: ['earthquakes', 'tsunamis', 'liquefaction'],
+            liquefactionZone: 'Very High Susceptibility',
+            tsunamiEvacuation: 'Move inland past Fillmore St',
+            overallRisk: 'HIGH',
+            riskScore: 82
+          },
+          'oakland_hills': {
+            name: 'Oakland Hills',
+            zipCode: '94611',
+            coordinates: { lat: 37.8197, lng: -122.1978 },
+            elevation: '1,100 feet',
+            femaZone: 'X (Minimal Risk)',
+            basementRisk: 'LOW',
+            mainRisks: ['wildfires', 'earthquakes', 'landslides'],
+            fireZone: 'Very High Fire Hazard Severity Zone',
+            lastMajorFire: 'Oakland Firestorm (1991)',
+            overallRisk: 'HIGH',
+            riskScore: 85
+          }
+        }
+      },
+      'southernCalifornia': {
+        name: 'Southern California',
         neighborhoods: {
           'pacific_palisades': {
             name: 'Pacific Palisades',
@@ -91,38 +123,6 @@ const enhancedRegions = {
             insuranceAvailable: false,
             annualRate: 40000,
             propertyImpact: 35
-          }
-        }
-      },
-      'san_francisco': {
-        name: 'San Francisco Bay Area',
-        neighborhoods: {
-          'marina_district': {
-            name: 'Marina District',
-            zipCode: '94123',
-            coordinates: { lat: 37.8027, lng: -122.4364 },
-            elevation: '16 feet',
-            femaZone: 'AE (High Risk)',
-            basementRisk: 'EXTREME',
-            safeFloor: '2nd floor minimum',
-            mainRisks: ['earthquakes', 'tsunamis', 'liquefaction'],
-            liquefactionZone: 'Very High Susceptibility',
-            tsunamiEvacuation: 'Move inland past Fillmore St',
-            overallRisk: 'HIGH',
-            riskScore: 82
-          },
-          'oakland_hills': {
-            name: 'Oakland Hills',
-            zipCode: '94611',
-            coordinates: { lat: 37.8197, lng: -122.1978 },
-            elevation: '1,100 feet',
-            femaZone: 'X (Minimal Risk)',
-            basementRisk: 'LOW',
-            mainRisks: ['wildfires', 'earthquakes', 'landslides'],
-            fireZone: 'Very High Fire Hazard Severity Zone',
-            lastMajorFire: 'Oakland Firestorm (1991)',
-            overallRisk: 'HIGH',
-            riskScore: 85
           }
         }
       }
@@ -238,7 +238,7 @@ const enhancedRegions = {
               date: '2025-07-04',
               severity: 'catastrophic',
               deaths: 135,
-              description: '2nd deadliest flood in Texas history'
+              description: '2nd deadliest flood in Texas history (1st: Galveston 1900 - 6,000+ dead)'
             },
             overallRisk: 'EXTREME',
             riskScore: 95,
