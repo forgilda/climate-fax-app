@@ -1100,20 +1100,21 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
-            {/* 11. TRY PREMIUM FREE BOX */}
-            <div className="bg-blue-50 p-4 rounded-lg">
+            {/* 11. JOIN WAITLIST BOX */}
+            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
               <div className="flex items-center">
-                <span className="text-blue-600 text-xl mr-2">✨</span>
-                <h3 className="font-medium text-blue-800">Want More Detailed Analysis?</h3>
+                <span className="text-purple-600 text-xl mr-2">✨</span>
+                <h3 className="font-medium text-purple-800">Want More Detailed Analysis?</h3>
+                <span className="ml-2 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full font-medium">Coming Soon</span>
               </div>
-              <p className="text-sm text-blue-700 mb-3 mt-2">
-                Upgrade to Premium for personalized recommendations, cost analysis, and alternative locations.
+              <p className="text-sm text-purple-700 mb-3 mt-2">
+                Join our waitlist for premium features including personalized recommendations, cost analysis, and alternative locations.
               </p>
               <button 
                 className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-2 px-4 rounded"
                 onClick={() => window.location.href = '/contact'}
               >
-                Sign Up
+                Join Waitlist
               </button>
             </div>
           </div>
