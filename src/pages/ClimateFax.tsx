@@ -1572,28 +1572,28 @@ const ClimateFaxApp = () => {
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Safety:</span>
                         <span className={`font-medium ${
-                          location.safetyIndex >= 70 ? 'text-green-600' : 
-                          location.safetyIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                          (100 - getRegionalRiskFromNOAA(location.id)) >= 70 ? 'text-green-600' : 
+                          (100 - getRegionalRiskFromNOAA(location.id)) >= 40 ? 'text-yellow-600' : 'text-red-600'
                         }`}>
-                          {location.safetyIndex}%
+                          {100 - getRegionalRiskFromNOAA(location.id)}%
                         </span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Insurance:</span>
                         <span className={`font-medium ${
-                          location.insuranceIndex >= 70 ? 'text-green-600' : 
-                          location.insuranceIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                          (insuranceRates[location.id]?.available ? 80 : 20) >= 70 ? 'text-green-600' : 
+                          (insuranceRates[location.id]?.available ? 80 : 20) >= 40 ? 'text-yellow-600' : 'text-red-600'
                         }`}>
-                          {location.insuranceIndex}%
+                          {insuranceRates[location.id]?.available ? 80 : 20}%
                         </span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Affordability:</span>
                         <span className={`font-medium ${
-                          location.affordabilityIndex >= 70 ? 'text-green-600' : 
-                          location.affordabilityIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
+                          Math.max(20, 100 - getRegionalRiskFromNOAA(location.id) * 1.5) >= 70 ? 'text-green-600' : 
+                          Math.max(20, 100 - getRegionalRiskFromNOAA(location.id) * 1.5) >= 40 ? 'text-yellow-600' : 'text-red-600'
                         }`}>
-                          {location.affordabilityIndex}%
+                          {Math.round(Math.max(20, 100 - getRegionalRiskFromNOAA(location.id) * 1.5))}%
                         </span>
                       </div>
                     </div>
