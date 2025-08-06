@@ -1480,7 +1480,131 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
-            {/* ZIP Code Lookup Section - NEW SECTION */}
+            {/* Region Selection - Same as Risk Assessment Tab */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Select Your Region</h2>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Current Region: <span className="font-bold text-blue-600">{regions[region]?.name || region}</span> {regions[region]?.icon}
+                  </label>
+                  <select
+                    value={region}
+                    onChange={(e) => setRegion(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg bg-white"
+                  >
+                    {Object.entries(regions).map(([key, regionData]) => (
+                      <option key={key} value={key}>
+                        {regionData.icon} {regionData.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                {/* Current Region Info */}
+                <div className="bg-white p-4 rounded-lg border">
+                  <h3 className="font-medium text-gray-800 mb-3">Region Overview</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700 mb-2">Major Cities</h4>
+                      <div className="text-sm text-gray-600">
+                        {regions[region]?.majorCities?.join(', ') || 'Not available'}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700 mb-2">Main Climate Risks</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {regions[region]?.mainRisks?.map((risk, index) => (
+                          <span key={index} className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
+                            {variables[risk]?.icon || '❓'} {variables[risk]?.name || risk}
+                          </span>
+                        )) || <span className="text-gray-500 text-sm">Not available</span>}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Regional Indices */}
+                  <div className="mt-4 grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-gray-800">{regions[region]?.safetyIndex || 'N/A'}</div>
+                      <div className="text-xs text-gray-600">Safety Index</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-gray-800">{regions[region]?.insuranceIndex || 'N/A'}</div>
+                      <div className="text-xs text-gray-600">Insurance Index</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-gray-800">{regions[region]?.affordabilityIndex || 'N/A'}</div>
+                      <div className="text-xs text-gray-600">Affordability Index</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Economic Loss Analysis Section */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                <span className="mr-2">💰</span>
+                Billion-Dollar Climate Disasters
+              </h2>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="mb-4">
+                  <button
+                    onClick={() => setVariable('economicLoss')}
+                    className={`px-4 py-2 rounded font-medium ${
+                      variable === 'economicLoss' 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    View Economic Impact Data
+                  </button>
+                </div>
+                
+                {variable === 'economicLoss' && (
+                  <div className="bg-white p-4 rounded-lg border">
+                    <div className="mb-4">
+                      <h3 className="font-medium text-gray-800 mb-2">NOAA Billion-Dollar Disaster Trends</h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Real historical data showing the dramatic increase in climate-related economic losses:
+                      </p>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-4">
+                        <div className="bg-blue-50 p-3 rounded">
+                          <div className="text-lg font-bold text-blue-800">403</div>
+                          <div className="text-xs text-blue-600">Total Events</div>
+                          <div className="text-xs text-blue-600">(1980-2024)</div>
+                        </div>
+                        <div className="bg-green-50 p-3 rounded">
+                          <div className="text-lg font-bold text-green-800">$2.9T</div>
+                          <div className="text-xs text-green-600">Total Cost</div>
+                          <div className="text-xs text-green-600">(Inflation-adjusted)</div>
+                        </div>
+                        <div className="bg-orange-50 p-3 rounded">
+                          <div className="text-lg font-bold text-orange-800">23/yr</div>
+                          <div className="text-xs text-orange-600">Current Rate</div>
+                          <div className="text-xs text-orange-600">(2020-2024)</div>
+                        </div>
+                        <div className="bg-red-50 p-3 rounded">
+                          <div className="text-lg font-bold text-red-800">$149B</div>
+                          <div className="text-xs text-red-600">Annual Cost</div>
+                          <div className="text-xs text-red-600">(2020-2024 avg)</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Chart section will automatically show when economicLoss is selected */}
+                    <div className="text-center">
+                      <p className="text-sm text-gray-500 italic">
+                        Chart showing historical and projected economic losses will appear in the main visualization above.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ZIP Code Lookup Section - Moved to bottom */}
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">ZIP Code Lookup</h2>
               <div className="bg-gray-50 p-4 rounded-lg">
