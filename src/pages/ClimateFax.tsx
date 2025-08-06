@@ -1113,7 +1113,12 @@ const ClimateFaxApp = () => {
             
             {/* Insurance Analysis - Moving "Stay or Go Recommendation" to the Alternatives tab */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Insurance Analysis</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">
+                Projected Insurance - {regions[region].name}
+                {selectedNeighborhood && enhancedRegions[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood] && 
+                  ` - ${enhancedRegions[region][selectedArea].neighborhoods[selectedNeighborhood].name}`
+                }
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-3">Current Situation</h3>
@@ -1141,7 +1146,7 @@ const ClimateFaxApp = () => {
                 </div>
                 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-3">5-Year Projection</h3>
+                  <h3 className="font-medium text-gray-700 mb-3">5-Year Insurance Projection</h3>
                   
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-1">
@@ -1191,7 +1196,12 @@ const ClimateFaxApp = () => {
             
             {/* Property Value Impact */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Property Value Impact</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">
+                Projected Valuation - {regions[region].name}
+                {selectedNeighborhood && enhancedRegions[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood] && 
+                  ` - ${enhancedRegions[region][selectedArea].neighborhoods[selectedNeighborhood].name}`
+                }
+              </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -1210,7 +1220,7 @@ const ClimateFaxApp = () => {
                 </div>
                 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-3">10-Year Projection</h3>
+                  <h3 className="font-medium text-gray-700 mb-3">10-Year Valuation Projection</h3>
                   
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-1">
