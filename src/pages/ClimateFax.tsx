@@ -10,7 +10,7 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Copyright } from "@/components/Copyright";
-import { neighborhoodData } from './neighborhoodData';
+import { enhancedRegions } from './neighborhoodData';
 
 const ClimateFaxApp = () => {
   // Main state variables
@@ -346,23 +346,23 @@ const ClimateFaxApp = () => {
   }, [region, variable, model]);
 
   useEffect(() => {
-    if (region && neighborhoodData[region]) {
-      const areas = Object.keys(neighborhoodData[region]);
+    if (region && enhancedRegions[region]) {
+      const areas = Object.keys(enhancedRegions[region].subRegions);
       setSelectedArea(areas[0] || '');
       setSelectedNeighborhood('');
     }
   }, [region]);
 
   useEffect(() => {
-    if (region && selectedArea && neighborhoodData[region]?.[selectedArea]) {
-      const neighborhoods = Object.keys(neighborhoodData[region][selectedArea].neighborhoods);
+    if (region && selectedArea && enhancedRegions[region]?.subRegions[selectedArea]) {
+      const neighborhoods = Object.keys(enhancedRegions[region].subRegions[selectedArea].neighborhoods);
       setSelectedNeighborhood(neighborhoods[0] || '');
     }
   }, [region, selectedArea]);
   
   const getCurrentNeighborhood = () => {
-    if (selectedNeighborhood && neighborhoodData[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood]) {
-      return neighborhoodData[region][selectedArea].neighborhoods[selectedNeighborhood];
+    if (selectedNeighborhood && enhancedRegions[region]?.subRegions[selectedArea]?.neighborhoods[selectedNeighborhood]) {
+      return enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood];
     }
     return null;
   };
@@ -745,7 +745,7 @@ const ClimateFaxApp = () => {
                   </select>
                 </div>
                 
-                {neighborhoodData[region] && (
+                {enhancedRegions[region] && (
                   <div>
                     <label className="block text-base font-semibold text-gray-800 mb-2">Select Area</label>
                     <select 
@@ -753,14 +753,14 @@ const ClimateFaxApp = () => {
                       onChange={(e) => setSelectedArea(e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-medium"
                     >
-                      {Object.entries(neighborhoodData[region]).map(([key, area]) => (
+                      {Object.entries(enhancedRegions[region].subRegions).map(([key, area]) => (
                         <option key={key} value={key}>{(area as any).name}</option>
                       ))}
                     </select>
                   </div>
                 )}
                 
-                {selectedArea && neighborhoodData[region]?.[selectedArea] && (
+                {selectedArea && enhancedRegions[region]?.subRegions[selectedArea] && (
                   <div>
                     <label className="block text-base font-semibold text-gray-800 mb-2">Select Neighborhood</label>
                     <select 
@@ -768,7 +768,7 @@ const ClimateFaxApp = () => {
                       onChange={(e) => setSelectedNeighborhood(e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-medium"
                     >
-                      {Object.entries(neighborhoodData[region][selectedArea].neighborhoods).map(([key, neighborhood]) => (
+                      {Object.entries(enhancedRegions[region].subRegions[selectedArea].neighborhoods).map(([key, neighborhood]) => (
                         <option key={key} value={key}>{(neighborhood as any).name} ({(neighborhood as any).zipCode})</option>
                       ))}
                     </select>
@@ -776,14 +776,14 @@ const ClimateFaxApp = () => {
                 )}
               </div>
               
-              {selectedNeighborhood && neighborhoodData[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood] && (
+              {selectedNeighborhood && enhancedRegions[region]?.subRegions[selectedArea]?.neighborhoods[selectedNeighborhood] && (
                 <div className="mt-4 p-3 bg-gray-50 rounded-lg">
                   <div className="text-sm text-gray-600">
-                    <span className="font-medium">Selected Location:</span> {neighborhoodData[region][selectedArea].neighborhoods[selectedNeighborhood].name}
+                    <span className="font-medium">Selected Location:</span> {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].name}
                     <span className="ml-2">•</span>
-                    <span className="ml-2">Elevation: {neighborhoodData[region][selectedArea].neighborhoods[selectedNeighborhood].elevation}</span>
+                    <span className="ml-2">Elevation: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].elevation}</span>
                     <span className="ml-2">•</span>
-                    <span className="ml-2">FEMA Zone: {neighborhoodData[region][selectedArea].neighborhoods[selectedNeighborhood].femaZone}</span>
+                    <span className="ml-2">FEMA Zone: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].femaZone}</span>
                   </div>
                 </div>
               )}
