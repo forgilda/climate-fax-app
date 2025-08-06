@@ -34,15 +34,8 @@ function App() {
             {/* Keep login available but not required */}
             <Route path="/login" element={<LoginPage />} />
             
-            {/* Admin dashboard - keep protected for now */}
-            <Route 
-              path="/admin" 
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } 
-            />
+            {/* Admin dashboard - now public */}
+            <Route path="/admin" element={<AdminDashboard />} />
             
             {/* Redirect /index to splash page */}
             <Route path="/index" element={<Navigate to="/" replace />} />
