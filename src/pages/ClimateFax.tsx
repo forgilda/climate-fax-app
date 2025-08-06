@@ -484,13 +484,13 @@ const ClimateFaxApp = () => {
     // Very low safety (<30) = significant decline
     
     if (displayedSafetyScore >= 70) {
-      return -(Math.round(2 + Math.random() * 4)); // -2% to -6% (values go UP in safe areas)
+      return -Math.round(3 + (displayedSafetyScore - 70) * 0.2); // Values go UP: -3% to -9% (higher safety = more gains)
     } else if (displayedSafetyScore >= 50) {
-      return Math.round(Math.random() * 2); // 0-2% (minimal change)
+      return Math.round((70 - displayedSafetyScore) * 0.1); // 0-2% (minimal change)
     } else if (displayedSafetyScore >= 30) {
-      return Math.round(3 + Math.random() * 5); // 3-8% decline
+      return Math.round(2 + (50 - displayedSafetyScore) * 0.3); // 2-8% decline
     } else {
-      return Math.round(8 + Math.random() * 12); // 8-20% decline
+      return Math.round(8 + (30 - displayedSafetyScore) * 0.4); // 8-20% decline
     }
   };
 
