@@ -461,7 +461,7 @@ const ClimateFaxApp = () => {
       },
       'wildfires': {
         'california': 90, 'oregon': 75, 'colorado': 65, 'texas': 45,
-        'michigan': 25, 'florida': 35, 'nyc': 15
+        'michigan': 25, 'florida': 35, 'nyc': 10
       },
       'hurricanes': {
         'florida': 95, 'texas': 80, 'nyc': 60, 'california': 15,
