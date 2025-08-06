@@ -2,6 +2,7 @@ import React from 'react';
 import { MobileHeader } from '@/components/MobileHeader';
 
 const AdminDashboard = () => {
+  console.log('ADMIN CHECKING localStorage:', localStorage.getItem('climatefax_signups'));
   const signups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
 
   return (

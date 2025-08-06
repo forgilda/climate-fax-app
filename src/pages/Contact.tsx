@@ -189,6 +189,14 @@ const ContactPage = () => {
                 existing.push(signup);
                 localStorage.setItem('climatefax_signups', JSON.stringify(existing));
                 
+                // Force immediate check
+                console.log('IMMEDIATELY AFTER SAVE:', localStorage.getItem('climatefax_signups'));
+                
+                // Test if it persists
+                setTimeout(() => {
+                  console.log('AFTER 1 SECOND:', localStorage.getItem('climatefax_signups'));
+                }, 1000);
+                
                 toast.success("Added to waitlist!", {
                   description: "We'll contact you when premium features are available.",
                 });
