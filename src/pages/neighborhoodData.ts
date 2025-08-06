@@ -582,8 +582,8 @@ const enhancedRegions = {
             overallRisk: 'MODERATE',
             riskScore: 48,
             insuranceAvailable: true,
-            annualRate: 1700,
-            propertyImpact: 5
+            annualRate: 1687,
+            propertyImpact: 8
           }
         }
       }
