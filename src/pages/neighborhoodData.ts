@@ -209,7 +209,7 @@ const enhancedRegions = {
               type: 'hurricane',
               date: '2024-10-09',
               severity: 'catastrophic',
-              description: 'Oct 2024 - Residents asking if time to let go after 5th hurricane in 2 years'
+              description: 'Oct 2024 - Hurricane Milton, 5th hurricane in 2 years'
             },
             repeatVictim: true,
             overallRisk: 'EXTREME',
