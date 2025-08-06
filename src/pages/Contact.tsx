@@ -145,6 +145,8 @@ const ContactPage = () => {
               type="button"
               onClick={() => {
                 alert(`About to save: ${name} - ${email}`);
+                alert(`All localStorage keys before: ${Object.keys(localStorage).join(', ')}`);
+                
                 
                 // Check what's currently in localStorage
                 const currentData = localStorage.getItem('signups');

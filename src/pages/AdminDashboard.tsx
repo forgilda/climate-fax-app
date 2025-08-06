@@ -2,6 +2,9 @@ import React from 'react';
 import { MobileHeader } from '@/components/MobileHeader';
 
 const AdminDashboard = () => {
+  // Debug all localStorage
+  alert(`All localStorage keys: ${Object.keys(localStorage).join(', ')}`);
+  
   const signups = JSON.parse(localStorage.getItem('signups') || '[]');
   
   // Debug localStorage
