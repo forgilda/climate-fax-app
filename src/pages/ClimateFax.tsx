@@ -395,8 +395,12 @@ const ClimateFaxApp = () => {
   }, [region, variable, model]);
 
   useEffect(() => {
+    console.log('Region changed to:', region);
+    console.log('enhancedRegions[region]:', enhancedRegions[region]);
     if (region && enhancedRegions[region]) {
+      console.log('subRegions:', enhancedRegions[region].subRegions);
       const areas = Object.keys(enhancedRegions[region].subRegions);
+      console.log('Available areas:', areas);
       setSelectedArea(areas[0] || '');
       setSelectedNeighborhood('');
     }
