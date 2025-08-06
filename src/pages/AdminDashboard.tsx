@@ -3,6 +3,11 @@ import { MobileHeader } from '@/components/MobileHeader';
 
 const AdminDashboard = () => {
   const signups = JSON.parse(localStorage.getItem('signups') || '[]');
+  
+  // Debug localStorage
+  console.log('localStorage signups:', localStorage.getItem('signups'));
+  console.log('parsed signups:', signups);
+  alert(`Admin Dashboard: Found ${signups.length} signups in localStorage`);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
