@@ -151,24 +151,27 @@ const ContactPage = () => {
                     </FormItem>
                   )}
                  />
-                 
-                 <Button 
-                   type="submit" 
-                   className="w-full bg-orange-500 hover:bg-orange-600"
-                   disabled={isSubmitting}
-                 >
-                   {isSubmitting ? "Sending..." : "Send Message"}
-                 </Button>
                </form>
              </Form>
-           </section>
+          </section>
 
           {/* Waitlist Button */}
           <section className="text-center">
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
-              onClick={async () => {
+              onClick={async (e) => {
+                e.preventDefault();
+                
+                // Get form data and validate
                 const formData = form.getValues();
+                const validation = form.trigger();
+                
+                if (!await validation) {
+                  return;
+                }
+                
+                alert('Purple button clicked! Check admin now.');
+                
                 try {
                   const signup = {
                     id: Date.now().toString(),
