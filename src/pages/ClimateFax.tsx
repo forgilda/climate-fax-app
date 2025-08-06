@@ -785,6 +785,36 @@ const ClimateFaxApp = () => {
                     <span className="ml-2">•</span>
                     <span className="ml-2">FEMA Zone: {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].femaZone}</span>
                   </div>
+                  
+                  {/* Show recent event if exists */}
+                  {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].recentEvent && (
+                    <div className="mt-2 p-2 bg-red-100 border border-red-300 rounded">
+                      <span className="text-red-800 font-medium">🔴 RECENT EVENT: </span>
+                      <span className="text-red-700">
+                        {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].recentEvent.description}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Show flood history if exists */}
+                  {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].floodHistory && (
+                    <div className="mt-2 text-sm">
+                      <span className="font-medium text-gray-700">Flood History:</span> 
+                      <span className="text-gray-600 ml-1">
+                        {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].floodHistory}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Show safe floor recommendation */}
+                  {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].safeFloor && (
+                    <div className="mt-1 text-sm">
+                      <span className="font-medium text-gray-700">Safe Floor:</span> 
+                      <span className="text-gray-600 ml-1">
+                        {enhancedRegions[region].subRegions[selectedArea].neighborhoods[selectedNeighborhood].safeFloor}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
