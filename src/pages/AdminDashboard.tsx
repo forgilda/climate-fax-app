@@ -87,6 +87,32 @@ const AdminDashboard = () => {
       <MobileHeader title="Admin Dashboard" showBackButton />
       
       <main className="flex-1 container max-w-6xl mx-auto p-4 space-y-6">
+        {/* Debug Info */}
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+          <h3 className="font-medium mb-2">Debug Info:</h3>
+          <p className="text-sm">Raw localStorage data: {localStorage.getItem('climatefax_signups') || 'null'}</p>
+          <button 
+            onClick={() => {
+              const testSignup = {
+                id: Date.now().toString(),
+                name: 'Test User',
+                email: 'test@example.com', 
+                subject: 'Test',
+                message: 'Test message',
+                signup_type: 'contact',
+                created_at: new Date().toISOString()
+              };
+              const existing = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+              existing.push(testSignup);
+              localStorage.setItem('climatefax_signups', JSON.stringify(existing));
+              fetchSignups();
+            }}
+            className="mt-2 px-3 py-1 bg-blue-500 text-white rounded text-sm"
+          >
+            Add Test Signup
+          </button>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
