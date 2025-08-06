@@ -512,6 +512,20 @@ const ClimateFaxApp = () => {
     // Get base risk score for this threat-region combination
     let riskScore = threatRiskMatrix[variable]?.[region] || 50;
     
+    // Enforce geographic constraints for impossible scenarios
+    if ((variable === 'tsunamis' || variable === 'seaLevelRise' || variable === 'coastalErosion') && 
+        (region === 'colorado')) {
+      riskScore = 0; // Landlocked regions have no coastal risks
+    }
+    
+    if (variable === 'tsunamis' && (region === 'texas' || region === 'michigan')) {
+      riskScore = 0; // Gulf of Mexico and Great Lakes have no tsunami risk
+    }
+    
+    if (variable === 'hurricanes' && region === 'colorado') {
+      riskScore = 0; // No hurricanes in landlocked mountainous regions
+    }
+    
     // Apply neighborhood-specific modifiers if available
     if (neighborhood && variable === 'wildfires') {
       if (neighborhood.fireZone === 'Very High Fire Hazard Severity Zone') {
@@ -523,7 +537,7 @@ const ClimateFaxApp = () => {
     }
     
     // Apply elevation-based adjustments for coastal risks
-    if (neighborhood && (variable === 'seaLevelRise' || variable === 'flooding')) {
+    if (neighborhood && (variable === 'seaLevelRise' || variable === 'flooding') && riskScore > 0) {
       const elevation = parseInt(neighborhood.elevation);
       if (elevation < 20) riskScore = Math.min(95, riskScore + 15);
       else if (elevation > 100) riskScore = Math.max(10, riskScore - 15);
@@ -532,7 +546,7 @@ const ClimateFaxApp = () => {
     // Apply climate model modifier
     const modelModifier = model === 'accelerated' ? 10 : (model === 'mitigation' ? -5 : 0);
     
-    return Math.min(95, Math.max(5, riskScore + modelModifier));
+    return Math.min(95, Math.max(0, riskScore + modelModifier));
   };
   
   // Get risk category based on score
