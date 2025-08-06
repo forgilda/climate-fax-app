@@ -92,7 +92,8 @@ const ContactPage = () => {
           <section className="space-y-2">
             <h2 className="text-2xl font-bold">Get in Touch</h2>
             <p className="text-muted-foreground">
-              We hope you enjoy exploring our free Beta model. Have questions about ClimateFAX or want to join our waitlist for premium features? Contact us here:
+              We hope you enjoy exploring our free Beta model.<br />
+              Have questions about ClimateFAX or want to join our waitlist for premium features? Contact us here:
             </p>
           </section>
 
