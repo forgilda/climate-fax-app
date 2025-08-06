@@ -1110,10 +1110,10 @@ const ClimateFaxApp = () => {
                 Upgrade to Premium for personalized recommendations, cost analysis, and alternative locations.
               </p>
               <button 
-                className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded"
-                onClick={() => setCurrentPlan('premium')}
+                className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-2 px-4 rounded"
+                onClick={() => window.location.href = '/contact'}
               >
-                Try Premium Free for 30 Days
+                Sign Up
               </button>
             </div>
           </div>
