@@ -806,8 +806,10 @@ const ClimateFaxApp = () => {
                     className="flex-1 min-w-[100px] px-2 py-2 flex flex-col items-center justify-center gap-1 text-sm border border-gray-300 rounded-md hover:border-blue-500 data-[state=on]:border-blue-600 data-[state=on]:bg-blue-50"
                     aria-label={category.name}
                   >
+                    <br />
                     <span className="text-xl">{category.icon}</span>
                     <span className="text-xs font-medium whitespace-normal text-center">{category.name}</span>
+                    <br />
                   </ToggleGroupItem>
                 ))}
               </ToggleGroup>
