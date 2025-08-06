@@ -124,7 +124,7 @@ const ClimateFaxApp = () => {
       icon: '🌊',
       majorCities: ['Grand Rapids'],
       mainRisks: ['winterStorms', 'flooding'],
-      safetyIndex: 45,
+      safetyIndex: 80,
       insuranceIndex: 85,
       affordabilityIndex: 68
     },
