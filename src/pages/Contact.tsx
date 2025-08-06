@@ -211,7 +211,7 @@ const ContactPage = () => {
               </div>
               <div className="rounded-lg overflow-hidden">
                 <img 
-                  src="/src/assets/pacific-design-center.jpg"
+                  src="/src/assets/pdc-red-building.jpg"
                   alt="Pacific Design Center Red Building - Our Office Location"
                   className="w-full h-48 object-cover"
                 />
