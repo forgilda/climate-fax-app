@@ -457,6 +457,13 @@ const enhancedRegions = {
             industrialArea: true,
             drainageSystem: 'Combined sewer (industrial area)',
             nearestWater: 'East River, Bronx River confluence',
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-16',
+              severity: 'moderate',
+              description: 'Cross Bronx Expressway closed from flooding'
+            },
             overallRisk: 'HIGH',
             riskScore: 74,
             insuranceAvailable: true,
@@ -480,6 +487,13 @@ const enhancedRegions = {
             evacuationRoutes: 'Verrazzano Bridge (only route off island)',
             stormSurge: 'EXTREME - Direct ocean exposure',
             floodHistory: 'Sandy (2012) catastrophic damage',
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-16',
+              severity: 'major',
+              description: '4-6 inches rain, Staten Island Railway suspended'
+            },
             overallRisk: 'EXTREME',
             riskScore: 91,
             insuranceAvailable: false,
