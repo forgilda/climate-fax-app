@@ -733,7 +733,7 @@ const ClimateFaxApp = () => {
             <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-base font-semibold text-gray-800 mb-2">Select Your Region</label>
+                  <label className="block text-base font-semibold text-gray-800 mb-2">Select State</label>
                   <select 
                     value={region}
                     onChange={(e) => setRegion(e.target.value)}
@@ -791,7 +791,8 @@ const ClimateFaxApp = () => {
             
             {/* 4. CLIMATE CATEGORIES BOXES */}
             <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-              <ToggleGroup 
+              <label className="block text-base font-semibold text-gray-800 mb-2">Select Threat</label>
+              <ToggleGroup
                 type="single" 
                 value={activeCategory} 
                 onValueChange={(value) => value && handleCategoryChange(value)}
