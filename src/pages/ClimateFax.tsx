@@ -90,70 +90,77 @@ const ClimateFaxApp = () => {
     'winterStorms': { name: 'Winter Storms', unit: 'events', icon: '❄️' }
   };
 
-  // Sample regions with more details - Updated Colorado risks to be more accurate
+  // Sample regions with more details - FIXED REALISTIC SAFETY SCORES
   const regions = {
     'california': {
       name: 'California', 
       icon: '🏞️',
       majorCities: ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento'],
       mainRisks: ['wildfires', 'drought', 'earthquakes'],
-      safetyIndex: 65,
-      insuranceIndex: 35,
-      affordabilityIndex: 25
+      safetyIndex: 45, // High wildfire/earthquake risk
+      insuranceIndex: 25, // Very limited availability
+      affordabilityIndex: 25,
+      cityVariation: 'High: Coastal cities safer from fires, inland cities at higher risk'
     },
     'colorado': {
       name: 'Colorado', 
       icon: '🏔️',
       majorCities: ['Denver', 'Boulder', 'Colorado Springs'],
       mainRisks: ['wildfires', 'drought', 'landslides'],
-      safetyIndex: 80,
-      insuranceIndex: 65,
-      affordabilityIndex: 45
+      safetyIndex: 75, // Generally safer, some wildfire risk
+      insuranceIndex: 80,
+      affordabilityIndex: 45,
+      cityVariation: 'Moderate: Mountain areas higher fire risk, plains areas safer'
     },
     'florida': {
       name: 'Florida', 
       icon: '🌴',
       majorCities: ['Miami', 'Orlando', 'Tampa', 'Jacksonville'],
       mainRisks: ['hurricanes', 'flooding', 'seaLevelRise'],
-      safetyIndex: 55,
-      insuranceIndex: 30,
-      affordabilityIndex: 45
+      safetyIndex: 35, // Major hurricane/flood risk
+      insuranceIndex: 20, // Insurance crisis
+      affordabilityIndex: 45,
+      cityVariation: 'Very High: Miami/coastal extremely high risk, inland somewhat safer'
     },
     'michigan': {
       name: 'Michigan', 
       icon: '🌊',
-      majorCities: ['Grand Rapids'],
+      majorCities: ['Grand Rapids', 'Detroit', 'Ann Arbor'],
       mainRisks: ['winterStorms', 'flooding'],
-      safetyIndex: 45,
+      safetyIndex: 80, // Much safer from extreme weather
       insuranceIndex: 85,
-      affordabilityIndex: 68
+      affordabilityIndex: 68,
+      cityVariation: 'Low: Most cities relatively safe, some Great Lakes flooding risk'
     },
     'nyc': {
       name: 'New York City',
       icon: '🗽',
       majorCities: ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island'],
       mainRisks: ['flooding', 'hurricanes', 'winterStorms'],
-      safetyIndex: 60,
-      insuranceIndex: 55,
-      affordabilityIndex: 20
+      safetyIndex: 55, // Hurricane Sandy, flooding risk
+      insuranceIndex: 70,
+      affordabilityIndex: 20,
+      cityVariation: 'High: Lower Manhattan flood risk, higher areas safer'
     },
     'oregon': {
       name: 'Oregon',
       icon: '🌲',
       majorCities: ['Portland', 'Bend', 'Eugene', 'Salem'],
       mainRisks: ['wildfires', 'earthquakes', 'drought'],
-      safetyIndex: 75,
-      insuranceIndex: 70,
-      affordabilityIndex: 55
+      safetyIndex: 65, // Some wildfire/earthquake risk
+      insuranceIndex: 75,
+      affordabilityIndex: 55,
+      cityVariation: 'High: Eastern Oregon fire-prone, western areas earthquake risk'
     },
     'texas': {
       name: 'Texas', 
       icon: '🤠',
       majorCities: ['Houston', 'Dallas', 'Austin', 'San Antonio'],
       mainRisks: ['hurricanes', 'tornadoes', 'flooding'],
-      safetyIndex: 70,
+      safetyIndex: 40, // Major flood/hurricane/tornado risk
       insuranceIndex: 60,
-      affordabilityIndex: 65
+      affordabilityIndex: 65,
+      cityVariation: 'Extreme: Houston/coast very high risk, Austin/inland much safer'
     }
   };
 
@@ -1465,7 +1472,7 @@ const ClimateFaxApp = () => {
                           {regions[region]?.safetyIndex || 'N/A'}
                         </div>
                         <div className="text-xs font-medium text-gray-700">Safety Index</div>
-                        <div className="text-xs text-gray-500">Higher = Safer</div>
+                        <div className="text-xs text-gray-500">Higher = Safer from climate disasters</div>
                       </div>
                       <div className="text-center bg-gray-50 p-3 rounded-lg">
                         <div className={`text-xl font-bold ${
@@ -1488,6 +1495,22 @@ const ClimateFaxApp = () => {
                         </div>
                         <div className="text-xs font-medium text-gray-700">Affordability Index</div>
                         <div className="text-xs text-gray-500">Higher = More Affordable</div>
+                      </div>
+                    </div>
+                    
+                    {/* City Variation Warning */}
+                    <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                      <div className="flex items-start">
+                        <span className="text-yellow-600 mr-2">⚠️</span>
+                        <div>
+                          <h5 className="text-sm font-medium text-yellow-800">Important: Cities Vary Within States</h5>
+                          <p className="text-xs text-yellow-700 mt-1">
+                            <strong>City Variation:</strong> {regions[region]?.cityVariation || 'Risk levels vary significantly between cities and neighborhoods within this region.'}
+                          </p>
+                          <p className="text-xs text-yellow-600 mt-2">
+                            These are state/regional averages. Individual cities may be much safer or more dangerous than shown here.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
