@@ -335,8 +335,8 @@ const enhancedRegions = {
       'manhattan': {
         name: 'Manhattan',
         neighborhoods: {
-          'lower_manhattan': {
-            name: 'Lower Manhattan (Financial District)',
+          'lowerManhattan': {
+            name: 'Lower Manhattan',
             zipCode: '10004',
             coordinates: { lat: 40.7074, lng: -74.0113 },
             elevation: '6 feet',
@@ -345,38 +345,47 @@ const enhancedRegions = {
             safeFloor: '3rd floor or higher',
             subwayLines: 'R, W, 1, 4, 5, 6',
             subwayRisk: 'VERY HIGH - Multiple underground lines',
-            altTransport: 'Ferry, Bus, Walking',
-            evacuationRoutes: 'Brooklyn Bridge, Manhattan Bridge',
-            powerGrid: 'Underground (ConEd Grid 27)',
-            outageProbability: 'LOW (Protected infrastructure)',
             drainageSystem: 'Combined sewer (1800s era)',
-            emergencyAccess: 'Good - Multiple hospitals nearby',
-            nearestWater: 'East River (0.2 miles), Hudson River (0.3 miles)',
-            stormSurge: 'HIGH - Sea level location',
-            permeability: 'POOR - 85% paved surfaces',
-            floodFrequency: '3-4 events per decade',
+            nearestWater: 'East River (0.2 mi), Hudson River (0.3 mi)',
+            mainRisks: ['flooding', 'hurricanes', 'seaLevelRise'],
+            floodHistory: 'Sandy (2012), Ida (2021), July 2025',
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-16',
+              severity: 'major',
+              description: '2nd highest rainfall in NYC history - subway flooding'
+            },
             overallRisk: 'HIGH',
-            riskScore: 78
+            riskScore: 78,
+            insuranceAvailable: true,
+            annualRate: 8500,
+            propertyImpact: 18
           },
-          'upper_east_side': {
+          'upperEastSide': {
             name: 'Upper East Side',
             zipCode: '10021',
             coordinates: { lat: 40.7736, lng: -73.9566 },
             elevation: '66 feet',
             femaZone: 'X (Moderate Risk)',
             basementRisk: 'MODERATE',
-            mainRisks: ['flooding', 'power outages'],
+            safeFloor: '2nd floor recommended',
+            subwayLines: '4, 5, 6, Q',
             subwayRisk: 'MODERATE - Deep stations',
+            mainRisks: ['flooding', 'hurricanes'],
             overallRisk: 'MODERATE',
-            riskScore: 55
+            riskScore: 55,
+            insuranceAvailable: true,
+            annualRate: 5500,
+            propertyImpact: 10
           }
         }
       },
       'queens': {
         name: 'Queens',
         neighborhoods: {
-          'queens_richmond_hill': {
-            name: 'Queens - Richmond Hill',
+          'richmondHill': {
+            name: 'Richmond Hill',
             zipCode: '11418',
             coordinates: { lat: 40.7009, lng: -73.8370 },
             elevation: '78 feet',
@@ -385,55 +394,97 @@ const enhancedRegions = {
             safeFloor: '2nd floor recommended',
             subwayLines: 'J, Z (elevated)',
             subwayRisk: 'LOW - Elevated stations',
+            mainRisks: ['flooding', 'winterStorms'],
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-16',
+              severity: 'moderate',
+              description: 'Street flooding from record rainfall'
+            },
             overallRisk: 'MODERATE',
-            riskScore: 52
+            riskScore: 52,
+            insuranceAvailable: true,
+            annualRate: 4500,
+            propertyImpact: 8
           }
         }
       },
       'brooklyn': {
         name: 'Brooklyn',
         neighborhoods: {
-          'brooklyn_red_hook': {
-            name: 'Brooklyn - Red Hook',
+          'redHook': {
+            name: 'Red Hook',
             zipCode: '11231',
             coordinates: { lat: 40.6743, lng: -74.0120 },
             elevation: '8 feet',
             femaZone: 'AE (High Risk)',
             basementRisk: 'EXTREME',
+            safeFloor: '2nd floor minimum',
+            subwayLines: 'Limited - Bus connections only',
+            nearestWater: 'NY Harbor (waterfront)',
+            mainRisks: ['flooding', 'hurricanes', 'seaLevelRise'],
             stormSurge: 'EXTREME - Direct harbor exposure',
+            floodHistory: 'Sandy (2012) devastated area',
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-16',
+              severity: 'major',
+              description: 'Waterfront flooding from record rainfall'
+            },
             overallRisk: 'EXTREME',
-            riskScore: 87
+            riskScore: 87,
+            insuranceAvailable: false,
+            annualRate: 12000,
+            propertyImpact: 25
           }
         }
       },
       'bronx': {
         name: 'Bronx',
         neighborhoods: {
-          'bronx_hunts_point': {
-            name: 'Bronx - Hunts Point',
+          'huntsPoint': {
+            name: 'Hunts Point',
             zipCode: '10474',
             coordinates: { lat: 40.8074, lng: -73.8826 },
             elevation: '15 feet',
             femaZone: 'AE (High Risk)',
             basementRisk: 'HIGH',
+            safeFloor: '2nd floor recommended',
+            subwayLines: '6 (elevated section)',
+            mainRisks: ['flooding', 'hurricanes'],
+            industrialArea: true,
+            drainageSystem: 'Combined sewer (industrial area)',
+            nearestWater: 'East River, Bronx River confluence',
             overallRisk: 'HIGH',
-            riskScore: 74
+            riskScore: 74,
+            insuranceAvailable: true,
+            annualRate: 7000,
+            propertyImpact: 15
           }
         }
       },
-      'staten_island': {
+      'statenIsland': {
         name: 'Staten Island',
         neighborhoods: {
-          'staten_island_south': {
-            name: 'Staten Island - South Shore',
+          'southShore': {
+            name: 'South Shore',
             zipCode: '10307',
             coordinates: { lat: 40.5150, lng: -74.2384 },
             elevation: '12 feet',
-            femaZone: 'VE (Very High Risk - Velocity Zone)',
+            femaZone: 'VE (Velocity Zone)',
             basementRisk: 'EXTREME',
+            safeFloor: '2nd floor minimum, 3rd preferred',
+            mainRisks: ['hurricanes', 'flooding', 'winterStorms'],
+            evacuationRoutes: 'Verrazzano Bridge (only route off island)',
             stormSurge: 'EXTREME - Direct ocean exposure',
+            floodHistory: 'Sandy (2012) catastrophic damage',
             overallRisk: 'EXTREME',
-            riskScore: 91
+            riskScore: 91,
+            insuranceAvailable: false,
+            annualRate: 15000,
+            propertyImpact: 28
           }
         }
       }
