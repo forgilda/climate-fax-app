@@ -1486,15 +1486,15 @@ const ClimateFaxApp = () => {
                   </div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-2">Property Value Impact</h3>
+                  <h3 className="font-medium text-gray-700 mb-2">Affordability Index</h3>
                   <div className="flex items-center">
                     <span className={`text-lg font-semibold ${
                       regions[region].affordabilityIndex >= 70 ? 'text-green-600' : 
                       regions[region].affordabilityIndex >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
-                      -{100 - regions[region].affordabilityIndex}%
+                      {regions[region].affordabilityIndex}/100
                     </span>
-                    <span className="ml-2 text-xs text-gray-500">10-year decline</span>
+                    <span className="ml-2 text-xs text-gray-500">Higher is more affordable</span>
                   </div>
                 </div>
               </div>
@@ -1539,6 +1539,13 @@ const ClimateFaxApp = () => {
                     <li key={index} className="text-gray-700">{reason}</li>
                   ))}
                 </ul>
+                
+                <div className="mt-3 p-3 bg-gray-50 rounded border-l-4 border-red-400">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-700">10-Year Property Value Impact:</span>
+                    <span className="text-red-600 font-semibold">-{100 - regions[region].affordabilityIndex}%</span>
+                  </div>
+                </div>
               </div>
             </div>
 
