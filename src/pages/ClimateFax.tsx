@@ -398,13 +398,18 @@ const ClimateFaxApp = () => {
 
   useEffect(() => {
     console.log('Region changed to:', region);
-    console.log('enhancedRegions[region]:', enhancedRegions[region]);
+    if (region === 'michigan') {
+      console.log('Michigan selected! enhancedRegions["michigan"]:', enhancedRegions['michigan']);
+      console.log('Michigan subRegions:', enhancedRegions['michigan']?.subRegions);
+      console.log('Keys of subRegions:', Object.keys(enhancedRegions['michigan']?.subRegions || {}));
+    }
     if (region && enhancedRegions[region]) {
-      console.log('subRegions:', enhancedRegions[region].subRegions);
       const areas = Object.keys(enhancedRegions[region].subRegions);
-      console.log('Available areas:', areas);
+      console.log('Available areas for', region, ':', areas);
       setSelectedArea(areas[0] || '');
       setSelectedNeighborhood('');
+    } else {
+      console.log('No enhancedRegions data found for:', region);
     }
   }, [region]);
 
