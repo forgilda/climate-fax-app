@@ -130,7 +130,6 @@ const ContactPage = () => {
                 const formData = form.getValues();
                 
                 if (!formData.name || !formData.email) {
-                  toast.error("Please fill in Name and Email");
                   return;
                 }
                 
@@ -138,18 +137,12 @@ const ContactPage = () => {
                   id: Date.now(),
                   name: formData.name,
                   email: formData.email,
-                  message: formData.message || 'Joined waitlist',
+                  message: formData.message || '',
                   signup_type: 'waitlist',
                   created_at: new Date().toISOString()
                 };
                 
                 (window as any).climatefax_signups.push(signup);
-                setSignupCount((window as any).climatefax_signups.length);
-                
-                toast.success("Added to waitlist!", {
-                  description: "We'll contact you when premium features are available.",
-                });
-                
                 form.reset();
               }}
             >
