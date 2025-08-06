@@ -42,6 +42,7 @@ const ContactPage = () => {
   const isSubmitting = form.formState.isSubmitting;
 
   const onSubmit = async (data: FormValues) => {
+    alert('Form submitted! Check admin now.');
     try {
       console.log('Form submission data:', data);
       
@@ -149,10 +150,18 @@ const ContactPage = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-              </form>
-            </Form>
-          </section>
+                 />
+                 
+                 <Button 
+                   type="submit" 
+                   className="w-full bg-orange-500 hover:bg-orange-600"
+                   disabled={isSubmitting}
+                 >
+                   {isSubmitting ? "Sending..." : "Send Message"}
+                 </Button>
+               </form>
+             </Form>
+           </section>
 
           {/* Waitlist Button */}
           <section className="text-center">
