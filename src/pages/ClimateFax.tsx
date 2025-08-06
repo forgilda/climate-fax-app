@@ -1361,10 +1361,10 @@ const ClimateFaxApp = () => {
                   <h3 className="font-medium text-gray-700 mb-2">Climate Safety Score</h3>
                   <div className="flex items-center">
                     <span className={`text-lg font-semibold ${
-                      (100 - getRegionalRiskFromNOAA(region)) >= 70 ? 'text-green-600' : 
-                      (100 - getRegionalRiskFromNOAA(region)) >= 40 ? 'text-yellow-600' : 'text-red-600'
+                      (getCurrentNeighborhood()?.riskScore ? (100 - getCurrentNeighborhood().riskScore) : (100 - getRegionalRiskFromNOAA(region))) >= 70 ? 'text-green-600' : 
+                      (getCurrentNeighborhood()?.riskScore ? (100 - getCurrentNeighborhood().riskScore) : (100 - getRegionalRiskFromNOAA(region))) >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
-                      {100 - getRegionalRiskFromNOAA(region)}/100
+                      {getCurrentNeighborhood()?.riskScore ? (100 - getCurrentNeighborhood().riskScore) : (100 - getRegionalRiskFromNOAA(region))}/100
                     </span>
                     <span className="ml-2 text-xs text-gray-500">Higher is safer</span>
                   </div>
@@ -1373,10 +1373,10 @@ const ClimateFaxApp = () => {
                   <h3 className="font-medium text-gray-700 mb-2">Insurance Availability</h3>
                   <div className="flex items-center">
                     <span className={`text-lg font-semibold ${
-                      (insuranceRates[region]?.available ? 80 : 20) >= 70 ? 'text-green-600' : 
-                      (insuranceRates[region]?.available ? 80 : 20) >= 40 ? 'text-yellow-600' : 'text-red-600'
+                      (getCurrentNeighborhood()?.insuranceScore || (insuranceRates[region]?.available ? 80 : 20)) >= 70 ? 'text-green-600' : 
+                      (getCurrentNeighborhood()?.insuranceScore || (insuranceRates[region]?.available ? 80 : 20)) >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
-                      {insuranceRates[region]?.available ? 80 : 20}/100
+                      {getCurrentNeighborhood()?.insuranceScore || (insuranceRates[region]?.available ? 80 : 20)}/100
                     </span>
                     <span className="ml-2 text-xs text-gray-500">Higher is better</span>
                   </div>
@@ -1385,10 +1385,10 @@ const ClimateFaxApp = () => {
                   <h3 className="font-medium text-gray-700 mb-2">Affordability Index</h3>
                   <div className="flex items-center">
                     <span className={`text-lg font-semibold ${
-                      Math.max(20, 100 - getRegionalRiskFromNOAA(region) * 1.5) >= 70 ? 'text-green-600' : 
-                      Math.max(20, 100 - getRegionalRiskFromNOAA(region) * 1.5) >= 40 ? 'text-yellow-600' : 'text-red-600'
+                      (getCurrentNeighborhood()?.affordabilityScore || Math.round(Math.max(20, 100 - getRegionalRiskFromNOAA(region) * 1.5))) >= 70 ? 'text-green-600' : 
+                      (getCurrentNeighborhood()?.affordabilityScore || Math.round(Math.max(20, 100 - getRegionalRiskFromNOAA(region) * 1.5))) >= 40 ? 'text-yellow-600' : 'text-red-600'
                     }`}>
-                      {Math.round(Math.max(20, 100 - getRegionalRiskFromNOAA(region) * 1.5))}/100
+                      {getCurrentNeighborhood()?.affordabilityScore || Math.round(Math.max(20, 100 - getRegionalRiskFromNOAA(region) * 1.5))}/100
                     </span>
                     <span className="ml-2 text-xs text-gray-500">Higher is more affordable</span>
                   </div>
