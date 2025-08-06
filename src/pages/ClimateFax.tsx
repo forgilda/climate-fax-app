@@ -1408,6 +1408,94 @@ const ClimateFaxApp = () => {
         {/* Alternatives Tab Content - PREMIUM */}
         {activeTab === 'alternatives' && (
           <div className="bg-white rounded-lg shadow-md p-6">
+            
+            {/* Region Selection - FIRST on the page */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Select Your Region</h2>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Current Region: <span className="font-bold text-blue-600">{regions[region]?.name || region}</span> {regions[region]?.icon}
+                  </label>
+                  <select
+                    value={region}
+                    onChange={(e) => setRegion(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg bg-white z-50 relative"
+                  >
+                    {Object.entries(regions).map(([key, regionData]) => (
+                      <option key={key} value={key}>
+                        {regionData.icon} {regionData.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                {/* Current Region Info */}
+                <div className="bg-white p-4 rounded-lg border">
+                  <h3 className="font-medium text-gray-800 mb-3">Region Overview</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700 mb-2">Major Cities</h4>
+                      <div className="text-sm text-gray-600">
+                        {regions[region]?.majorCities?.join(', ') || 'Not available'}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700 mb-2">Main Climate Risks</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {regions[region]?.mainRisks?.map((risk, index) => (
+                          <span key={index} className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
+                            {variables[risk]?.icon || '❓'} {variables[risk]?.name || risk}
+                          </span>
+                        )) || <span className="text-gray-500 text-sm">Not available</span>}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Regional Indices with Clear Explanations */}
+                  <div className="mt-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Regional Quality Indices (0-100 scale)</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="text-center bg-gray-50 p-3 rounded-lg">
+                        <div className={`text-xl font-bold ${
+                          (regions[region]?.safetyIndex || 0) >= 70 ? 'text-green-600' :
+                          (regions[region]?.safetyIndex || 0) >= 50 ? 'text-yellow-600' :
+                          'text-red-600'
+                        }`}>
+                          {regions[region]?.safetyIndex || 'N/A'}
+                        </div>
+                        <div className="text-xs font-medium text-gray-700">Safety Index</div>
+                        <div className="text-xs text-gray-500">Higher = Safer</div>
+                      </div>
+                      <div className="text-center bg-gray-50 p-3 rounded-lg">
+                        <div className={`text-xl font-bold ${
+                          (regions[region]?.insuranceIndex || 0) >= 70 ? 'text-green-600' :
+                          (regions[region]?.insuranceIndex || 0) >= 50 ? 'text-yellow-600' :
+                          'text-red-600'
+                        }`}>
+                          {regions[region]?.insuranceIndex || 'N/A'}
+                        </div>
+                        <div className="text-xs font-medium text-gray-700">Insurance Index</div>
+                        <div className="text-xs text-gray-500">Higher = More Available</div>
+                      </div>
+                      <div className="text-center bg-gray-50 p-3 rounded-lg">
+                        <div className={`text-xl font-bold ${
+                          (regions[region]?.affordabilityIndex || 0) >= 70 ? 'text-green-600' :
+                          (regions[region]?.affordabilityIndex || 0) >= 50 ? 'text-yellow-600' :
+                          'text-red-600'
+                        }`}>
+                          {regions[region]?.affordabilityIndex || 'N/A'}
+                        </div>
+                        <div className="text-xs font-medium text-gray-700">Affordability Index</div>
+                        <div className="text-xs text-gray-500">Higher = More Affordable</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Premium Feature Notice - moved after region selection */}
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
               <div className="flex items-center">
                 <span className="text-purple-600 text-xl mr-2">✨</span>
@@ -1480,67 +1568,6 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
-            {/* Region Selection - Same as Risk Assessment Tab */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Select Your Region</h2>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Current Region: <span className="font-bold text-blue-600">{regions[region]?.name || region}</span> {regions[region]?.icon}
-                  </label>
-                  <select
-                    value={region}
-                    onChange={(e) => setRegion(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg bg-white"
-                  >
-                    {Object.entries(regions).map(([key, regionData]) => (
-                      <option key={key} value={key}>
-                        {regionData.icon} {regionData.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                
-                {/* Current Region Info */}
-                <div className="bg-white p-4 rounded-lg border">
-                  <h3 className="font-medium text-gray-800 mb-3">Region Overview</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-700 mb-2">Major Cities</h4>
-                      <div className="text-sm text-gray-600">
-                        {regions[region]?.majorCities?.join(', ') || 'Not available'}
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-700 mb-2">Main Climate Risks</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {regions[region]?.mainRisks?.map((risk, index) => (
-                          <span key={index} className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
-                            {variables[risk]?.icon || '❓'} {variables[risk]?.name || risk}
-                          </span>
-                        )) || <span className="text-gray-500 text-sm">Not available</span>}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Regional Indices */}
-                  <div className="mt-4 grid grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-gray-800">{regions[region]?.safetyIndex || 'N/A'}</div>
-                      <div className="text-xs text-gray-600">Safety Index</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-gray-800">{regions[region]?.insuranceIndex || 'N/A'}</div>
-                      <div className="text-xs text-gray-600">Insurance Index</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-gray-800">{regions[region]?.affordabilityIndex || 'N/A'}</div>
-                      <div className="text-xs text-gray-600">Affordability Index</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* Economic Loss Analysis Section */}
             <div className="mb-6">
