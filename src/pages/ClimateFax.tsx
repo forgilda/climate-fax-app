@@ -118,6 +118,15 @@ const ClimateFaxApp = () => {
       insuranceIndex: 55,
       affordabilityIndex: 20
     },
+    'oregon': {
+      name: 'Oregon',
+      icon: '🌲',
+      majorCities: ['Portland', 'Bend', 'Eugene', 'Salem'],
+      mainRisks: ['wildfires', 'earthquakes', 'drought'],
+      safetyIndex: 75,
+      insuranceIndex: 70,
+      affordabilityIndex: 55
+    },
     'texas': {
       name: 'Texas', 
       icon: '🤠',
@@ -131,9 +140,11 @@ const ClimateFaxApp = () => {
 
   // Alternative locations based on risk profile
   const suggestedLocations = {
-    'california': ['colorado'],
-    'florida': ['colorado'],
-    'texas': ['colorado']
+    'california': ['oregon'],
+    'florida': ['oregon'],
+    'texas': ['oregon'],
+    'colorado': ['oregon'],
+    'nyc': ['oregon']
   };
   
   // Updated Insurance rate estimates - Reflects difficulties in California and Florida
