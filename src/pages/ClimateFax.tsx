@@ -444,9 +444,11 @@ const ClimateFaxApp = () => {
     return null;
   };
   
-  // Calculate overall risk score (0-100) - Fixed to differentiate threats properly
+  // Calculate overall risk score (0-100) - Using real NOAA data
   const calculateRiskScore = () => {
-    const neighborhood = getCurrentNeighborhood();
+    // Use the same real NOAA risk calculation used elsewhere in the app
+    return getRegionalRiskFromNOAA(region);
+  };
     
     // Use threat-specific calculation instead of generic neighborhood score
     // The old logic returned neighborhood.riskScore here, but that ignored the specific threat
