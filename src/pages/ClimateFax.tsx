@@ -817,7 +817,9 @@ const ClimateFaxApp = () => {
             <div className="mb-6 mt-8 bg-white p-4 rounded-lg shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Climate Variable</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {categories[activeCategory]?.name || 'Climate Variable'}
+                  </label>
                   <select 
                     value={variable}
                     onChange={(e) => setVariable(e.target.value)}
