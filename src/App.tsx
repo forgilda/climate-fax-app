@@ -25,39 +25,16 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             
-            {/* Protected Routes */}
-            <Route 
-              path="/" 
-              element={
-                <ProtectedRoute>
-                  <SplashPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/climate-fax" 
-              element={
-                <ProtectedRoute>
-                  <ClimateFaxApp />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/contact" 
-              element={
-                <ProtectedRoute>
-                  <ContactPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/about" 
-              element={
-                <ProtectedRoute>
-                  <AboutPage />
-                </ProtectedRoute>
-              } 
-            />
+            {/* Public Routes - No login required */}
+            <Route path="/" element={<SplashPage />} />
+            <Route path="/climate-fax" element={<ClimateFaxApp />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            
+            {/* Keep login available but not required */}
+            <Route path="/login" element={<LoginPage />} />
+            
+            {/* Admin dashboard - keep protected for now */}
             <Route 
               path="/admin" 
               element={
