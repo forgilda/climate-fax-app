@@ -455,7 +455,8 @@ const ClimateFaxApp = () => {
       'california': { low: 5, high: 15 },
       'florida': { low: 8, high: 25 },
       'texas': { low: 3, high: 12 },
-      'colorado': { low: 2, high: 8 }
+      'colorado': { low: 2, high: 8 },
+      'nyc': { low: 6, high: 18 }
     };
     
     let multiplier = 1.0;
@@ -672,7 +673,8 @@ const ClimateFaxApp = () => {
         'california': 10,
         'florida': 15,
         'texas': 8,
-        'colorado': 4
+        'colorado': 4,
+        'nyc': 12
       };
       return { name: loc.name, impact: baseImpacts[loc.id] || 5 };
     })
