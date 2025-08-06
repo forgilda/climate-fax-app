@@ -477,17 +477,20 @@ const ClimateFaxApp = () => {
       ? (100 - getCurrentNeighborhood().riskScore) 
       : regions[region].safetyIndex;
     
-    // Convert safety score to property impact
-    // High safety (70+) = minimal impact (0-3%)
-    // Medium safety (40-69) = moderate impact (3-8%) 
-    // Low safety (<40) = high impact (8-20%)
+    // Convert safety score to property impact - logical relationship
+    // High safety (70+) = stable/positive (0 to +2%)
+    // Medium safety (50-69) = minimal decline (1-4%) 
+    // Low safety (30-49) = moderate decline (4-10%)
+    // Very low safety (<30) = significant decline (10-20%)
     
     if (displayedSafetyScore >= 70) {
-      return Math.round(Math.random() * 3); // 0-3% for safe areas
-    } else if (displayedSafetyScore >= 40) {
-      return Math.round(3 + Math.random() * 5); // 3-8% for moderate areas  
+      return Math.round(Math.random() * 2); // 0-2% for truly safe areas (could be 0% = stable)
+    } else if (displayedSafetyScore >= 50) {
+      return Math.round(1 + Math.random() * 3); // 1-4% for good areas  
+    } else if (displayedSafetyScore >= 30) {
+      return Math.round(4 + Math.random() * 6); // 4-10% for moderate risk
     } else {
-      return Math.round(8 + Math.random() * 12); // 8-20% for risky areas
+      return Math.round(10 + Math.random() * 10); // 10-20% for high risk areas
     }
   };
 
