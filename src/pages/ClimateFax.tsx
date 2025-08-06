@@ -91,24 +91,6 @@ const ClimateFaxApp = () => {
       insuranceIndex: 35,
       affordabilityIndex: 25
     },
-    'florida': {
-      name: 'Florida', 
-      icon: '🌴',
-      majorCities: ['Miami', 'Orlando', 'Tampa', 'Jacksonville'],
-      mainRisks: ['hurricanes', 'flooding', 'seaLevelRise'],
-      safetyIndex: 55,
-      insuranceIndex: 30,
-      affordabilityIndex: 45
-    },
-    'texas': {
-      name: 'Texas', 
-      icon: '🤠',
-      majorCities: ['Houston', 'Dallas', 'Austin', 'San Antonio'],
-      mainRisks: ['hurricanes', 'tornadoes', 'flooding'],
-      safetyIndex: 70,
-      insuranceIndex: 60,
-      affordabilityIndex: 65
-    },
     'colorado': {
       name: 'Colorado', 
       icon: '🏔️',
@@ -116,6 +98,15 @@ const ClimateFaxApp = () => {
       mainRisks: ['wildfires', 'drought', 'landslides'],
       safetyIndex: 80,
       insuranceIndex: 65,
+      affordabilityIndex: 45
+    },
+    'florida': {
+      name: 'Florida', 
+      icon: '🌴',
+      majorCities: ['Miami', 'Orlando', 'Tampa', 'Jacksonville'],
+      mainRisks: ['hurricanes', 'flooding', 'seaLevelRise'],
+      safetyIndex: 55,
+      insuranceIndex: 30,
       affordabilityIndex: 45
     },
     'nyc': {
@@ -126,6 +117,15 @@ const ClimateFaxApp = () => {
       safetyIndex: 60,
       insuranceIndex: 55,
       affordabilityIndex: 20
+    },
+    'texas': {
+      name: 'Texas', 
+      icon: '🤠',
+      majorCities: ['Houston', 'Dallas', 'Austin', 'San Antonio'],
+      mainRisks: ['hurricanes', 'tornadoes', 'flooding'],
+      safetyIndex: 70,
+      insuranceIndex: 60,
+      affordabilityIndex: 65
     }
   };
 
