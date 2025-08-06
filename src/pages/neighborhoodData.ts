@@ -178,6 +178,61 @@ const enhancedRegions = {
           }
         }
       },
+      'hillCountry': {
+        name: 'Hill Country',
+        neighborhoods: {
+          'kerrville': {
+            name: 'Kerrville',
+            zipCode: '78028',
+            coordinates: { lat: 30.0474, lng: -99.1403 },
+            elevation: '1,645 feet',
+            femaZone: 'AE (High Risk)',
+            basementRisk: 'EXTREME',
+            safeFloor: '2nd floor minimum',
+            mainRisks: ['flooding', 'winterStorms', 'drought'],
+            riverProximity: 'Guadalupe River runs through town',
+            floodHistory: 'July 2025 (135 dead), Oct 1998 (31 dead), July 1987 (10 dead)',
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-04',
+              severity: 'catastrophic',
+              deaths: 135,
+              description: '2nd deadliest flood in Texas history'
+            },
+            overallRisk: 'EXTREME',
+            riskScore: 95,
+            insuranceAvailable: false,
+            annualRate: 35000,
+            propertyImpact: 35
+          },
+          'hunt': {
+            name: 'Hunt',
+            zipCode: '78024',
+            coordinates: { lat: 30.0702, lng: -99.3342 },
+            elevation: '1,850 feet',
+            femaZone: 'VE (Velocity Zone)',
+            basementRisk: 'EXTREME',
+            safeFloor: '3rd floor minimum',
+            mainRisks: ['flooding', 'flashFloods'],
+            riverProximity: 'Camp Mystic on Guadalupe River',
+            floodHistory: 'Multiple summer camp tragedies',
+            recentEvent: {
+              active: true,
+              type: 'flooding',
+              date: '2025-07-04',
+              severity: 'catastrophic',
+              deaths: 27,
+              description: 'Camp Mystic - 27 campers and counselors died'
+            },
+            overallRisk: 'EXTREME',
+            riskScore: 98,
+            insuranceAvailable: false,
+            annualRate: 40000,
+            propertyImpact: 40
+          }
+        }
+      },
       'austin': {
         name: 'Austin Area',
         neighborhoods: {
