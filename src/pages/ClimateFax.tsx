@@ -739,7 +739,7 @@ const ClimateFaxApp = () => {
                     onChange={(e) => setRegion(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-medium"
                   >
-                    {Object.entries(regions).map(([key, info]) => (
+                    {Object.entries(regions || {}).map(([key, info]) => (
                       <option key={key} value={key}>{info.icon} {info.name}</option>
                     ))}
                   </select>
@@ -753,7 +753,7 @@ const ClimateFaxApp = () => {
                       onChange={(e) => setSelectedArea(e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-medium"
                     >
-                      {Object.entries(enhancedRegions[region].subRegions).map(([key, area]) => (
+                      {Object.entries(enhancedRegions[region]?.subRegions || {}).map(([key, area]) => (
                         <option key={key} value={key}>{(area as any).name}</option>
                       ))}
                     </select>
@@ -768,7 +768,7 @@ const ClimateFaxApp = () => {
                       onChange={(e) => setSelectedNeighborhood(e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-medium"
                     >
-                      {Object.entries(enhancedRegions[region].subRegions[selectedArea].neighborhoods).map(([key, neighborhood]) => (
+                      {Object.entries(enhancedRegions[region]?.subRegions?.[selectedArea]?.neighborhoods || {}).map(([key, neighborhood]) => (
                         <option key={key} value={key}>{(neighborhood as any).name} ({(neighborhood as any).zipCode})</option>
                       ))}
                     </select>
@@ -798,7 +798,7 @@ const ClimateFaxApp = () => {
                 onValueChange={(value) => value && handleCategoryChange(value)}
                 className="flex flex-wrap gap-2 justify-between"
               >
-                {Object.entries(categories).map(([key, category]) => (
+                {Object.entries(categories || {}).map(([key, category]) => (
                   <ToggleGroupItem 
                     key={key} 
                     value={key}
@@ -832,7 +832,7 @@ const ClimateFaxApp = () => {
                         </option>
                       ))
                     ) : (
-                      Object.entries(variables).map(([key, info]) => (
+                      Object.entries(variables || {}).map(([key, info]) => (
                         <option key={key} value={key}>{info.icon} {info.name}</option>
                       ))
                     )}
