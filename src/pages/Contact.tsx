@@ -162,21 +162,24 @@ const ContactPage = () => {
               onClick={async (e) => {
                 e.preventDefault();
                 
-                // Get form data and validate
+                // Get form data
                 const formData = form.getValues();
-                const validation = form.trigger();
                 
-                if (!await validation) {
+                // Check if name and email are filled
+                if (!formData.name || !formData.email) {
+                  toast.error("Please fill in Name and Email", {
+                    description: "These fields are required to join the waitlist.",
+                  });
                   return;
                 }
                 
-                alert('Purple button clicked! Check admin now.');
+                alert('Purple button processing... Check admin after clicking OK');
                 
                 try {
                   const signup = {
                     id: Date.now().toString(),
-                    name: formData.name || 'Anonymous',
-                    email: formData.email || 'waitlist@climatefax.com',
+                    name: formData.name,
+                    email: formData.email,
                     subject: 'Premium Features Waitlist',
                     message: formData.message || 'User joined waitlist from contact page',
                     signup_type: 'waitlist',
@@ -192,11 +195,14 @@ const ContactPage = () => {
                   // Save back to localStorage
                   localStorage.setItem('climatefax_signups', JSON.stringify(existingSignups));
                   
+                  alert('Saved to localStorage! Go check /admin now');
+                  
                   toast.success("Added to waitlist!", {
                     description: "We'll contact you when premium features are available.",
                   });
                   form.reset();
                 } catch (error) {
+                  alert('Error: ' + error);
                   toast.error("Something went wrong", {
                     description: "Please try again later.",
                   });
