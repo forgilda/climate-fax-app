@@ -470,15 +470,19 @@ const ClimateFaxApp = () => {
     
     // If we have neighborhood insurance data, use it
     if (neighborhood) {
-      return {
-        available: neighborhood.insuranceAvailable,
-        annualRate: neighborhood.annualRate,
-        notes: neighborhood.insuranceAvailable ? 
-          "Standard insurance coverage should be available in this area." : 
-          "Insurance coverage is unavailable in this high-risk neighborhood.",
-        includesFlood: neighborhood.mainRisks.includes('flooding') || neighborhood.mainRisks.includes('seaLevelRise'),
-        homeValue: insuranceRates[region]?.homeValue || 500000
-      };
+      const hasInsuranceData = neighborhood.hasOwnProperty('insuranceAvailable') && neighborhood.hasOwnProperty('annualRate');
+      
+      if (hasInsuranceData) {
+        return {
+          available: neighborhood.insuranceAvailable,
+          annualRate: neighborhood.annualRate,
+          notes: neighborhood.insuranceAvailable ? 
+            "Standard insurance coverage should be available in this area." : 
+            "Insurance coverage is unavailable in this high-risk neighborhood.",
+          includesFlood: neighborhood.mainRisks?.includes('flooding') || neighborhood.mainRisks?.includes('seaLevelRise'),
+          homeValue: insuranceRates[region]?.homeValue || 500000
+        };
+      }
     }
     
     // Fall back to existing logic if no neighborhood data
