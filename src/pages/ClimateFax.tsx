@@ -791,12 +791,12 @@ const ClimateFaxApp = () => {
             
             {/* 4. CLIMATE CATEGORIES BOXES */}
             <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-              <label className="block text-base font-semibold text-gray-800 mb-2">Select Threat</label>
+              <label className="block text-base font-semibold text-gray-800 mb-4">Select Threat</label>
               <ToggleGroup
                 type="single" 
                 value={activeCategory} 
                 onValueChange={(value) => value && handleCategoryChange(value)}
-                className="flex flex-wrap gap-2 justify-between"
+                className="flex flex-wrap gap-2 justify-between mb-2"
               >
                 {Object.entries(categories).map(([key, category]) => (
                   <ToggleGroupItem 
