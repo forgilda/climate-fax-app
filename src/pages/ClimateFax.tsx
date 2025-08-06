@@ -474,7 +474,8 @@ const ClimateFaxApp = () => {
       'florida': { low: 8, high: 25 },
       'texas': { low: 3, high: 12 },
       'colorado': { low: 2, high: 8 },
-      'nyc': { low: 6, high: 18 }
+      'nyc': { low: 6, high: 18 },
+      'oregon': { low: 3, high: 9 }
     };
     
     let multiplier = 1.0;
