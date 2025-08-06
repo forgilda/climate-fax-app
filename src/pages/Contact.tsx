@@ -211,7 +211,7 @@ const ContactPage = () => {
               </div>
               <div className="rounded-lg overflow-hidden">
                 <img 
-                  src="/lovable-uploads/339de29b-268c-4aaa-8ee8-2aa43fe2acdf.png"
+                  src="https://chapter.digital/wp-content/uploads/2023/10/PacificDesignCenterLosAngelesCA-lg-1779x1054.jpg"
                   alt="Pacific Design Center - Red, Green & Blue Buildings"
                   className="w-full h-48 object-cover"
                 />
