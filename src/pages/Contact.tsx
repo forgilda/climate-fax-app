@@ -25,7 +25,7 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   subject: z.string().min(5, { message: "Subject must be at least 5 characters." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  message: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -139,7 +139,7 @@ const ContactPage = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Message</FormLabel>
+                      <FormLabel>Optional Message</FormLabel>
                       <FormControl>
                         <Textarea 
                           placeholder="How can we help you?" 
@@ -151,24 +151,16 @@ const ContactPage = () => {
                     </FormItem>
                   )}
                 />
-                
-                <Button 
-                  type="submit" 
-                  className="w-full bg-orange-500 hover:bg-orange-600"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                  <Send className="ml-2 h-4 w-4" />
-                </Button>
               </form>
             </Form>
           </section>
 
           {/* Waitlist Button */}
           <section className="text-center">
-            <button 
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+            <Button 
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
               onClick={async () => {
+                const formData = form.getValues();
                 try {
                   const response = await fetch('/functions/v1/submit-signup', {
                     method: 'POST',
@@ -176,10 +168,10 @@ const ContactPage = () => {
                       'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                      name: 'Anonymous Waitlist',
-                      email: 'waitlist@climatefax.com',
-                      subject: 'Premium Features Waitlist',
-                      message: 'User clicked Join Waitlist button on contact page',
+                      name: formData.name || 'Anonymous',
+                      email: formData.email || 'waitlist@climatefax.com',
+                      subject: formData.subject || 'Premium Features Waitlist',
+                      message: formData.message || 'User joined waitlist from contact page',
                       signup_type: 'waitlist'
                     }),
                   });
@@ -188,20 +180,21 @@ const ContactPage = () => {
                     toast.success("Added to waitlist!", {
                       description: "We'll contact you when premium features are available.",
                     });
+                    form.reset();
                   } else {
                     toast.error("Something went wrong", {
-                      description: "Please use the contact form above instead.",
+                      description: "Please try again later.",
                     });
                   }
                 } catch (error) {
                   toast.error("Something went wrong", {
-                    description: "Please use the contact form above instead.",
+                    description: "Please try again later.",
                   });
                 }
               }}
             >
               🚀 Join Premium Features Waitlist
-            </button>
+            </Button>
           </section>
           
           <section className="bg-white rounded-lg border p-4 shadow-sm">
