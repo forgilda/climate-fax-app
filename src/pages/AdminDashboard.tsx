@@ -29,31 +29,25 @@ const AdminDashboard = () => {
     fetchSignups();
   }, []);
 
-  const fetchSignups = async () => {
-    try {
-      // Get signups from localStorage
-      const signups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
-      
-      setSignups(signups);
-      
-      // Calculate stats
-      const today = new Date().toISOString().split('T')[0];
-      const todaySignups = signups.filter((signup: Signup) => 
-        signup.created_at.startsWith(today)
-      ).length;
-      
-      setStats({
-        total: signups.length,
-        contacts: signups.filter((s: Signup) => s.signup_type === 'contact').length,
-        waitlist: signups.filter((s: Signup) => s.signup_type === 'waitlist').length,
-        today: todaySignups
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to load signups');
-    } finally {
-      setLoading(false);
-    }
+  const fetchSignups = () => {
+    // Get signups from localStorage
+    const signups = JSON.parse(localStorage.getItem('climatefax_signups') || '[]');
+    
+    setSignups(signups);
+    
+    // Calculate stats
+    const today = new Date().toISOString().split('T')[0];
+    const todaySignups = signups.filter((signup: Signup) => 
+      signup.created_at.startsWith(today)
+    ).length;
+    
+    setStats({
+      total: signups.length,
+      contacts: signups.filter((s: Signup) => s.signup_type === 'contact').length,
+      waitlist: signups.filter((s: Signup) => s.signup_type === 'waitlist').length,
+      today: todaySignups
+    });
+    setLoading(false);
   };
 
   const formatDate = (dateString: string) => {
@@ -87,6 +81,20 @@ const AdminDashboard = () => {
       <MobileHeader title="Admin Dashboard" showBackButton />
       
       <main className="flex-1 container max-w-6xl mx-auto p-4 space-y-6">
+        {/* Refresh Button */}
+        <button 
+          onClick={fetchSignups}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Refresh Data
+        </button>
+        
+        {/* Raw Data Display */}
+        <div className="bg-gray-100 p-4 rounded">
+          <strong>Raw localStorage:</strong>
+          <pre>{localStorage.getItem('climatefax_signups')}</pre>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
