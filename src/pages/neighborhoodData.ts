@@ -569,7 +569,7 @@ const enhancedRegions = {
       name: 'Michigan',
       icon: '🌊',
       subRegions: {
-        westMichigan: {
+        'westMichigan': {
           name: 'West Michigan',
           neighborhoods: {
             grand_rapids: {
@@ -596,7 +596,7 @@ const enhancedRegions = {
       name: 'Oregon',
       icon: '🌲',
       subRegions: {
-        centralOregon: {
+        'centralOregon': {
           name: 'Central Oregon',
           neighborhoods: {
             bend: {
