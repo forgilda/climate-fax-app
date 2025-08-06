@@ -1550,7 +1550,10 @@ const ClimateFaxApp = () => {
               </div>
               
               <div className="text-center">
-                <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg">
+                <button 
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
+                  onClick={() => window.location.href = '/contact'}
+                >
                   Join Waitlist
                 </button>
               </div>

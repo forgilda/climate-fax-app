@@ -74,32 +74,8 @@ const ContactPage = () => {
           <section className="space-y-2">
             <h2 className="text-2xl font-bold">Get in Touch</h2>
             <p className="text-muted-foreground">
-              Have questions about ClimateFAX? Fill out the form below and our team will get back to you.
+              Have questions about ClimateFAX or want to join our waitlist for premium features? Contact us below.
             </p>
-          </section>
-
-          <section className="bg-white rounded-lg border p-4 shadow-sm">
-            <div className="flex items-start space-x-3 mb-4">
-              <MapPin className="h-5 w-5 text-orange-500 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium">Our Office</h3>
-                <address className="not-italic text-muted-foreground text-sm">
-                  750 N San Vicente Blvd.<br />
-                  Suite 800 West<br />
-                  W. Hollywood, CA 90069
-                </address>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <Mail className="h-5 w-5 text-orange-500 flex-shrink-0" />
-              <div>
-                <h3 className="font-medium">Email Us</h3>
-                <p className="text-muted-foreground text-sm">
-                  For general inquiries, please use the form below.
-                </p>
-              </div>
-            </div>
           </section>
 
           <section>
@@ -175,6 +151,20 @@ const ContactPage = () => {
                 </Button>
               </form>
             </Form>
+          </section>
+          
+          <section className="bg-white rounded-lg border p-4 shadow-sm">
+            <div className="flex items-start space-x-3">
+              <MapPin className="h-5 w-5 text-orange-500 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="font-medium">Our Office</h3>
+                <address className="not-italic text-muted-foreground text-sm">
+                  750 N San Vicente Blvd.<br />
+                  Suite 800 West<br />
+                  W. Hollywood, CA 90069
+                </address>
+              </div>
+            </div>
           </section>
         </div>
       </main>
