@@ -572,7 +572,7 @@ const enhancedRegions = {
         'westMichigan': {
           name: 'West Michigan',
           neighborhoods: {
-            grand_rapids: {
+            'grand_rapids': {
               name: 'Grand Rapids',
               zipCode: '49503',
               coordinates: { lat: 42.9634, lng: -85.6681 },

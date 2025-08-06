@@ -13,6 +13,11 @@ import { Copyright } from "@/components/Copyright";
 import { enhancedRegions } from './neighborhoodData';
 
 const ClimateFaxApp = () => {
+  // Add debugging for Michigan data
+  console.log('enhancedRegions object:', enhancedRegions);
+  console.log('Michigan data:', enhancedRegions['michigan']);
+  
+  
   // Main state variables
   const [data, setData] = useState([]);
   const [region, setRegion] = useState('california');
