@@ -122,9 +122,9 @@ const ClimateFaxApp = () => {
       name: 'Oregon',
       icon: '🌲',
       majorCities: ['Portland', 'Bend', 'Eugene', 'Salem'],
-      mainRisks: ['wildfires', 'earthquakes', 'drought'],
-      safetyIndex: 75,
-      insuranceIndex: 70,
+      mainRisks: ['wildfires', 'drought', 'earthquakes'],
+      safetyIndex: 60,  // Lower from 75
+      insuranceIndex: 40,  // Much lower from 70 - insurers pulling out
       affordabilityIndex: 55
     },
     'texas': {
