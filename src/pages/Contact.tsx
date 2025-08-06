@@ -160,16 +160,21 @@ const ContactPage = () => {
             <Button 
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg"
               onClick={() => {
-                // Super simple version
-                const name = (document.querySelector('input[name="name"]') as HTMLInputElement)?.value;
-                const email = (document.querySelector('input[name="email"]') as HTMLInputElement)?.value;
-                const message = (document.querySelector('textarea[name="message"]') as HTMLTextAreaElement)?.value;
+                // Get the actual form values
+                const nameInput = document.querySelector('input[placeholder="Your name"]') as HTMLInputElement;
+                const emailInput = document.querySelector('input[placeholder="your.email@example.com"]') as HTMLInputElement;
+                const messageInput = document.querySelector('textarea[placeholder="How can we help you?"]') as HTMLTextAreaElement;
+                
+                const name = nameInput?.value || '';
+                const email = emailInput?.value || '';
+                const message = messageInput?.value || '';
                 
                 if (!name || !email) {
                   alert('Please fill in Name and Email');
                   return;
                 }
                 
+                // Save to localStorage
                 const signup = {
                   id: Date.now().toString(),
                   name: name,
@@ -184,7 +189,12 @@ const ContactPage = () => {
                 existing.push(signup);
                 localStorage.setItem('climatefax_signups', JSON.stringify(existing));
                 
-                alert('Success! Go check /admin');
+                alert('SAVED! Name: ' + name + ', Email: ' + email + '. Check /admin now!');
+                
+                // Clear form
+                nameInput.value = '';
+                emailInput.value = '';
+                messageInput.value = '';
               }}
             >
               🚀 Join Waitlist
