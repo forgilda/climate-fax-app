@@ -463,7 +463,7 @@ const ClimateFaxApp = () => {
     return { category: 'Very High', color: '#F44336' };
   };
   
-  // Calculate property value impact
+  // Calculate property value impact - Now consistent with risk assessment
   const calculatePropertyImpact = () => {
     const neighborhood = getCurrentNeighborhood();
     
@@ -472,30 +472,23 @@ const ClimateFaxApp = () => {
       return neighborhood.propertyImpact;
     }
     
-    // Otherwise use existing logic
-    const baseImpacts = {
-      'california': { low: 5, high: 15 },
-      'florida': { low: 8, high: 25 },
-      'michigan': { low: 2, high: 6 },
-      'texas': { low: 3, high: 12 },
-      'colorado': { low: 2, high: 8 },
-      'nyc': { low: 6, high: 18 },
-      'oregon': { low: 3, high: 9 }
-    };
+    // Base the property impact on the actual safety score being displayed
+    const displayedSafetyScore = getCurrentNeighborhood()?.riskScore 
+      ? (100 - getCurrentNeighborhood().riskScore) 
+      : regions[region].safetyIndex;
     
-    let multiplier = 1.0;
-    if (model === 'accelerated') multiplier = 1.5;
-    if (model === 'mitigation') multiplier = 0.7;
+    // Convert safety score to property impact
+    // High safety (70+) = minimal impact (0-3%)
+    // Medium safety (40-69) = moderate impact (3-8%) 
+    // Low safety (<40) = high impact (8-20%)
     
-    const isHighImpact = 
-      (variable === 'wildfires' && region === 'california') ||
-      (variable === 'hurricanes' && region === 'florida') ||
-      (variable === 'seaLevelRise' && region === 'florida') ||
-      (variable === 'flooding' && region === 'florida');
-    
-    const impact = isHighImpact ? baseImpacts[region].high : baseImpacts[region].low;
-    
-    return Math.round(impact * multiplier);
+    if (displayedSafetyScore >= 70) {
+      return Math.round(Math.random() * 3); // 0-3% for safe areas
+    } else if (displayedSafetyScore >= 40) {
+      return Math.round(3 + Math.random() * 5); // 3-8% for moderate areas  
+    } else {
+      return Math.round(8 + Math.random() * 12); // 8-20% for risky areas
+    }
   };
 
   // Get corresponding insurance information - Updated logic
