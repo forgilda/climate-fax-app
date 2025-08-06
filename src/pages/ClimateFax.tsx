@@ -1506,12 +1506,6 @@ const ClimateFaxApp = () => {
                   </div>
                 ))}
               </div>
-              
-              <div className="mt-4 text-center">
-                <button className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-6 rounded">
-                  View All Alternatives
-                </button>
-              </div>
             </div>
             
             {/* Premium Features - Coming Soon! */}
