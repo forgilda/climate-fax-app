@@ -486,23 +486,22 @@ const ClimateFaxApp = () => {
     const neighborhood = getCurrentNeighborhood();
     
     // If we have neighborhood insurance data, use it
-    if (neighborhood) {
-      const hasInsuranceData = neighborhood.hasOwnProperty('insuranceAvailable') && neighborhood.hasOwnProperty('annualRate');
+    if (neighborhood && neighborhood.annualRate) {
+      const needsFloodInsurance = neighborhood.mainRisks?.includes('flooding') || 
+                                  neighborhood.mainRisks?.includes('seaLevelRise');
       
-      if (hasInsuranceData) {
-        return {
-          available: neighborhood.insuranceAvailable,
-          annualRate: neighborhood.annualRate,
-          notes: neighborhood.insuranceAvailable ? 
-            "Standard insurance coverage should be available in this area." : 
-            "Insurance coverage is unavailable in this high-risk neighborhood.",
-          includesFlood: neighborhood.mainRisks?.includes('flooding') || neighborhood.mainRisks?.includes('seaLevelRise'),
-          homeValue: insuranceRates[region]?.homeValue || 500000
-        };
-      }
+      return {
+        available: neighborhood.insuranceAvailable,
+        annualRate: neighborhood.annualRate,
+        notes: neighborhood.insuranceAvailable ? 
+          "Standard insurance coverage available in this area." : 
+          "Insurance coverage is unavailable in this high-risk neighborhood.",
+        includesFlood: needsFloodInsurance,
+        homeValue: 500000 // Base calculation on $500k home
+      };
     }
     
-    // Fall back to existing logic if no neighborhood data
+    // Fall back to state data if no neighborhood selected
     const isAvailable = insuranceRates[region]?.available || false;
     const rateType = 'regular';
     let rate = insuranceRates[region]?.[rateType] || 2000;
@@ -1119,6 +1118,12 @@ const ClimateFaxApp = () => {
                   ` - ${enhancedRegions[region][selectedArea].neighborhoods[selectedNeighborhood].name}`
                 }
               </h2>
+              <div className="bg-blue-50 p-3 rounded-lg mb-4">
+                <p className="text-sm text-blue-700">
+                  <span className="font-medium">Note:</span> Calculations based on a $500,000 home value. 
+                  <span className="font-medium">Upgrade to Premium</span> to input your exact home value and get personalized estimates.
+                </p>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-700 mb-3">Current Situation</h3>
@@ -1202,6 +1207,12 @@ const ClimateFaxApp = () => {
                   ` - ${enhancedRegions[region][selectedArea].neighborhoods[selectedNeighborhood].name}`
                 }
               </h2>
+              <div className="bg-blue-50 p-3 rounded-lg mb-4">
+                <p className="text-sm text-blue-700">
+                  <span className="font-medium">Note:</span> Projections based on a $500,000 home value. 
+                  <span className="font-medium">Upgrade to Premium</span> for analysis based on your actual property value.
+                </p>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
