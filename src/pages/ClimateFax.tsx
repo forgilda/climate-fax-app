@@ -109,6 +109,15 @@ const ClimateFaxApp = () => {
       insuranceIndex: 30,
       affordabilityIndex: 45
     },
+    'michigan': {
+      name: 'Michigan',
+      icon: '🌊',
+      majorCities: ['Grand Rapids', 'Detroit', 'Ann Arbor', 'Lansing'],
+      mainRisks: ['winterStorms', 'rare_flooding'],
+      safetyIndex: 85,
+      insuranceIndex: 75,
+      affordabilityIndex: 70
+    },
     'nyc': {
       name: 'New York City',
       icon: '🗽',
@@ -140,11 +149,13 @@ const ClimateFaxApp = () => {
 
   // Alternative locations based on risk profile
   const suggestedLocations = {
-    'california': ['oregon'],
-    'florida': ['oregon'],
-    'texas': ['oregon'],
-    'colorado': ['oregon'],
-    'nyc': ['oregon']
+    'california': ['oregon', 'michigan'],
+    'florida': ['oregon', 'michigan'],
+    'texas': ['oregon', 'michigan'],
+    'colorado': ['oregon', 'michigan'],
+    'nyc': ['oregon', 'michigan'],
+    'michigan': ['oregon'],
+    'oregon': ['michigan']
   };
   
   // Updated Insurance rate estimates - Reflects difficulties in California and Florida

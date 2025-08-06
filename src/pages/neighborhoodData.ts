@@ -565,6 +565,30 @@ const enhancedRegions = {
         }
       }
     },
+    michigan: {
+      westMichigan: {
+        name: 'West Michigan',
+        neighborhoods: {
+          grand_rapids: {
+            name: 'Grand Rapids',
+            zipCode: '49503',
+            coordinates: { lat: 42.9634, lng: -85.6681 },
+            elevation: '640 feet',
+            femaZone: 'X (Minimal Risk)',
+            basementRisk: 'LOW',
+            safeFloor: 'Ground floor safe',
+            mainRisks: ['winterStorms', 'rare_flooding'],
+            greatLakesBuffer: '30 miles from Lake Michigan',
+            waterSupply: 'Great Lakes (20% of world freshwater)',
+            overallRisk: 'LOW',
+            riskScore: 28,
+            insuranceAvailable: true,
+            annualRate: 1800,
+            propertyImpact: 2
+          }
+        }
+      }
+    },
     oregon: {
       centralOregon: {
         name: 'Central Oregon',
