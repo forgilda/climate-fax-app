@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { MobileHeader } from "@/components/MobileHeader";
@@ -1220,197 +1219,69 @@ const ClimateFaxApp = () => {
           </div>
         )}
         
-        {/* Stay or Go Tab Content - PREMIUM - Coming Soon */}
+        {/* Stay or Go Tab Content - Redirect to OPTIONS tab */}
         {activeTab === 'stayOrGo' && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
+                  <span className="text-blue-600 text-xl mr-2">🗺️</span>
+                  <h2 className="text-lg font-bold text-blue-800">Cost Analysis Moved to Know Your Options</h2>
+                </div>
+              </div>
+              <p className="mt-2 text-blue-700 mb-4">
+                Stay or Go recommendations and cost analysis are now available in the "Know Your Options" tab for better organization.
+              </p>
+              <button 
+                onClick={() => setActiveTab('alternatives')}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
+              >
+                Go to Know Your Options →
+              </button>
+            </div>
+            
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
                   <span className="text-purple-600 text-xl mr-2">✨</span>
-                  <h2 className="text-lg font-bold text-purple-800">Cost Analysis for {regions[region]?.name} - Coming Soon!</h2>
+                  <h3 className="text-lg font-bold text-purple-800">Detailed Cost Analysis - Coming Soon!</h3>
                 </div>
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
-                  In Development
+                  Premium Feature
                 </span>
               </div>
-              <p className="mt-2 text-purple-700">
-                Get detailed financial analysis of how climate risks in {regions[region]?.name} affect your property value, insurance rates, and long-term costs.
+              <p className="text-purple-700 mb-4">
+                Advanced financial analysis including property value impacts, insurance projections, and relocation costs.
               </p>
-            </div>
-            
-            {/* Insurance Analysis - Moving "Stay or Go Recommendation" to the Alternatives tab */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                Projected Insurance - {regions[region].name}
-                {selectedNeighborhood && enhancedRegions[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood] && 
-                  ` - ${enhancedRegions[region][selectedArea].neighborhoods[selectedNeighborhood].name}`
-                }
-              </h2>
-              <div className="bg-blue-50 p-3 rounded-lg mb-4">
-                <p className="text-sm text-blue-700">
-                  <span className="font-medium">Note:</span> Calculations based on a $500,000 home value. 
-                  <span className="font-medium">Upgrade to Premium</span> to input your exact home value and get personalized estimates.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-3">Current Situation</h3>
-                  
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Availability</span>
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${insuranceInfo.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                        {insuranceInfo.available ? 'Available' : 'Limited/Unavailable'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Annual Premium</span>
-                      <span className="text-sm font-bold">${insuranceInfo.annualRate.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Includes Flood Insurance</span>
-                      <span className="text-sm">{insuranceInfo.includesFlood ? 'Yes (+$2,800)' : 'No'}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="text-sm text-gray-600 italic">
-                    {insuranceInfo.notes}
-                  </div>
-                </div>
-                
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-3">5-Year Insurance Projection</h3>
-                  
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Estimated Premium Increase</span>
-                      <span className="text-sm font-bold text-amber-600">+{model === 'accelerated' ? '65' : (model === 'mitigation' ? '35' : '45')}%</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Projected Annual Cost</span>
-                      <span className="text-sm font-bold">
-                        ${Math.round(insuranceInfo.annualRate * (1 + (model === 'accelerated' ? 0.65 : (model === 'mitigation' ? 0.35 : 0.45)))).toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">5-Year Total Cost</span>
-                      <span className="text-sm font-bold">
-                        ${Math.round(insuranceInfo.annualRate * 5 * (1 + (model === 'accelerated' ? 0.65 : (model === 'mitigation' ? 0.35 : 0.45)) / 2)).toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {!insuranceInfo.available && (
-                    <div className="bg-red-50 p-3 rounded border border-red-200">
-                      <p className="text-sm text-red-700">
-                        <strong>Warning:</strong> Insurance may become completely unavailable in this area within 5 years under current projections.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
               
-              <div className="mt-5">
-                <h3 className="font-medium text-gray-700 mb-3">Insurance Cost Comparison</h3>
-                <div className="h-72">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={insuranceComparisonData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis label={{ value: 'Annual Premium ($)', angle: -90, position: 'insideLeft' }} />
-                      <Tooltip formatter={(value) => ['$' + value.toLocaleString(), 'Annual Premium']} />
-                      <Legend />
-                      <Bar dataKey="value" name="Annual Premium" fill="#8884d8" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-            
-            {/* Property Value Impact */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                Projected Valuation - {regions[region].name}
-                {selectedNeighborhood && enhancedRegions[region]?.[selectedArea]?.neighborhoods[selectedNeighborhood] && 
-                  ` - ${enhancedRegions[region][selectedArea].neighborhoods[selectedNeighborhood].name}`
-                }
-              </h2>
-              <div className="bg-blue-50 p-3 rounded-lg mb-4">
-                <p className="text-sm text-blue-700">
-                  <span className="font-medium">Note:</span> Projections based on a $500,000 home value. 
-                  <span className="font-medium">Upgrade to Premium</span> for analysis based on your actual property value.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-3">Current Value</h3>
-                  
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Estimated Home Value</span>
-                      <span className="text-lg font-bold">${insuranceInfo.homeValue.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Location</span>
-                      <span className="text-sm">{regions[region].name}</span>
-                    </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">💰</span>
+                    <span>Property value impact projections</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🏠</span>
+                    <span>Personalized home value analysis</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🛡️</span>
+                    <span>Detailed insurance cost modeling</span>
                   </div>
                 </div>
-                
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-700 mb-3">10-Year Valuation Projection</h3>
-                  
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Climate Impact</span>
-                      <span className="text-sm font-bold text-red-600">-{propertyImpact}%</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Value After Climate Impact</span>
-                      <span className="text-sm font-bold">
-                        ${Math.round(insuranceInfo.homeValue * (1 - propertyImpact/100)).toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-gray-600">Potential Loss</span>
-                      <span className="text-sm font-bold text-red-600">
-                        -${Math.round(insuranceInfo.homeValue * (propertyImpact/100)).toLocaleString()}
-                      </span>
-                    </div>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">📊</span>
+                    <span>10-year financial projections</span>
                   </div>
-                  
-                  {propertyImpact > 15 && (
-                    <div className="bg-amber-50 p-3 rounded border border-amber-200">
-                      <p className="text-sm text-amber-700">
-                        <strong>Note:</strong> This area is projected to see significant property devaluation due to increasing climate risks.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="font-medium text-gray-700 mb-3">Property Value Impact Comparison</h3>
-                <div className="h-72">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={valueImpactData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis 
-                        label={{ value: 'Property Value Impact (%)', angle: -90, position: 'insideLeft' }}
-                        domain={[-50, 0]}
-                        ticks={[-50, -40, -30, -20, -10, 0]}
-                      />
-                      <Tooltip formatter={(value) => [value + '%', 'Property Value Loss']} />
-                      <Legend />
-                      <Bar dataKey="impact" name="Value Loss %" fill="#DC2626">
-                        {valueImpactData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.impact < -30 ? '#991B1B' : '#DC2626'} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">🚛</span>
+                    <span>Relocation cost estimates</span>
+                  </div>
+                  <div className="flex items-center text-sm text-purple-700">
+                    <span className="mr-2">⚖️</span>
+                    <span>Stay vs. relocate financial comparison</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1523,6 +1394,89 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
+            {/* Stay or Go Recommendation - FIRST */}
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Recommendation for {regions[region]?.name}</h2>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                {(() => {
+                  const recommendation = generateRecommendation();
+                  return (
+                    <div className="bg-white p-4 rounded-lg border">
+                      <div className="flex items-center mb-3">
+                        <span className="text-2xl mr-3">{recommendation.icon}</span>
+                        <div>
+                          <h3 className="text-lg font-bold" style={{ color: recommendation.color }}>
+                            {recommendation.recommendation}
+                          </h3>
+                          <p className="text-sm text-gray-600">Based on current risk analysis for {regions[region]?.name}</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        {recommendation.reasons.map((reason, index) => (
+                          <div key={index} className="flex items-center text-sm text-gray-700">
+                            <span className="mr-2">•</span>
+                            <span>{reason}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+
+            {/* Alternative Locations - Only show if NOT "Stay & Adapt" */}
+            {(() => {
+              const recommendation = generateRecommendation();
+              const shouldShowAlternatives = recommendation.recommendation !== "Stay & Adapt";
+              
+              if (!shouldShowAlternatives) return null;
+              
+              return (
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-4 text-gray-800">Alternative Safer Locations</h2>
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center">
+                        <span className="text-orange-600 text-xl mr-2">🗺️</span>
+                        <h3 className="text-lg font-bold text-orange-800">Since we recommend caution for {regions[region]?.name}...</h3>
+                      </div>
+                      <span className="px-3 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">
+                        Premium - Coming Soon
+                      </span>
+                    </div>
+                    <p className="text-orange-700 mb-4">
+                      Consider these safer alternative locations with lower climate risk profiles:
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {suggestedLocations[region]?.map((suggestedKey, index) => {
+                        const suggested = regions[suggestedKey];
+                        if (!suggested) return null;
+                        return (
+                          <div key={index} className="bg-white p-3 rounded-lg border border-orange-200">
+                            <div className="flex items-center mb-2">
+                              <span className="mr-2">{suggested.icon}</span>
+                              <h4 className="font-medium text-gray-800">{suggested.name}</h4>
+                            </div>
+                            <div className="text-sm text-gray-600 space-y-1">
+                              <div>Safety Index: <span className="font-medium text-green-600">{suggested.safetyIndex}</span></div>
+                              <div>Insurance Index: <span className="font-medium text-blue-600">{suggested.insuranceIndex}</span></div>
+                              <div className="text-xs text-gray-500">Main risks: {suggested.mainRisks.join(', ')}</div>
+                            </div>
+                          </div>
+                        );
+                      }) || (
+                        <div className="col-span-2 text-center py-4 text-gray-500">
+                          <p>Alternative location analysis coming soon with premium features.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Consolidated Premium Features - Coming Soon */}
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
               <div className="flex items-center justify-between mb-3">
@@ -1644,69 +1598,6 @@ const ClimateFaxApp = () => {
               </div>
             </div>
             
-
-            {/* Economic Loss Analysis Section */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                <span className="mr-2">💰</span>
-                Billion-Dollar Climate Disasters
-              </h2>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="mb-4">
-                  <button
-                    onClick={() => setVariable('economicLoss')}
-                    className={`px-4 py-2 rounded font-medium ${
-                      variable === 'economicLoss' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    View Economic Impact Data
-                  </button>
-                </div>
-                
-                {variable === 'economicLoss' && (
-                  <div className="bg-white p-4 rounded-lg border">
-                    <div className="mb-4">
-                      <h3 className="font-medium text-gray-800 mb-2">NOAA Billion-Dollar Disaster Trends</h3>
-                      <p className="text-sm text-gray-600 mb-3">
-                        Real historical data showing the dramatic increase in climate-related economic losses:
-                      </p>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-4">
-                        <div className="bg-blue-50 p-3 rounded">
-                          <div className="text-lg font-bold text-blue-800">403</div>
-                          <div className="text-xs text-blue-600">Total Events</div>
-                          <div className="text-xs text-blue-600">(1980-2024)</div>
-                        </div>
-                        <div className="bg-green-50 p-3 rounded">
-                          <div className="text-lg font-bold text-green-800">$2.9T</div>
-                          <div className="text-xs text-green-600">Total Cost</div>
-                          <div className="text-xs text-green-600">(Inflation-adjusted)</div>
-                        </div>
-                        <div className="bg-orange-50 p-3 rounded">
-                          <div className="text-lg font-bold text-orange-800">23/yr</div>
-                          <div className="text-xs text-orange-600">Current Rate</div>
-                          <div className="text-xs text-orange-600">(2020-2024)</div>
-                        </div>
-                        <div className="bg-red-50 p-3 rounded">
-                          <div className="text-lg font-bold text-red-800">$149B</div>
-                          <div className="text-xs text-red-600">Annual Cost</div>
-                          <div className="text-xs text-red-600">(2020-2024 avg)</div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Chart section will automatically show when economicLoss is selected */}
-                    <div className="text-center">
-                      <p className="text-sm text-gray-500 italic">
-                        Chart showing historical and projected economic losses will appear in the main visualization above.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
             {/* ZIP Code Lookup Section - Premium Feature Coming Soon */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
@@ -1851,37 +1742,6 @@ const ClimateFaxApp = () => {
                     )}
                   </div>
                 )}
-              </div>
-            </div>
-            
-            {/* MOVED - Stay or Go Recommendation now appears here on the Alternatives tab */}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Stay or Go Recommendation</h2>
-              <div 
-                className="border-2 rounded-lg p-6"
-                style={{ borderColor: recommendation.color }}
-              >
-                <div className="flex items-center mb-4">
-                  <span className="text-3xl mr-3">{recommendation.icon}</span>
-                  <div>
-                    <h3 
-                      className="text-xl font-bold" 
-                      style={{ color: recommendation.color }}
-                    >
-                      {recommendation.recommendation}
-                    </h3>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Based on climate risk, property value, and insurance analysis
-                    </p>
-                  </div>
-                </div>
-                
-                <h4 className="font-medium text-gray-700 mb-2">Key Factors:</h4>
-                <ul className="list-disc pl-5 space-y-1">
-                  {recommendation.reasons.map((reason, index) => (
-                    <li key={index} className="text-gray-700">{reason}</li>
-                  ))}
-                </ul>
               </div>
             </div>
             
