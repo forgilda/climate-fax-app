@@ -17,10 +17,22 @@ const enhancedRegions = {
             safeFloor: 'Ground floor acceptable',
             mainRisks: ['wildfires', 'earthquakes', 'mudslides'],
             fireZone: 'Very High Fire Hazard Severity Zone',
-            lastMajorFire: 'Woolsey Fire (2018)',
+            lastMajorFire: 'Palisades Fire (January 2025)',
+            floodHistory: null,
+            recentEvent: {
+              active: true,
+              type: 'wildfire',
+              date: '2025-01-07',
+              severity: 'catastrophic',
+              deaths: 9,
+              description: 'Palisades Fire - 23,700+ acres, thousands of structures destroyed'
+            },
             evacuationRoutes: 'PCH, Sunset Blvd',
             overallRisk: 'EXTREME',
-            riskScore: 92
+            riskScore: 95,
+            insuranceAvailable: false,
+            annualRate: 35000,
+            propertyImpact: 30
           },
           'venice': {
             name: 'Venice',
@@ -51,6 +63,34 @@ const enhancedRegions = {
             evacuationRoutes: 'I-10, I-110, US-101',
             overallRisk: 'MODERATE',
             riskScore: 65
+          },
+          'altadena': {
+            name: 'Altadena',
+            zipCode: '91001',
+            coordinates: { lat: 34.1897, lng: -118.1311 },
+            elevation: '1,300 feet',
+            femaZone: 'X (Moderate Risk)',
+            basementRisk: 'LOW',
+            safeFloor: 'Ground floor generally safe',
+            mainRisks: ['wildfires', 'earthquakes', 'windstorms'],
+            fireZone: 'Very High Fire Hazard Severity Zone',
+            windRisk: 'Extreme Santa Ana wind exposure',
+            lastMajorFire: 'Eaton Fire (January 2025)',
+            floodHistory: null,
+            recentEvent: {
+              active: true,
+              type: 'wildfire',
+              date: '2025-01-07',
+              severity: 'catastrophic',
+              deaths: 19,
+              description: 'Eaton Fire - 14,000+ acres, 9,000+ structures destroyed, 5th deadliest CA fire'
+            },
+            evacuationWarning: 'West Altadena received alerts hours after East Altadena',
+            overallRisk: 'EXTREME',
+            riskScore: 96,
+            insuranceAvailable: false,
+            annualRate: 40000,
+            propertyImpact: 35
           }
         }
       },
