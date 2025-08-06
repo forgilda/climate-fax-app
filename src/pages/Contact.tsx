@@ -85,7 +85,7 @@ const ContactPage = () => {
           <section className="space-y-2">
             <h2 className="text-2xl font-bold">Get in Touch</h2>
             <p className="text-muted-foreground">
-              Have questions about ClimateFAX or want to join our waitlist for premium features? Contact us below.
+              We hope you enjoy exploring our free Beta model. Have questions about ClimateFAX or want to join our waitlist for premium features? Contact us here:
             </p>
           </section>
 
@@ -162,6 +162,46 @@ const ContactPage = () => {
                 </Button>
               </form>
             </Form>
+          </section>
+
+          {/* Waitlist Button */}
+          <section className="text-center">
+            <button 
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+              onClick={async () => {
+                try {
+                  const response = await fetch('/functions/v1/submit-signup', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      name: 'Anonymous Waitlist',
+                      email: 'waitlist@climatefax.com',
+                      subject: 'Premium Features Waitlist',
+                      message: 'User clicked Join Waitlist button on contact page',
+                      signup_type: 'waitlist'
+                    }),
+                  });
+                  
+                  if (response.ok) {
+                    toast.success("Added to waitlist!", {
+                      description: "We'll contact you when premium features are available.",
+                    });
+                  } else {
+                    toast.error("Something went wrong", {
+                      description: "Please use the contact form above instead.",
+                    });
+                  }
+                } catch (error) {
+                  toast.error("Something went wrong", {
+                    description: "Please use the contact form above instead.",
+                  });
+                }
+              }}
+            >
+              🚀 Join Premium Features Waitlist
+            </button>
           </section>
           
           <section className="bg-white rounded-lg border p-4 shadow-sm">
