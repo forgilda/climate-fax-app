@@ -1542,53 +1542,6 @@ const ClimateFaxApp = () => {
               </div>
             </div>
 
-            {/* Premium Features - Coming Soon! */}
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-6">
-              <div className="flex items-center mb-4">
-                <span className="text-purple-600 text-2xl mr-3">✨</span>
-                <h2 className="text-xl font-bold text-purple-800">Premium Features - Coming Soon!</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">🏠 Personalized Relocation Planning</h3>
-                  <p className="text-purple-600 text-sm">Custom recommendations based on your family size, work situation, and lifestyle preferences</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">💰 Financial Impact Calculator</h3>
-                  <p className="text-purple-600 text-sm">Detailed cost analysis including moving expenses, property values, and long-term savings</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">🔍 Neighborhood-Level Data</h3>
-                  <p className="text-purple-600 text-sm">Hyperlocal climate risk assessments down to the zip code level</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">📋 Action Plan Generator</h3>
-                  <p className="text-purple-600 text-sm">Step-by-step guides for climate-smart relocation decisions</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">🏥 Healthcare & School Mapping</h3>
-                  <p className="text-purple-600 text-sm">Quality ratings and accessibility analysis for medical facilities and educational institutions</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">📊 Real Estate Market Analysis</h3>
-                  <p className="text-purple-600 text-sm">Climate-adjusted property value projections and investment potential assessments</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">🚨 Early Warning System</h3>
-                  <p className="text-purple-600 text-sm">Personalized alerts for emerging climate risks and evacuation recommendations</p>
-                </div>
-                <div className="bg-white/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-700 mb-2">🤝 Community Connection</h3>
-                  <p className="text-purple-600 text-sm">Connect with other climate-conscious families and local support networks</p>
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg">
-                  Get Early Access - Coming Soon
-                </button>
-              </div>
-            </div>
 
             {/* Orange Alternative Locations Comparison */}
             <div className="bg-orange-50 border-l-4 border-orange-400 rounded-lg p-6">
@@ -1636,6 +1589,54 @@ const ClimateFaxApp = () => {
               <div className="mt-4 text-center">
                 <button className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-6 rounded">
                   View All Alternatives
+                </button>
+              </div>
+            </div>
+            
+            {/* Premium Features - Coming Soon! */}
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
+              <div className="flex items-center mb-4">
+                <span className="text-purple-600 text-2xl mr-3">✨</span>
+                <h2 className="text-xl font-bold text-purple-800">Premium Features - Coming Soon!</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🏠 Personalized Relocation Planning</h3>
+                  <p className="text-purple-600 text-sm">Custom recommendations based on your family size, work situation, and lifestyle preferences</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">💰 Financial Impact Calculator</h3>
+                  <p className="text-purple-600 text-sm">Detailed cost analysis including moving expenses, property values, and long-term savings</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🔍 Neighborhood-Level Data</h3>
+                  <p className="text-purple-600 text-sm">Hyperlocal climate risk assessments down to the zip code level</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">📋 Action Plan Generator</h3>
+                  <p className="text-purple-600 text-sm">Step-by-step guides for climate-smart relocation decisions</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🏥 Healthcare & School Mapping</h3>
+                  <p className="text-purple-600 text-sm">Quality ratings and accessibility analysis for medical facilities and educational institutions</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">📊 Real Estate Market Analysis</h3>
+                  <p className="text-purple-600 text-sm">Climate-adjusted property value projections and investment potential assessments</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🚨 Early Warning System</h3>
+                  <p className="text-purple-600 text-sm">Personalized alerts for emerging climate risks and evacuation recommendations</p>
+                </div>
+                <div className="bg-white/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-700 mb-2">🤝 Community Connection</h3>
+                  <p className="text-purple-600 text-sm">Connect with other climate-conscious families and local support networks</p>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg">
+                  Get Early Access - Coming Soon
                 </button>
               </div>
             </div>
