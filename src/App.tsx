@@ -9,6 +9,7 @@ import ClimateFaxApp from "./pages/ClimateFax";
 import ContactPage from "./pages/Contact";
 import AboutPage from "./pages/About";
 import LoginPage from "./pages/LoginPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Create a client
@@ -54,6 +55,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AboutPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin" 
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
                 </ProtectedRoute>
               } 
             />

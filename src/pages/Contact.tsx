@@ -45,12 +45,23 @@ const ContactPage = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      // Simulate API call to submit form
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      console.log("Form submission data:", data);
-      // In a production environment, this would send to a backend API
-      // that forwards the email to the account owner
+      // Call Supabase edge function to save signup
+      const response = await fetch('/functions/v1/submit-signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          signup_type: 'contact'
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit');
+      }
 
       toast.success("Message sent successfully", {
         description: "Thank you for contacting us. We'll get back to you soon.",

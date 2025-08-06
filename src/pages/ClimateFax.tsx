@@ -1112,7 +1112,31 @@ const ClimateFaxApp = () => {
               </p>
               <button 
                 className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-2 px-4 rounded"
-                onClick={() => window.location.href = '/contact'}
+                onClick={async () => {
+                  try {
+                    const response = await fetch('/functions/v1/submit-signup', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        name: 'Anonymous',
+                        email: 'waitlist@climatefax.com',
+                        subject: 'Premium Features Waitlist',
+                        message: 'User clicked Join Waitlist button',
+                        signup_type: 'waitlist'
+                      }),
+                    });
+                    
+                    if (response.ok) {
+                      alert('Added to waitlist! We\'ll contact you when premium features are available.');
+                    } else {
+                      window.location.href = '/contact';
+                    }
+                  } catch (error) {
+                    window.location.href = '/contact';
+                  }
+                }}
               >
                 Join Waitlist
               </button>
