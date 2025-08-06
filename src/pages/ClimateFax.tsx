@@ -1557,7 +1557,7 @@ const ClimateFaxApp = () => {
               
               <div className="text-center">
                 <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg">
-                  Get Early Access - Coming Soon
+                  Join Waitlist
                 </button>
               </div>
             </div>
