@@ -11,6 +11,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Copyright } from "@/components/Copyright";
 import { enhancedRegions } from './neighborhoodData';
+import { 
+  noaaDisasterTimeSeries, 
+  noaaStatistics, 
+  generateNOAAPredictions, 
+  getRegionalRiskFromNOAA,
+  type DisasterEvent 
+} from '../data/noaaDisasterData';
 
 const ClimateFaxApp = () => {
   
@@ -68,6 +75,7 @@ const ClimateFaxApp = () => {
   
   // Variables and their properties
   const variables = {
+    'economicLoss': { name: 'Billion-$ Disasters', unit: 'billion USD', icon: '💰' },
     'wildfires': { name: 'Wildfires', unit: 'events', icon: '🔥' },
     'drought': { name: 'Drought Conditions', unit: 'severity index', icon: '🏜️' },
     'heatwaves': { name: 'Heat Waves', unit: 'days/year', icon: '☀️' },
@@ -300,94 +308,103 @@ const ClimateFaxApp = () => {
   useEffect(() => {
     setLoading(true);
     
-    // Simulate API call for data
+    // Use real NOAA data for billion-dollar disasters
     setTimeout(() => {
       const chartData = [];
       
-      // Last historical value (to ensure smooth transition)
-      let lastHistoricalValue = null;
-      
-      // Generate sample data
-      for (let year = 1980; year <= 2050; year++) {
-        let value;
+      // Special handling for economic loss variable using real NOAA data
+      if (variable === 'economicLoss') {
+        // Historical NOAA data (1980-2024)
+        noaaDisasterTimeSeries.forEach(event => {
+          chartData.push({
+            year: event.year,
+            historicalValue: event.cost, // Billion dollars
+            predictedValue: null,
+            events: event.events
+          });
+        });
         
-        if (year <= 2024) {
-          // Historical data (before 2025)
-          if (variable === 'wildfires') {
-            value = 10 + (year - 1980) * 0.8 + Math.sin(year * 0.2) * 8;
-          } else if (variable === 'tsunamis' && region === 'texas') {
-            value = 0; // Based on NOAA data - no significant tsunamis in TX
-          } else if (variable === 'coastalErosion' && region === 'florida') {
-            // Florida coastal erosion correlates with sea level rise
-            const baseSeaLevelRise = (year - 1980) * 0.12; // inches per year
-            value = 0.8 + (baseSeaLevelRise * 1.8) + (Math.random() * 0.4);
-          } else if (variable === 'seaLevelRise' && region === 'florida') {
-            // Consistent sea level rise for Florida (higher than average)
-            value = (year - 1980) * 0.12 + (Math.sin(year * 0.1) * 0.05);
-          } else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') {
-            // Colorado has no coastal issues or hurricanes
-            value = 0;
-          } else {
-            value = 5 + (year - 1980) * 0.5 + Math.sin(year * 0.3) * 5;
-          }
-          
-          // Add a dip around 2000 to show climate patterns
-          if (year >= 1998 && year <= 2002) {
-            value -= 10 * (1 - Math.abs(year - 2000) / 2);
-          }
-          
-          value = Math.max(0, value);
-          
-          // Format to 2 decimal places for display
-          value = Number(value.toFixed(2));
-          
-          // Store last historical value to ensure smooth transition
-          if (year === 2024) {
-            lastHistoricalValue = value;
-          }
-          
+        // Future predictions based on NOAA trends (2025-2050)
+        const predictions = generateNOAAPredictions(26); // 2025-2050
+        predictions.forEach(event => {
           chartData.push({
-            year,
-            historicalValue: value,
-            predictedValue: null
-          });
-        } else {
-          // Prediction data (2025 and beyond)
-          if (!lastHistoricalValue) lastHistoricalValue = 50; // Fallback
-          
-          // Different models
-          if (model === 'accelerated') {
-            value = lastHistoricalValue * (1 + (year - 2024) * 0.05);
-          } else if (model === 'mitigation') {
-            value = lastHistoricalValue * (1 + (year - 2024) * 0.01);
-          } else {
-            value = lastHistoricalValue + (year - 2024) * 2;
-          }
-          
-          // Special cases
-          if (variable === 'tsunamis' && region === 'texas') {
-            value = 0; // Virtually no tsunami risk in Texas
-          } else if (variable === 'coastalErosion' && region === 'florida') {
-            // Florida coastal erosion follows sea level rise pattern (accelerated)
-            const baseSeaLevelRise = (year - 2024) * 0.15; // Accelerating inches per year
-            value = lastHistoricalValue + (baseSeaLevelRise * 1.8) + (Math.random() * 0.2);
-          } else if (variable === 'seaLevelRise' && region === 'florida') {
-            // Sea level rise acceleration for Florida
-            const yearsInFuture = year - 2024;
-            value = lastHistoricalValue * (1 + (yearsInFuture * 0.02));
-          } else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') {
-            // Colorado has no coastal issues or hurricanes - even in prediction
-            value = 0;
-          }
-          
-          // Format to 2 decimal places for display
-          value = Number(value.toFixed(2));
-          
-          chartData.push({
-            year,
+            year: event.year,
             historicalValue: null,
-            predictedValue: value
+            predictedValue: event.cost,
+            events: event.events
           });
+        });
+      } else {
+        // Existing logic for other variables with regional adjustments based on NOAA risk
+        const regionalRisk = getRegionalRiskFromNOAA(region);
+        const riskMultiplier = regionalRisk / 50; // Normalize to baseline of 50
+        
+        let lastHistoricalValue = null;
+        
+        for (let year = 1980; year <= 2050; year++) {
+          let value;
+          
+          if (year <= 2024) {
+            // Historical data with NOAA-informed regional risk
+            if (variable === 'wildfires') {
+              value = (10 + (year - 1980) * 0.8 + Math.sin(year * 0.2) * 8) * riskMultiplier;
+            } else if (variable === 'tsunamis' && region === 'texas') {
+              value = 0; // Based on NOAA data - no significant tsunamis in TX
+            } else if (variable === 'coastalErosion' && region === 'florida') {
+              const baseSeaLevelRise = (year - 1980) * 0.12;
+              value = 0.8 + (baseSeaLevelRise * 1.8) + (Math.random() * 0.4);
+            } else if (variable === 'seaLevelRise' && region === 'florida') {
+              value = (year - 1980) * 0.12 + (Math.sin(year * 0.1) * 0.05);
+            } else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') {
+              value = 0; // Colorado has no coastal issues
+            } else {
+              value = (5 + (year - 1980) * 0.5 + Math.sin(year * 0.3) * 5) * riskMultiplier;
+            }
+            
+            // Add climate pattern variations
+            if (year >= 1998 && year <= 2002) {
+              value -= 10 * (1 - Math.abs(year - 2000) / 2) * riskMultiplier;
+            }
+            
+            value = Math.max(0, value);
+            value = Number(value.toFixed(2));
+            
+            if (year === 2024) {
+              lastHistoricalValue = value;
+            }
+            
+            chartData.push({
+              year,
+              historicalValue: value,
+              predictedValue: null
+            });
+          } else {
+            // Prediction data with model adjustments
+            if (!lastHistoricalValue) lastHistoricalValue = 50 * riskMultiplier;
+            
+            if (model === 'accelerated') {
+              value = lastHistoricalValue * (1 + (year - 2024) * 0.05);
+            } else if (model === 'mitigation') {
+              value = lastHistoricalValue * (1 + (year - 2024) * 0.01);
+            } else {
+              value = lastHistoricalValue + (year - 2024) * 2;
+            }
+            
+            // Apply regional risk and constraints
+            if (variable === 'tsunamis' && region === 'texas') {
+              value = 0;
+            } else if ((variable === 'seaLevelRise' || variable === 'tsunamis' || variable === 'coastalErosion' || variable === 'hurricanes') && region === 'colorado') {
+              value = 0;
+            }
+            
+            value = Number(value.toFixed(2));
+            
+            chartData.push({
+              year,
+              historicalValue: null,
+              predictedValue: value
+            });
+          }
         }
       }
       
