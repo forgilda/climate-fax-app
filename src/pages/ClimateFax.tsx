@@ -790,13 +790,13 @@ const ClimateFaxApp = () => {
             </div>
             
             {/* 4. CLIMATE CATEGORIES BOXES */}
-            <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+            <div className="mb-8 bg-white p-4 rounded-lg shadow-sm">
               <label className="block text-base font-semibold text-gray-800 mb-4">Select Threat</label>
               <ToggleGroup
                 type="single" 
                 value={activeCategory} 
                 onValueChange={(value) => value && handleCategoryChange(value)}
-                className="flex flex-wrap gap-2 justify-between mb-2"
+                className="flex flex-wrap gap-2 justify-between mb-4"
               >
                 {Object.entries(categories).map(([key, category]) => (
                   <ToggleGroupItem 
@@ -813,7 +813,7 @@ const ClimateFaxApp = () => {
             </div>
 
             {/* 5. PREDICTION MODEL */}
-            <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+            <div className="mb-6 mt-8 bg-white p-4 rounded-lg shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Climate Variable</label>
