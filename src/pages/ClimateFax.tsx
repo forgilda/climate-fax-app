@@ -463,7 +463,7 @@ const ClimateFaxApp = () => {
     return { category: 'Very High', color: '#F44336' };
   };
   
-  // Calculate property value impact - Now consistent with risk assessment
+  // Calculate property value impact - Now reflects climate migration reality
   const calculatePropertyImpact = () => {
     const neighborhood = getCurrentNeighborhood();
     
@@ -477,20 +477,20 @@ const ClimateFaxApp = () => {
       ? (100 - getCurrentNeighborhood().riskScore) 
       : regions[region].safetyIndex;
     
-    // Convert safety score to property impact - logical relationship
-    // High safety (70+) = stable/positive (0 to +2%)
-    // Medium safety (50-69) = minimal decline (1-4%) 
-    // Low safety (30-49) = moderate decline (4-10%)
-    // Very low safety (<30) = significant decline (10-20%)
+    // Convert safety score to property impact - reflecting climate migration
+    // High safety (70+) = property values UP due to climate migration (return negative for "gains")
+    // Medium safety (50-69) = stable/minimal change
+    // Low safety (30-49) = moderate decline  
+    // Very low safety (<30) = significant decline
     
     if (displayedSafetyScore >= 70) {
-      return Math.round(Math.random() * 2); // 0-2% for truly safe areas (could be 0% = stable)
+      return -(Math.round(2 + Math.random() * 4)); // -2% to -6% (values go UP in safe areas)
     } else if (displayedSafetyScore >= 50) {
-      return Math.round(1 + Math.random() * 3); // 1-4% for good areas  
+      return Math.round(Math.random() * 2); // 0-2% (minimal change)
     } else if (displayedSafetyScore >= 30) {
-      return Math.round(4 + Math.random() * 6); // 4-10% for moderate risk
+      return Math.round(3 + Math.random() * 5); // 3-8% decline
     } else {
-      return Math.round(10 + Math.random() * 10); // 10-20% for high risk areas
+      return Math.round(8 + Math.random() * 12); // 8-20% decline
     }
   };
 
