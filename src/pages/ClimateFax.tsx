@@ -1330,6 +1330,41 @@ const ClimateFaxApp = () => {
                 Get Early Access - Coming Soon
               </button>
             </div>
+
+            {/* Alternative Locations Comparison */}
+            <div className="bg-orange-50 border-l-4 border-orange-400 p-6 rounded-lg shadow-lg">
+              <h3 className="text-lg font-semibold mb-4 text-orange-800">
+                🌍 Safer Alternative Locations
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {suggestedLocations[region]?.map(alternativeRegion => (
+                  <div key={alternativeRegion} className="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                       onClick={() => setRegion(alternativeRegion)}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xl">{regions[alternativeRegion].icon}</span>
+                      <span className="font-semibold text-gray-800">{regions[alternativeRegion].name}</span>
+                    </div>
+                    <div className="text-xs text-gray-600 mb-2">
+                      Main cities: {regions[alternativeRegion].majorCities.join(', ')}
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div className="text-center">
+                        <div className="font-semibold text-green-600">{regions[alternativeRegion].safetyIndex}%</div>
+                        <div className="text-gray-500">Safety</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-semibold text-blue-600">{regions[alternativeRegion].insuranceIndex}%</div>
+                        <div className="text-gray-500">Insurance</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-semibold text-purple-600">{regions[alternativeRegion].affordabilityIndex}%</div>
+                        <div className="text-gray-500">Affordability</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </main>
