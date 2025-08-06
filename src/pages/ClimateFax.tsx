@@ -110,13 +110,13 @@ const ClimateFaxApp = () => {
       affordabilityIndex: 45
     },
     'michigan': {
-      name: 'Michigan',
+      name: 'Michigan', 
       icon: '🌊',
-      majorCities: ['Grand Rapids', 'Detroit', 'Ann Arbor', 'Lansing'],
-      mainRisks: ['winterStorms', 'rare_flooding'],
-      safetyIndex: 85,
-      insuranceIndex: 75,
-      affordabilityIndex: 70
+      majorCities: ['Grand Rapids'],
+      mainRisks: ['winterStorms', 'flooding'],
+      safetyIndex: 45,
+      insuranceIndex: 85,
+      affordabilityIndex: 68
     },
     'nyc': {
       name: 'New York City',
@@ -185,10 +185,10 @@ const ClimateFaxApp = () => {
       'homeValue': 500000 // Base home value for calculation
     },
     'michigan': {
-      'regular': 1800,
-      'high-risk': 4500,
+      'regular': 1687,
+      'high-risk': 3200,
       'available': true,
-      'homeValue': 500000 // Base home value for calculation
+      'homeValue': 500000
     },
     'nyc': {
       'regular': 3200,
